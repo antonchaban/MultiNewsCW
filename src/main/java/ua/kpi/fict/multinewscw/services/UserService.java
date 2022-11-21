@@ -25,7 +25,7 @@ public class UserService {
         return userRepo.findById(id).get();
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return (List<User>) userRepo.findAll();
     }
 

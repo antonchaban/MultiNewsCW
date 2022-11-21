@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
