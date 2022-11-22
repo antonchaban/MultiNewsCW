@@ -14,10 +14,10 @@ import javax.persistence.Id;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class User {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long customerId;
 
     private String userName;
 
