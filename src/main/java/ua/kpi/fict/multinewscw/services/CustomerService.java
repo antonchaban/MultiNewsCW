@@ -34,11 +34,11 @@ public class CustomerService {
         return customerRepo.findByRoleEquals("ROLE_EDITOR");
     }
 
-    public Customer signUp(Customer customer) throws NameAlreadyBoundException {
+    public void signUp(Customer customer) throws NameAlreadyBoundException {
         if (customerRepo.findCustomerByUserName(customer.getUserName()) != null){
             throw new NameAlreadyBoundException("Username already taken");
         }
-        return customerRepo.save(customer);
+        customerRepo.save(customer);
     }
 
 }

@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class Customer {
 
     private String userName;
 
-    private String password;
+    private String password; // TODO fix showing in json
 
     private String role = "ROLE_EDITOR";
 
@@ -30,4 +31,5 @@ public class Customer {
     @ToString.Exclude
     @JsonIgnore
     private List<Article> articles;
+
 }

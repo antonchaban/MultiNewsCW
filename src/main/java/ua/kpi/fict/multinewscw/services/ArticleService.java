@@ -3,10 +3,13 @@ package ua.kpi.fict.multinewscw.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
+import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -55,7 +58,7 @@ public class ArticleService {
     }
 
     public List<Article> searchArticles(String title, String source) {
-        List<Article> searchedArticles = new ArrayList<Article>();
+        List<Article> searchedArticles = new ArrayList<>();
         if (title != null && source == null) {
             searchedArticles = getByTitle(title);
 
@@ -63,6 +66,21 @@ public class ArticleService {
             searchedArticles = getBySource(source);
         }
         return searchedArticles;
+    }
+
+    public Article createArticle(Article article){
+        Customer customer = customerRepo.findById(article.getCustomer().getCustomerId()).get();
+        article.setCustomer(customer);
+        article.setArticleDate(Date.from(Instant.now()));
+        return articleRepo.save(article);
+    }
+
+    public List<Article> viewAllArticles(){
+        return (List<Article>) articleRepo.findAll();
+    }
+
+    public List<Article> getByAuthor(String authorUserName){
+        return articleRepo.findArticleByCustomerUserName(authorUserName);
     }
 
     public void deleteById(long artId) {
