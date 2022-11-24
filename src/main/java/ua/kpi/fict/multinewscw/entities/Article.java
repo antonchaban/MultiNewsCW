@@ -3,10 +3,7 @@ package ua.kpi.fict.multinewscw.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -30,5 +27,10 @@ public class Article {
     private Date articleDate;
 
     private String articleSource;
+
+    @ToString.Exclude
+    @ManyToOne
+//    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 }

@@ -1,11 +1,10 @@
 package ua.kpi.fict.multinewscw.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -14,12 +13,21 @@ import javax.persistence.Id;
 @Setter
 @EqualsAndHashCode
 @ToString
+
+@Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerId;
 
     private String userName;
 
-    private Boolean userIsAdmin;
+    private String password;
+
+    private String role = "ROLE_EDITOR";
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Article> articles;
 }

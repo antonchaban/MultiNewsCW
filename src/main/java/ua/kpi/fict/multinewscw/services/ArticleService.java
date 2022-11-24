@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
-import ua.kpi.fict.multinewscw.repositories.UserRepo;
+import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ArticleService {
     private ArticleRepo articleRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private CustomerRepo customerRepo;
 
     public void save(Article article) {
         articleRepo.save(article);
