@@ -3,7 +3,6 @@ package ua.kpi.fict.multinewscw.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +14,13 @@ import javax.naming.NameAlreadyBoundException;
 
 //@Controller
 @RestController
-public class CustomerController {
+public class RestCustomerController {
     @Autowired
     private CustomerService customerService;
 
     // TODO
 
-    @PostMapping("/signup")
+    @PostMapping("/api/v1/signup")
     public ResponseEntity signUpCustomer(@RequestBody Customer customer) {
         try {
             customerService.signUp(customer);
@@ -33,7 +32,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/admin/editors")
+    @GetMapping("/api/v1/admin/editors")
     public ResponseEntity getAllEditors() {
         return ResponseEntity.ok(customerService.findAllEditors());
     }
