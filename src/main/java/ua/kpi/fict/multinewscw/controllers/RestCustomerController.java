@@ -32,9 +32,9 @@ public class RestCustomerController {
         }
     }
 
-    @GetMapping("/api/v1/admin/editors")
-    public ResponseEntity getAllEditors() {
-        return ResponseEntity.ok(customerService.findAllEditors());
-    }
+//    @GetMapping("/api/v1/admin/editors")
+//    public ResponseEntity getAllEditors() {
+//        return ResponseEntity.ok(customerService.findAllEditors());
+//    }
 
 }

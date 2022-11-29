@@ -4,6 +4,12 @@
         <title>MultiNews</title>
     </head>
     <body>
+    <h1>Current News</h1> <a href="/login"> Login</a>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <input type="submit" value="Logout"/>
+    </form>
+    <hr>
     <#list articles as article>
         <div>
             <p>${article.articleTitle}</p>
