@@ -26,14 +26,14 @@ public class Customer implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerId;
 
-    private String userName;
+    private String username;
 
     @Column(length = 1000)
-    private String password; // TODO fix showing in json
+    private String password;
 
-//    private String role = "ROLE_EDITOR";
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "customer_role", joinColumns = @JoinColumn(name = "customer_id"))
+    @CollectionTable(name = "customer_role"
+            , joinColumns = @JoinColumn(name = "customer_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
@@ -42,6 +42,8 @@ public class Customer implements UserDetails {
     @JsonIgnore
     private List<Article> articles;
 
+    // Spring Security
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -49,7 +51,7 @@ public class Customer implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override

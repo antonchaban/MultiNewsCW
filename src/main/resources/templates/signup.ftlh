@@ -6,10 +6,10 @@
 <body>
 <h4>Sign Up</h4>
 <form action="/signup" method="post">
-    Username: <input type="text" name="userName"><br><br>
-    Пароль: <input type="password" name="password"><br><br>
+    Username: <input type="text" name="username"><br><br>
+    Password: <input type="password" name="password"><br><br>
     <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <input type="submit" value="Вход"/>
+    <input type="submit" value="Sign Up"/>
 </form>
 
 </body>

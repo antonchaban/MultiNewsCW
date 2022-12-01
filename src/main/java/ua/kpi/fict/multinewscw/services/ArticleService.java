@@ -7,6 +7,7 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,19 +69,23 @@ public class ArticleService {
         return searchedArticles;
     }
 
-    public Article createArticle(Article article){
-        Customer customer = customerRepo.findById(article.getCustomer().getCustomerId()).get();
-        article.setCustomer(customer);
+    public Article createArticle(Article article, Principal principal) {
+        article.setCustomer(getCustomerByPrincipal(principal));
         article.setArticleDate(Date.from(Instant.now()));
         return articleRepo.save(article);
     }
 
-    public List<Article> viewAllArticles(){
+    public Customer getCustomerByPrincipal(Principal principal) {
+        if (principal == null) return new Customer();
+        return customerRepo.findCustomerByUsername(principal.getName());
+    }
+
+    public List<Article> viewAllArticles() {
         return (List<Article>) articleRepo.findAll();
     }
 
-    public List<Article> getByAuthor(String authorUserName){
-        return articleRepo.findArticleByCustomerUserName(authorUserName);
+    public List<Article> getByAuthor(String authorUserName) {
+        return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
     public void deleteById(long artId) {

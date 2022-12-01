@@ -20,6 +20,12 @@ public class CustomerController {
         return "login";
     }
 
+    @PostMapping("/login")
+    public String loginPost(){
+        return "redirect:/articles";
+    }
+
+
     @GetMapping("/signup")
     public String signUp(){
         return "signup";
@@ -28,6 +34,6 @@ public class CustomerController {
     @PostMapping("/signup")
     public String signUp(Customer customer, Model model) throws NameAlreadyBoundException { // TODO
         customerService.createCustomer(customer);
-        return "signup";
+        return "redirect:/login";
     }
 }

@@ -7,6 +7,8 @@ import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.services.ArticleService;
 import ua.kpi.fict.multinewscw.services.CustomerService;
 
+import java.security.Principal;
+
 //@Controller
 @RestController
 public class RestArticleController {
@@ -18,8 +20,8 @@ public class RestArticleController {
     private CustomerService customerService;
 
     @PostMapping("/api/v1/articles")
-    public ResponseEntity createArticle(@RequestBody Article article) {
-        articleService.createArticle(article);
+    public ResponseEntity createArticle(@RequestBody Article article, Principal principal) {
+        articleService.createArticle(article, principal);
         return ResponseEntity.ok("Article Created");
     }
 

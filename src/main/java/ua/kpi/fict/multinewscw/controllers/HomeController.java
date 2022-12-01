@@ -16,12 +16,6 @@ public class HomeController {
     @Autowired
     private ArticleService articleService;
 
-//    @GetMapping(value = "/")
-//    public String homePage(Model model) {
-//        model.addAttribute("articles", articleService.viewAllArticles());
-//        return "newshome";
-//    }
-
     @GetMapping(value = "/")
     public String redirectToArticles() {
         return "redirect:/articles";

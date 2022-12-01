@@ -29,8 +29,8 @@ public class Article {
     private String articleSource;
 
     @ToString.Exclude
-    @ManyToOne
-//    @JoinColumn(name = "customer_id")
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn
     private Customer customer;
 
 }
