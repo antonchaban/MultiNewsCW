@@ -30,7 +30,6 @@ public class ArticleController {
 
     @PostMapping ("/articles/create")
     public String createArticle(Article article, Principal principal) {
-//        article.setCustomer(customerService.findById(1));
         articleService.createArticle(article, principal);
         return "redirect:/";
     }

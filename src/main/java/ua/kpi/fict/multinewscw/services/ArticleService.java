@@ -81,7 +81,7 @@ public class ArticleService {
     }
 
     public List<Article> viewAllArticles() {
-        return (List<Article>) articleRepo.findAll();
+        return articleRepo.findAll();
     }
 
     public List<Article> getByAuthor(String authorUserName) {

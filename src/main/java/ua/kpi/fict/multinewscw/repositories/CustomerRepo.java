@@ -6,7 +6,6 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import java.util.List;
 
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
-//    List<Customer> findByRoleEquals(String roleName);
 
     Customer findCustomerByUsername(String cusName);
 }

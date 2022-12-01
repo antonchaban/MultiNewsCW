@@ -35,9 +35,6 @@ public class CustomerService {
         return (List<Customer>) customerRepo.findAll();
     }
 
-//    public List<Customer> findAllEditors() {
-//        return customerRepo.findByRoleEquals("ROLE_EDITOR");
-//    }
 
     public void signUp(Customer customer) throws NameAlreadyBoundException { // old
         if (customerRepo.findCustomerByUsername(customer.getUsername()) != null){
