@@ -22,20 +22,20 @@ public class ArticleController {
     private CustomerService customerService;
 
     @GetMapping("/articles")
-        public String viewAllArticles(Model model, Principal principal) {
+    public String viewAllArticles(Model model, Principal principal) {
         model.addAttribute("articles", articleService.viewAllArticles());
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         return "newshome";
     }
 
-    @PostMapping ("/articles/create")
+    @PostMapping("/articles/create")
     public String createArticle(Article article, Principal principal) {
         articleService.createArticle(article, principal);
         return "redirect:/";
     }
 
     @GetMapping("/articles/{id}")
-    public String articleInfo(@PathVariable Long id, Model model){
+    public String articleInfo(@PathVariable Long id, Model model) {
         model.addAttribute("article", articleService.findById(id));
         return "article-info";
     }

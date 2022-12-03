@@ -37,14 +37,14 @@ public class CustomerService {
 
 
     public void signUp(Customer customer) throws NameAlreadyBoundException { // old
-        if (customerRepo.findCustomerByUsername(customer.getUsername()) != null){
+        if (customerRepo.findCustomerByUsername(customer.getUsername()) != null) {
             throw new NameAlreadyBoundException("Username already taken");
         }
         customerRepo.save(customer);
     }
 
     public void createCustomer(Customer customer) throws NameAlreadyBoundException {
-        if (customerRepo.findCustomerByUsername(customer.getUsername()) != null){
+        if (customerRepo.findCustomerByUsername(customer.getUsername()) != null) {
             throw new NameAlreadyBoundException("Username already taken");
         }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));

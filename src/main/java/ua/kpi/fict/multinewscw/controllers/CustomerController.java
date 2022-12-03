@@ -16,18 +16,18 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginPost(){
+    public String loginPost() {
         return "redirect:/articles";
     }
 
 
     @GetMapping("/signup")
-    public String signUp(){
+    public String signUp() {
         return "signup";
     }
 
