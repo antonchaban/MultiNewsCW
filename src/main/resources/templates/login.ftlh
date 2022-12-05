@@ -1,17 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MultiNews</title>
-</head>
-<body>
-<h4>Login</h4>
-
-<form action="/login" method="post">
-    username: <input type="text" name="username"><br><br>
-    password: <input type="password" name="password"><br><br>
-    <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <input type="submit" value="Вход"/>
-</form>
-<a href="/signup">Sign Up</a>
-</body>
-</html>
+<#import "blocks/template.ftlh" as t>
+<@t.template customer>
+    <h1 style="text-align: center">Login</h1>
+    <hr>
+    <form action="/login " method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <button type="submit" style="width: 100%" class="btn btn-dark">Login</button>
+    </form>
+    <hr>
+    <h2>Want to become an editor? <a href="/signup">Sign Up!</a></h2>
+</@t.template>

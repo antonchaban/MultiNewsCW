@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.kpi.fict.multinewscw.entities.Article;
+import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.services.ArticleService;
 import ua.kpi.fict.multinewscw.services.CustomerService;
 
@@ -22,9 +24,10 @@ public class ArticleController {
     private CustomerService customerService;
 
     @GetMapping("/articles")
-    public String viewAllArticles(Model model, Principal principal) {
-        model.addAttribute("articles", articleService.viewAllArticles());
+    public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord) {
+        model.addAttribute("articles", articleService.listArticles(searchWord));
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
+        model.addAttribute("searchWord", searchWord);
         return "newshome";
     }
 
@@ -35,8 +38,23 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String articleInfo(@PathVariable Long id, Model model) {
+    public String articleInfo(@PathVariable Long id, Model model, Principal principal) {
+        model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleService.findById(id));
         return "article-info";
+    }
+
+    @GetMapping("/my/articles")
+    public String userProducts(Principal principal, Model model) {
+        Customer customer = articleService.getCustomerByPrincipal(principal);
+        model.addAttribute("customer", customer);
+        model.addAttribute("articles", customer.getArticles());
+        return "my-articles";
+    }
+
+    @PostMapping("/articles/delete/{id}")
+    public String deleteArticle(@PathVariable Long id, Principal principal) {
+        articleService.deleteArticle(articleService.getCustomerByPrincipal(principal), id);
+        return "redirect:/my/articles";
     }
 }

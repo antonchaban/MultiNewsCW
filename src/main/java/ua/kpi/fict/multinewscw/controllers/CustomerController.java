@@ -10,6 +10,7 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.services.CustomerService;
 
 import javax.naming.NameAlreadyBoundException;
+import java.security.Principal;
 
 @Controller
 public class CustomerController {
@@ -17,7 +18,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Principal principal, Model model) {
+        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
         return "login";
     }
 
@@ -28,7 +30,8 @@ public class CustomerController {
 
 
     @GetMapping("/signup")
-    public String signUp() {
+    public String signUp(Principal principal, Model model) {
+        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
         return "signup";
     }
 
@@ -39,9 +42,17 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{customer}")
-    public String customerInfo(@PathVariable("customer") Customer customer, Model model){
+    public String customerInfo(@PathVariable("customer") Customer customer, Model model, Principal principal) {
         model.addAttribute("customer", customer);
+        model.addAttribute("mycustomer", customerService.getCustomerByPrincipal(principal));
         model.addAttribute("articles", customer.getArticles());
         return "customer-info";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        Customer customer = customerService.getCustomerByPrincipal(principal);
+        model.addAttribute("customer", customer);
+        return "profile";
     }
 }

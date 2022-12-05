@@ -1,47 +1,42 @@
-<!DOCTYPE html>
-<hmtl>
-    <head>
-        <title>MultiNews</title>
-    </head>
-    <body>
-    <h1>Current News</h1>
-    <#if customer.username??>
-        <h4>Username: <i>${customer.username}</i></h4>
-        <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="${_csrf.token}">
-            <input type="submit" value="Logout"/>
-        </form>
-        <#if customer.isAdmin()>
-            <a href="/admin">Admin Panel</a>
-        </#if>
-    <#else>
-        <a href="/login"> Login</a>
-    </#if>
-
-
-    <hr>
-    <#list articles as article>
-        <div>
-            <p>${article.articleTitle}</p>
-            <p>${article.articleLink}</p>
-            <p>${article.articleDescription}</p>
-            <p>${article.articleDate}</p>
-            <p>${article.customer.username}</p>
-            <a href="/articles/${article.articleId}">More Info</a>
-            <hr>
+<#import "blocks/template.ftlh" as t>
+<@t.template customer>
+    <h1 style="text-align: center">Breaking News</h1><hr>
+    <form method="get" action="/articles">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="searchTopic">Topic</label>
+                <select id="searchTopic" class="form-control">
+                    <option value="">All Topics</option>
+                    <option value="War">War</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Economy">Economy</option>
+                </select>
+            </div>
+            <div class="form-group col-md-10">
+                <label for="searchWord">What are you looking for?</label>
+                <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if> class="form-control"
+                       id="searchWord">
+            </div>
+            <button style="width: 100%" type="submit" class="btn btn-dark">Search</button>
         </div>
-    </#list>
-    <#if customer.username??>
-        <h3>Create New Article</h3>
-        <form action="/articles/create" method="post">
-            Article Title <input type="text" name="articleTitle"> <br> <br>
-            Article Link <input type="text" name="articleLink"> <br> <br>
-            Article Description <input type="text" name="articleDescription"> <br> <br>
-            Article Source <input type="text" name="articleSource"> <br> <br>
-            <input type="hidden" name="_csrf" value="${_csrf.token}">
-            <input type="submit" value="Create Article">
-        </form>
-    </#if>
-
-    </body>
-</hmtl>
+    </form>
+    <hr>
+    <div class="card-group">
+        <#list articles?sort_by("articleDate")?reverse as article>
+            <a href="/articles/${article.articleId}" class="article-link">
+                <div class="card text-white bg-dark my-3 article">
+                    <div class="card-body">
+                        <h5 class="card-title">${article.articleTitle}</h5>
+                        <p class="card-text">${article.articleDescription}</p>
+                        <p class="card-text">Source: ${article.articleSource}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">${article.articleDate}</small>
+                    </div>
+                </div>
+            </a>
+        <#else>
+            <h1 style="text-align: center">No Articles</h1>
+        </#list>
+    </div>
+</@t.template>

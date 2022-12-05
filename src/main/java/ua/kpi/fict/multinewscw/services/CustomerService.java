@@ -8,6 +8,7 @@ import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
 import javax.naming.NameAlreadyBoundException;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,11 @@ public class CustomerService {
 
     public List<Customer> findAll() {
         return customerRepo.findAll();
+    }
+
+    public Customer getCustomerByPrincipal(Principal principal) {
+        if (principal == null) return new Customer();
+        return customerRepo.findCustomerByUsername(principal.getName());
     }
 
     public void createCustomer(Customer customer) throws NameAlreadyBoundException {

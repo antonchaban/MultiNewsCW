@@ -88,7 +88,22 @@ public class ArticleService {
         return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
-    public void deleteById(long artId) {
-        articleRepo.deleteById(artId);
+    public List<Article> listArticles(String searchWord) {
+        if (searchWord != null) return getByTitle(searchWord);
+        return viewAllArticles();
+    }
+
+    public void deleteArticle(Customer customer, Long id) {
+        Article article = articleRepo.findById(id)
+                .orElse(null);
+        if (article != null) {
+            if (article.getCustomer().getCustomerId().equals(customer.getCustomerId())) {
+                articleRepo.delete(article);
+            } else {
+                System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);
+            }
+        } else {
+            System.err.println("Article with id" + id + "is not found");
+        }
     }
 }

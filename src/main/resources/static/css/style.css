@@ -1,0 +1,9 @@
+.article:hover {
+    transition: 0.5s;
+    transform: scale(1.02);
+}
+
+.article-link {
+    color: #000 !important;
+    text-decoration: none
+}

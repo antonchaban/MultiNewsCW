@@ -12,6 +12,7 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.services.CustomerService;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -21,8 +22,9 @@ public class AdminController {
     private CustomerService customerService;
 
     @GetMapping("/admin")
-    public String admin(Model model) {
+    public String admin(Model model, Principal principal) {
         model.addAttribute("customers", customerService.findAll());
+        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
         return "admin";
     }
 
@@ -33,8 +35,9 @@ public class AdminController {
     }
 
     @GetMapping("/admin/customer/edit/{customer}")
-    public String editCustomer(@PathVariable("customer") Customer customer, Model model){
+    public String editCustomer(@PathVariable("customer") Customer customer, Model model, Principal principal){
         model.addAttribute("customer", customer);
+        model.addAttribute("mycustomer", customerService.getCustomerByPrincipal(principal));
         model.addAttribute("roles", Role.values());
         return "customer-edit";
     }
