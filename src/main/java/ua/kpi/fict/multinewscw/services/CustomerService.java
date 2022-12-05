@@ -8,7 +8,11 @@ import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
 import javax.naming.NameAlreadyBoundException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -32,9 +36,8 @@ public class CustomerService {
     }
 
     public List<Customer> findAll() {
-        return (List<Customer>) customerRepo.findAll();
+        return customerRepo.findAll();
     }
-
 
     public void createCustomer(Customer customer) throws NameAlreadyBoundException {
         if (customerRepo.findCustomerByUsername(customer.getUsername()) != null) {
@@ -42,6 +45,27 @@ public class CustomerService {
         }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.getRoles().add(Role.ROLE_EDITOR);
+        customerRepo.save(customer);
+    }
+
+    public void deleteCustomer(Long id){
+        Customer customer = customerRepo.findById(id).orElse(null);
+        if (customer != null){
+            customerRepo.delete(customer);
+        }
+
+    }
+
+    public void changeRoles(Customer customer, Map<String, String> form) {
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+        customer.getRoles().clear();
+        for (String value : form.values()){
+            if (roles.contains(value)){
+                customer.getRoles().add(Role.valueOf(value));
+            }
+        }
         customerRepo.save(customer);
     }
 }

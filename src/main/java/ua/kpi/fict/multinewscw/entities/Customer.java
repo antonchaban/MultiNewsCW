@@ -44,6 +44,10 @@ public class Customer implements UserDetails {
 
     // Spring Security
 
+    public boolean isAdmin(){
+        return roles.contains(Role.ROLE_ADMIN);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
