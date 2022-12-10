@@ -69,10 +69,10 @@ public class ArticleService {
         return searchedArticles;
     }
 
-    public Article createArticle(Article article, Principal principal) {
+    public void createArticle(Article article, Principal principal) {
         article.setCustomer(getCustomerByPrincipal(principal));
         article.setArticleDate(Date.from(Instant.now()));
-        return articleRepo.save(article);
+        articleRepo.save(article);
     }
 
     public Customer getCustomerByPrincipal(Principal principal) {
@@ -102,6 +102,20 @@ public class ArticleService {
             } else {
                 System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);
             }
+        } else {
+            System.err.println("Article with id" + id + "is not found");
+        }
+    }
+
+    public void editArticle(Article updatedArticle, Long id){
+        Article article = articleRepo.findById(id).orElse(null);
+        if (article != null) {
+            article.setArticleTitle(updatedArticle.getArticleTitle());
+            article.setArticleLink(updatedArticle.getArticleLink());
+            article.setArticleDescription(updatedArticle.getArticleDescription());
+            article.setArticleSource(updatedArticle.getArticleSource());
+            article.setArticleDate(Date.from(Instant.now()));
+            articleRepo.save(article);
         } else {
             System.err.println("Article with id" + id + "is not found");
         }
