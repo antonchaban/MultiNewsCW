@@ -97,7 +97,7 @@ public class ArticleService {
         Article article = articleRepo.findById(id)
                 .orElse(null);
         if (article != null) {
-            if (article.getCustomer().getCustomerId().equals(customer.getCustomerId())) {
+            if (article.getCustomer().getCustomerId().equals(customer.getCustomerId()) || customer.isAdmin()) {
                 articleRepo.delete(article);
             } else {
                 System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);

@@ -39,16 +39,29 @@
             <a href="/articles/${article.articleId}" class="article-link">
                 <div class="card text-white bg-dark my-3 product">
                     <div class="card-top">
-                        <form action="/articles/delete/${article.articleId}" method="post">
-                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                            <button type="submit" class="btn btn-danger m-3">
-                                Delete
-                            </button>
-                        </form>
+                        <div style="display: inline-block">
+                            <form action="/articles/delete/${article.articleId}" method="post" style="float:left">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit" class="btn btn-danger m-3">
+                                    Delete
+                                </button>
+                            </form>
+                            <form action="/edit/articles/${article.articleId}" method="get" style="float:right">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit" class="btn btn-warning m-3">
+                                    Edit
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">${article.articleTitle}</h5>
-                        <p class="card-text">${article.articleDescription}</p>
+                        <#if article.articleDescription?length &lt; 30>
+                            <p class="card-text">${article.articleDescription}</p>
+                        <#else>
+                            <p class="card-text">${article.articleDescription?substring(0,29)}...</p>
+                        </#if>
                     </div>
                     <div class="card-footer">
                         ${article.articleSource}

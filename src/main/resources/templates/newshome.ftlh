@@ -26,8 +26,16 @@
             <a href="/articles/${article.articleId}" class="article-link">
                 <div class="card text-white bg-dark my-3 article">
                     <div class="card-body">
-                        <h5 class="card-title">${article.articleTitle}</h5>
-                        <p class="card-text">${article.articleDescription}</p>
+                        <#if article.articleDescription?length &lt; 45>
+                            <h5 class="card-title">${article.articleTitle}</h5>
+                        <#else>
+                            <h5 class="card-title">${article.articleTitle?substring(0,44)}...</h5>
+                        </#if>
+                        <#if article.articleDescription?length &lt; 30>
+                            <p class="card-text">${article.articleDescription}</p>
+                        <#else>
+                            <p class="card-text">${article.articleDescription?substring(0,29)}...</p>
+                        </#if>
                         <p class="card-text">Source: ${article.articleSource}</p>
                     </div>
                     <div class="card-footer">
