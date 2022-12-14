@@ -1,6 +1,6 @@
-<#macro template customer>
+<#macro template customer language>
     <!doctype html>
-    <html lang="ru">
+    <html lang="en">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -20,6 +20,10 @@
             <a href="/">
                 <span class="navbar-brand mb-0 h1">MultiNews</span>
             </a>
+            <div class="languages">
+                <a href="/setEng" title="English">ENG</a>
+                <a href="/setUkr" title="Ukrainian">UKR</a>
+            </div>
             <#if customer.username??>
                 <div class="dropdown text-end">
                     <a href="/profile">
@@ -28,10 +32,18 @@
                     </a>
                 </div>
             <#else>
-                <button class="btn btn-light my-2 my-sm-0" type="button"
-                        onclick="window.location.href = '/login'">
-                    Войти
-                </button>
+                <#if language == "eng">
+                    <button class="btn btn-light my-2 my-sm-0" type="button"
+                            onclick="window.location.href = '/login'">
+                        Login
+                    </button>
+                </#if>
+                <#if language == "ukr">
+                    <button class="btn btn-light my-2 my-sm-0" type="button"
+                            onclick="window.location.href = '/login'">
+                        Увійти
+                    </button>
+                </#if>
             </#if>
         </div>
     </nav>

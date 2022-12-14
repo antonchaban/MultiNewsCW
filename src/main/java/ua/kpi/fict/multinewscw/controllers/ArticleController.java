@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
@@ -26,10 +23,12 @@ public class ArticleController {
     private CustomerService customerService;
 
     @GetMapping("/articles")
-    public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord) {
+    public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
+                                  @CookieValue("language") String language) {
         model.addAttribute("articles", articleService.listArticles(searchWord));
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("language", language);
         return "newshome";
     }
 
@@ -40,17 +39,20 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String articleInfo(@PathVariable Long id, Model model, Principal principal) {
+    public String articleInfo(@PathVariable Long id, Model model, Principal principal, @CookieValue("language") String language) {
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleService.findById(id));
+        model.addAttribute("language", language);
         return "article-info";
     }
 
     @GetMapping("/my/articles")
-    public String userProducts(Principal principal, Model model) {
+    public String userProducts(Principal principal, Model model,
+                               @CookieValue("language") String language) {
         Customer customer = articleService.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
         model.addAttribute("articles", customer.getArticles());
+        model.addAttribute("language", language);
         return "my-articles";
     }
 
@@ -61,9 +63,11 @@ public class ArticleController {
     }
 
     @GetMapping("/edit/articles/{id}")
-    public String editArticle(@PathVariable Long id, Model model, Principal principal) {
+    public String editArticle(@PathVariable Long id, Model model, Principal principal,
+                              @CookieValue("language") String language) {
         Customer customer = articleService.getCustomerByPrincipal(principal);
         Article article = articleService.findById(id);
+        model.addAttribute("language", language);
         if (customer.isAdmin() || customer == article.getCustomer()) {
             model.addAttribute("customer", customer);
             model.addAttribute("article", article);

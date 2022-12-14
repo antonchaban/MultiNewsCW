@@ -3,6 +3,7 @@ package ua.kpi.fict.multinewscw.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +19,10 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/login")
-    public String login(Principal principal, Model model) {
+    public String login(Principal principal, Model model,
+                        @CookieValue("language") String language) {
         model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("language", language);
         return "login";
     }
 
@@ -30,8 +33,10 @@ public class CustomerController {
 
 
     @GetMapping("/signup")
-    public String signUp(Principal principal, Model model) {
+    public String signUp(Principal principal, Model model,
+                         @CookieValue("language") String language) {
         model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("language", language);
         return "signup";
     }
 
@@ -42,17 +47,21 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{customer}")
-    public String customerInfo(@PathVariable("customer") Customer customer, Model model, Principal principal) {
+    public String customerInfo(@PathVariable("customer") Customer customer, Model model, Principal principal,
+                               @CookieValue("language") String language) {
         model.addAttribute("customer", customer);
         model.addAttribute("mycustomer", customerService.getCustomerByPrincipal(principal));
         model.addAttribute("articles", customer.getArticles());
+        model.addAttribute("language", language);
         return "customer-info";
     }
 
     @GetMapping("/profile")
-    public String profile(Principal principal, Model model) {
+    public String profile(Principal principal, Model model,
+                          @CookieValue("language") String language) {
         Customer customer = customerService.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
+        model.addAttribute("language", language);
         return "profile";
     }
 }
