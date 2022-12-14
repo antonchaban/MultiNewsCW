@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.controllers;
 
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
-                                  @CookieValue("language") String language) {
+                                  @CookieValue(name = "language", defaultValue = "eng") String language) {
         model.addAttribute("articles", articleService.listArticles(searchWord));
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         model.addAttribute("searchWord", searchWord);
@@ -39,7 +40,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String articleInfo(@PathVariable Long id, Model model, Principal principal, @CookieValue("language") String language) {
+    public String articleInfo(@PathVariable Long id, Model model, Principal principal,
+                              @CookieValue(name = "language", defaultValue = "eng") String language) {
         model.addAttribute("customer", articleService.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleService.findById(id));
         model.addAttribute("language", language);
@@ -48,7 +50,7 @@ public class ArticleController {
 
     @GetMapping("/my/articles")
     public String userProducts(Principal principal, Model model,
-                               @CookieValue("language") String language) {
+                               @CookieValue(name = "language", defaultValue = "eng") String language) {
         Customer customer = articleService.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
         model.addAttribute("articles", customer.getArticles());
@@ -64,7 +66,7 @@ public class ArticleController {
 
     @GetMapping("/edit/articles/{id}")
     public String editArticle(@PathVariable Long id, Model model, Principal principal,
-                              @CookieValue("language") String language) {
+                              @CookieValue(name = "language", defaultValue = "eng") String language) {
         Customer customer = articleService.getCustomerByPrincipal(principal);
         Article article = articleService.findById(id);
         model.addAttribute("language", language);
