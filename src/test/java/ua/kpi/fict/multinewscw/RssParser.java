@@ -14,35 +14,37 @@ import java.util.Iterator;
 import java.util.List;
 
 public class RssParser {
-    public static void main(String[] args) {
-        try{
-            URL url = new URL("https://www.foxnews.com/rss");
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    public static void main(String[] args) throws IOException {
+        URL url = new URL("https://moxie.foxnews.com/google-publisher/world.xml");
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        try {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(httpURLConnection));
             List entries = feed.getEntries();
             Iterator itEntries = entries.iterator();
 
-            while (itEntries.hasNext()){
+            while (itEntries.hasNext()) {
                 SyndEntry entry = (SyndEntry) itEntries.next();
                 System.out.println("######");
                 System.out.println("Title: " + entry.getTitle());
                 System.out.println("Link: " + entry.getLink());
-                if (entry.getAuthor() != null){
+                if (entry.getAuthor() != null) {
                     System.out.println("Author: " + entry.getAuthor());
                 }
 
-                if (entry.getDescription() != null){
+                if (entry.getDescription() != null) {
                     System.out.println("Desc: " + entry.getDescription().getValue());
                 }
 
                 System.out.println("Date: " + entry.getPublishedDate());
 
             }
-        } catch (MalformedURLException e){
-            e.printStackTrace();
+
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);
+        } finally {
+            httpURLConnection.disconnect();
         }
+
     }
 }
