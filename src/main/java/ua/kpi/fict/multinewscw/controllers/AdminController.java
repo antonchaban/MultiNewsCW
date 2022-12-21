@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.entities.enums.Role;
-import ua.kpi.fict.multinewscw.services.CustomerService;
+import ua.kpi.fict.multinewscw.services.CustomerServiceImpl;
 
 import java.security.Principal;
 import java.util.Map;
@@ -16,20 +16,20 @@ import java.util.Map;
 @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class AdminController {
     @Autowired
-    private CustomerService customerService;
+    private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/admin")
     public String admin(Model model, Principal principal,
                         @CookieValue(name = "language", defaultValue = "eng") String language) {
-        model.addAttribute("customers", customerService.findAll());
-        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("customers", customerServiceImpl.findAll());
+        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
         return "admin";
     }
 
     @PostMapping("/admin/customer/delete/{id}")
     public String deleteCustomer(@PathVariable Long id){
-        customerService.deleteCustomer(id);
+        customerServiceImpl.deleteCustomer(id);
         return "redirect:/admin";
     }
 
@@ -37,7 +37,7 @@ public class AdminController {
     public String editCustomer(@PathVariable("customer") Customer customer, Model model, Principal principal,
                                @CookieValue(name = "language", defaultValue = "eng") String language){
         model.addAttribute("customer", customer);
-        model.addAttribute("mycustomer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("mycustomer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("roles", Role.values());
         model.addAttribute("language", language);
         return "customer-edit";
@@ -45,7 +45,7 @@ public class AdminController {
 
     @PostMapping("/admin/customer/edit")
     public String editCustomer(@RequestParam("customerId") Customer customer, @RequestParam Map<String, String> form){
-        customerService.changeRoles(customer, form);
+        customerServiceImpl.changeRoles(customer, form);
         return "redirect:/admin";
     }
 

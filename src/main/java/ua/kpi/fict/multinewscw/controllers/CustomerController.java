@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.kpi.fict.multinewscw.entities.Customer;
-import ua.kpi.fict.multinewscw.services.CustomerService;
+import ua.kpi.fict.multinewscw.services.CustomerServiceImpl;
 
 import javax.naming.NameAlreadyBoundException;
 import java.security.Principal;
@@ -16,12 +16,12 @@ import java.security.Principal;
 @Controller
 public class CustomerController {
     @Autowired
-    private CustomerService customerService;
+    private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/login")
     public String login(Principal principal, Model model,
                         @CookieValue(name = "language", defaultValue = "eng") String language) {
-        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
         return "login";
     }
@@ -35,14 +35,14 @@ public class CustomerController {
     @GetMapping("/signup")
     public String signUp(Principal principal, Model model,
                          @CookieValue(name = "language", defaultValue = "eng") String language) {
-        model.addAttribute("customer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
         return "signup";
     }
 
     @PostMapping("/signup")
     public String signUp(Customer customer) throws NameAlreadyBoundException { // TODO exception
-        customerService.createCustomer(customer);
+        customerServiceImpl.createCustomer(customer);
         return "redirect:/login";
     }
 
@@ -50,7 +50,7 @@ public class CustomerController {
     public String customerInfo(@PathVariable("customer") Customer customer, Model model, Principal principal,
                                @CookieValue(name = "language", defaultValue = "eng") String language) {
         model.addAttribute("customer", customer);
-        model.addAttribute("mycustomer", customerService.getCustomerByPrincipal(principal));
+        model.addAttribute("mycustomer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("articles", customer.getArticles());
         model.addAttribute("language", language);
         return "customer-info";
@@ -59,7 +59,7 @@ public class CustomerController {
     @GetMapping("/profile")
     public String profile(Principal principal, Model model,
                           @CookieValue(name = "language", defaultValue = "eng") String language) {
-        Customer customer = customerService.getCustomerByPrincipal(principal);
+        Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
         model.addAttribute("language", language);
         return "profile";

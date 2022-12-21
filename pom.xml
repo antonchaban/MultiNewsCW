@@ -80,6 +80,15 @@
             <artifactId>thymeleaf-layout-dialect</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/rome/rome -->
+        <dependency>
+            <groupId>rome</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+
 
     </dependencies>
 

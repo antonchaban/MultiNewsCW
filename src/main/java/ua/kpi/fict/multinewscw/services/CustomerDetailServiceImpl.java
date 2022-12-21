@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
 @Service
-public class CustomerDetailService implements UserDetailsService {
+public class CustomerDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     private CustomerRepo customerRepo;

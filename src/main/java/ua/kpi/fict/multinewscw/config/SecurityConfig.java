@@ -10,18 +10,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ua.kpi.fict.multinewscw.services.CustomerDetailService;
+import ua.kpi.fict.multinewscw.services.CustomerDetailServiceImpl;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomerDetailService customerDetailService;
+    private CustomerDetailServiceImpl customerDetailServiceImpl;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customerDetailService).
+        auth.userDetailsService(customerDetailServiceImpl).
                 passwordEncoder(passwordEncoder());
     }
 
