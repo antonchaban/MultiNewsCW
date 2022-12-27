@@ -19,8 +19,7 @@ public class HomeController {
     RssParser rssParser;
 
     @GetMapping(value = "/")
-    public String redirectToArticles() throws FeedException, IOException {
-        System.out.println(rssParser.doParse("https://moxie.foxnews.com/google-publisher/world.xml")); //todo
+    public String redirectToArticles() {
         return "redirect:/articles";
     }
 

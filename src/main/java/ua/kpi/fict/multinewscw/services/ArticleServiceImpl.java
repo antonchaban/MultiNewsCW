@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.services;
 
+import com.sun.syndication.io.FeedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
@@ -7,6 +8,7 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private CustomerRepo customerRepo;
+
+    @Autowired
+    RssParser rssParser;
 
     public void save(Article article) {
         articleRepo.save(article);
@@ -118,4 +123,20 @@ public class ArticleServiceImpl implements ArticleService {
             System.err.println("Article with id" + id + "is not found");
         }
     }
+
+    public void parseArticle(String link) throws FeedException, IOException {
+        ArrayList<Article> listFromRss = rssParser.doParse(link);
+        ArrayList<Article> listFromDb = (ArrayList<Article>) articleRepo.findAll();
+        for (Article articleRss : listFromRss) {
+            for (Article articleDb : listFromDb) {
+                if (!articleRss.getArticleLink().equals(articleDb.getArticleLink())) {
+                    articleRepo.save(articleRss);
+                }
+            }
+
+        }
+    }
+
+
 }
+
