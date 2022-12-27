@@ -59,11 +59,8 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">${article.articleTitle}</h5>
-                            <#if article.articleDescription?length &lt; 30>
-                                <p class="card-text">${article.articleDescription}</p>
-                            <#else>
-                                <p class="card-text">${article.articleDescription?substring(0,29)}...</p>
-                            </#if>
+
+                            <p class="card-text">${article.articleDescription}</p>
                         </div>
                         <div class="card-footer">
                             ${article.articleSource}
@@ -135,11 +132,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">${article.articleTitle}</h5>
-                            <#if article.articleDescription?length &lt; 30>
-                                <p class="card-text">${article.articleDescription}</p>
-                            <#else>
-                                <p class="card-text">${article.articleDescription?substring(0,29)}...</p>
-                            </#if>
+                            <p class="card-text">${article.articleDescription}</p>
                         </div>
                         <div class="card-footer">
                             ${article.articleSource}
