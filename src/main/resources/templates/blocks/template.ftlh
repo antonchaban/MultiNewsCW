@@ -1,6 +1,6 @@
 <#macro template customer language>
     <!doctype html>
-    <html lang="en">
+    <html lang="uk">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">

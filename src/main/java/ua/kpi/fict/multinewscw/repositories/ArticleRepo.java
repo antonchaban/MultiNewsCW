@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ArticleRepo extends JpaRepository<Article, Long> {
     List<Article> findArticleByCustomerUsername(String username);
+    Article findArticleByArticleLink(String link);
 }

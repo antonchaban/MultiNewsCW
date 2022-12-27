@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -77,7 +78,9 @@ public class ArticleServiceImpl implements ArticleService {
     public void createArticle(Article article, Principal principal) {
         if (principal == null) {
             article.setCustomer(new Customer());
-        } else customerRepo.findCustomerByUsername(principal.getName());
+        } else {
+            article.setCustomer(customerRepo.findCustomerByUsername(principal.getName()));
+        }
         article.setArticleDate(Date.from(Instant.now()));
         articleRepo.save(article);
     }
@@ -127,16 +130,17 @@ public class ArticleServiceImpl implements ArticleService {
     public void parseArticle(String link) throws FeedException, IOException {
         ArrayList<Article> listFromRss = rssParser.doParse(link);
         ArrayList<Article> listFromDb = (ArrayList<Article>) articleRepo.findAll();
-        for (Article articleRss : listFromRss) {
-            for (Article articleDb : listFromDb) {
-                if (!articleRss.getArticleLink().equals(articleDb.getArticleLink())) {
-                    articleRepo.save(articleRss);
+        for (int i = 0; i < listFromRss.size(); i++) {
+            Article articleRss = listFromRss.get(i);
+            if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
+                if (Objects.equals(link, "https://www.pravda.com.ua/rss/")) {
+                    articleRss.setCustomer(customerRepo.findById(17L).get());
                 }
+                articleRepo.save(articleRss);
             }
 
         }
+
     }
-
-
 }
 

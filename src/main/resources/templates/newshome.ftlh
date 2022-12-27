@@ -2,11 +2,13 @@
 <@t.template customer language>
 <#--    ENG    -->
     <#if language == "eng">
-        <h1 style="text-align: center">Breaking News</h1><hr>
+        <h1 style="text-align: center">Breaking News</h1>
+        <hr>
     </#if>
 <#--    -->
     <#if language == "ukr">
-        <h1 style="text-align: center">Останні Новини</h1><hr>
+        <h1 style="text-align: center">Останні Новини</h1>
+        <hr>
     </#if>
 
 <#--    ENG    -->
@@ -24,7 +26,8 @@
                 </div>
                 <div class="form-group col-md-10">
                     <label for="searchWord">What are you looking for?</label>
-                    <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if> class="form-control"
+                    <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if>
+                           class="form-control"
                            id="searchWord">
                 </div>
                 <button style="width: 100%" type="submit" class="btn btn-dark">Search</button>
@@ -74,7 +77,8 @@
                 </div>
                 <div class="form-group col-md-10">
                     <label for="searchWord">Що ви шукаєте?</label>
-                    <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if> class="form-control"
+                    <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if>
+                           class="form-control"
                            id="searchWord">
                 </div>
                 <button style="width: 100%" type="submit" class="btn btn-dark">На пошуки!</button>
@@ -86,16 +90,8 @@
                 <a href="/articles/${article.articleId}" class="article-link">
                     <div class="card text-white bg-dark my-3 article">
                         <div class="card-body">
-                            <#if article.articleDescription?length &lt; 45>
-                                <h5 class="card-title">${article.articleTitle}</h5>
-                            <#else>
-                                <h5 class="card-title">${article.articleTitle?substring(0,44)}...</h5>
-                            </#if>
-                            <#if article.articleDescription?length &lt; 30>
-                                <p class="card-text">${article.articleDescription}</p>
-                            <#else>
-                                <p class="card-text">${article.articleDescription?substring(0,29)}...</p>
-                            </#if>
+                            <h5 class="card-title">${article.articleTitle}</h5>
+                            <p class="card-text">${article.articleDescription}</p>
                             <p class="card-text">Джерело: ${article.articleSource}</p>
                         </div>
                         <div class="card-footer">
