@@ -11,7 +11,9 @@ import ua.kpi.fict.multinewscw.entities.Article;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,29 +36,27 @@ public class RssParser implements Parser<Article> {
             while (itEntries.hasNext()) {
                 SyndEntry entry = (SyndEntry) itEntries.next();
                 Article article = new Article();
-//                System.out.println("######");
                 article.setArticleTitle(entry.getTitle());
-//                System.out.println("Title: " + entry.getTitle());
                 article.setArticleLink(entry.getLink());
-//                System.out.println("Link: " + entry.getLink());
                 if (entry.getAuthor() != null) {
                     article.setArticleSource(entry.getAuthor());
-//                    System.out.println("Author: " + entry.getAuthor());
                 }
-
                 if (entry.getDescription() != null) {
                     article.setArticleDescription(entry.getDescription().getValue());
-//                    System.out.println("Desc: " + entry.getDescription().getValue());
+                } else {
+                    article.setArticleDescription("No description, view original article for additional information");
                 }
-
-                article.setArticleDate(entry.getPublishedDate());
-//                System.out.println("Date: " + entry.getPublishedDate());
+                if (entry.getPublishedDate() != null) {
+                    article.setArticleDate(entry.getPublishedDate());
+                } else {
+                    article.setArticleDate(Date.from(Instant.now()));
+                }
                 list.add(article);
             }
 
         } finally {
             urlConnector.endConnection(connection);
         }
-        return list; //todo
+        return list;
     }
 }

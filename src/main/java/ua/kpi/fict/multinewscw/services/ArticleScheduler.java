@@ -9,13 +9,20 @@ import java.io.IOException;
 
 @Service
 public class ArticleScheduler {
+    private final String[] RESOURCES_LIST = {
+            "https://www.pravda.com.ua/rss/",
+            "http://rss.cnn.com/rss/cnn_topstories.rss",
+            "https://moxie.foxnews.com/google-publisher/world.xml",
+            "https://rss.unian.net/site/news_ukr.rss"};
     @Autowired
     private ArticleServiceImpl articleService;
 
     @Scheduled(initialDelay = 30000, fixedDelay = 30000)
     public void updateArticles() throws FeedException, IOException {
-        articleService.parseArticle("https://www.pravda.com.ua/rss/");
-        System.out.println("Update articles");
+        for (String resource : RESOURCES_LIST) {
+            articleService.parseArticle(resource);
+            System.out.println("Update articles from: " + resource);
+        }
     }
 
 

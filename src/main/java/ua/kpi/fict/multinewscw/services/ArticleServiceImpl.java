@@ -28,6 +28,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     RssParser rssParser;
 
+    private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
+    private final String CNN_LINK = "http://rss.cnn.com/rss/cnn_topstories.rss";
+    private final String FOX_LINK = "https://moxie.foxnews.com/google-publisher/world.xml";
+    private final String UNIAN_LINK = "https://rss.unian.net/site/news_ukr.rss";
+
+    private final Long PRAVDA_ID = 17L;
+    private final Long CNN_ID = 18L;
+    private final Long FOX_ID = 19L;
+    private final Long UNIAN_ID = 20L;
+
     public void save(Article article) {
         articleRepo.save(article);
     }
@@ -129,13 +139,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     public void parseArticle(String link) throws FeedException, IOException {
         ArrayList<Article> listFromRss = rssParser.doParse(link);
-        ArrayList<Article> listFromDb = (ArrayList<Article>) articleRepo.findAll();
-        for (int i = 0; i < listFromRss.size(); i++) {
-            Article articleRss = listFromRss.get(i);
+        for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
-                if (Objects.equals(link, "https://www.pravda.com.ua/rss/")) {
-                    articleRss.setCustomer(customerRepo.findById(17L).get());
-                }
+                if (Objects.equals(link, PRAVDA_LINK)) articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
+                if (Objects.equals(link, CNN_LINK)) articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
+                if (Objects.equals(link, FOX_LINK)) articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
+                if (Objects.equals(link, UNIAN_LINK)) articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
                 articleRepo.save(articleRss);
             }
 
