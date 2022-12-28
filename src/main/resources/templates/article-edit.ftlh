@@ -2,7 +2,7 @@
 <@t.template customer language>
     <#if language == "eng">
         <h1 style="text-align: center">Editing Article: ${article.articleTitle}</h1>
-        <form action="/edit/articles/${article.articleId}" method="post" enctype="multipart/form-data">
+        <form action="/edit/articles/${article.articleId?long?c}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="articleTitle">Article Title</label>
                 <input type="text" required class="form-control"
@@ -31,7 +31,7 @@
 
     <#if language == "ukr">
         <h1 style="text-align: center">Редагування статті: ${article.articleTitle}</h1>
-        <form action="/edit/articles/${article.articleId}" method="post" enctype="multipart/form-data">
+        <form action="/edit/articles/${article.articleId?long?c}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="articleTitle">Заголовок статті</label>
                 <input type="text" required class="form-control"

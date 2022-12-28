@@ -93,6 +93,10 @@ public class ArticleServiceImpl implements ArticleService {
         }
         article.setArticleDate(Date.from(Instant.now()));
         articleRepo.save(article);
+        if (article.getArticleLink() == null){
+            article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
+            articleRepo.save(article);
+        }
     }
 
 

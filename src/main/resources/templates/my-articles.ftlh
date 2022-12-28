@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="articleLink">Article Link</label>
                     <div class="input-group mb-3">
-                        <input type="text" required class="form-control" id="articleLink" name="articleLink">
+                        <input type="text" class="form-control" id="articleLink" name="articleLink">
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,17 +38,17 @@
         </div>
         <div class="card-columns">
             <#list articles as article>
-                <a href="/articles/${article.articleId}" class="article-link">
+                <a href="/articles/${article.articleId?long?c}" class="article-link">
                     <div class="card text-white bg-dark my-3 product">
                         <div class="card-top">
                             <div style="display: inline-block">
-                                <form action="/articles/delete/${article.articleId}" method="post" style="float:left">
+                                <form action="/articles/delete/${article.articleId?long?c}" method="post" style="float:left">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                     <button type="submit" class="btn btn-danger m-3">
                                         Delete
                                     </button>
                                 </form>
-                                <form action="/edit/articles/${article.articleId}" method="get" style="float:right">
+                                <form action="/edit/articles/${article.articleId?long?c}" method="get" style="float:right">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                     <button type="submit" class="btn btn-warning m-3">
                                         Edit
@@ -63,6 +63,7 @@
                             <p class="card-text">${article.articleDescription}</p>
                         </div>
                         <div class="card-footer">
+                            <p class="card-text"><a href="${article.articleLink}">Original Link</a></p>
                             ${article.articleSource}
                         </div>
                     </div>
@@ -91,7 +92,7 @@
                 <div class="form-group">
                     <label for="articleLink">Посилання</label>
                     <div class="input-group mb-3">
-                        <input type="text" required class="form-control" id="articleLink" name="articleLink">
+                        <input type="text" class="form-control" id="articleLink" name="articleLink">
                     </div>
                 </div>
                 <div class="form-group">
@@ -111,17 +112,17 @@
         </div>
         <div class="card-columns">
             <#list articles as article>
-                <a href="/articles/${article.articleId}" class="article-link">
+                <a href="/articles/${article.articleId?long?c}" class="article-link">
                     <div class="card text-white bg-dark my-3 product">
                         <div class="card-top">
                             <div style="display: inline-block">
-                                <form action="/articles/delete/${article.articleId}" method="post" style="float:left">
+                                <form action="/articles/delete/${article.articleId?long?c}" method="post" style="float:left">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                     <button type="submit" class="btn btn-danger m-3">
                                         Видалити
                                     </button>
                                 </form>
-                                <form action="/edit/articles/${article.articleId}" method="get" style="float:right">
+                                <form action="/edit/articles/${article.articleId?long?c}" method="get" style="float:right">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                     <button type="submit" class="btn btn-warning m-3">
                                         Редагувати
@@ -135,6 +136,7 @@
                             <p class="card-text">${article.articleDescription}</p>
                         </div>
                         <div class="card-footer">
+                            <p class="card-text"><a href="${article.articleLink}">Оригінальне посилання</a></p>
                             ${article.articleSource}
                         </div>
                     </div>

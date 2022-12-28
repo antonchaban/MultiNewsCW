@@ -16,7 +16,7 @@
         <br>
         <div class="card-columns">
             <#list articles?sort_by("articleDate")?reverse as article>
-                <a href="/articles/${article.articleId}" class="article-link">
+                <a href="/articles/${article.articleId?long?c}" class="article-link">
                     <div class="card text-white bg-dark my-3 article">
                         <div class="card-body">
                             <h5 class="card-title">${article.articleTitle}</h5>
@@ -50,7 +50,7 @@
         <br>
         <div class="card-columns">
             <#list articles?sort_by("articleDate")?reverse as article>
-                <a href="/articles/${article.articleId}" class="article-link">
+                <a href="/articles/${article.articleId?long?c}" class="article-link">
                     <div class="card text-white bg-dark my-3 article">
                         <div class="card-body">
                             <h5 class="card-title">${article.articleTitle}</h5>
