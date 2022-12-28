@@ -17,7 +17,7 @@ public class ArticleScheduler {
     @Autowired
     private ArticleServiceImpl articleService;
 
-    @Scheduled(initialDelay = 30000, fixedDelay = 30000)
+    @Scheduled(initialDelay = 30000, fixedDelayString = "PT30M") // on start and every 30 minutes
     public void updateArticles() throws FeedException, IOException {
         for (String resource : RESOURCES_LIST) {
             articleService.parseArticle(resource);
