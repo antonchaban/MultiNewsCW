@@ -15,9 +15,7 @@ import java.util.Scanner;
 public class TestTranslate {
     public static void main(String[] args) {
         try {
-
             URL url = new URL("http://localhost:5000/translate");
-
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");

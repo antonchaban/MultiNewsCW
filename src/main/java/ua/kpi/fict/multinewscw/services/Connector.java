@@ -2,9 +2,14 @@ package ua.kpi.fict.multinewscw.services;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 
 public interface Connector {
-    HttpURLConnection setConnection(String url) throws IOException;
+    default HttpURLConnection setConnection(String url) throws IOException{
+        throw new UnsupportedOperationException("Must be implemented if used");
+    };
     void endConnection(HttpURLConnection httpURLConnection);
+
+    default HttpURLConnection setTranslateAPIConnection() throws IOException{
+        throw new UnsupportedOperationException("Must be implemented if used");
+    }
 }

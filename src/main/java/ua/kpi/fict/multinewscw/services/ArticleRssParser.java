@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class RssParser implements Parser<Article> {
+public class ArticleRssParser implements Parser<ArrayList<Article>> {
     @Autowired
     URLConnector urlConnector;
 

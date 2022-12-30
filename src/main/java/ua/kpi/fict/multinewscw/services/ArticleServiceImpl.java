@@ -26,7 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     private CustomerRepo customerRepo;
 
     @Autowired
-    RssParser rssParser;
+    ArticleRssParser articleRssParser;
 
     private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
     private final String CNN_LINK = "http://rss.cnn.com/rss/cnn_topstories.rss";
@@ -142,7 +142,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public void parseArticle(String link) throws FeedException, IOException {
-        ArrayList<Article> listFromRss = rssParser.doParse(link);
+        ArrayList<Article> listFromRss = articleRssParser.doParse(link);
         for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
                 if (Objects.equals(link, PRAVDA_LINK)) articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());

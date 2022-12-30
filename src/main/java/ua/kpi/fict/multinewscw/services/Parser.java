@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface Parser<T> {
-    ArrayList<T> doParse(String resource) throws IOException, FeedException;
+    T doParse(String resource) throws IOException, FeedException;
 }
