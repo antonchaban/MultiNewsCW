@@ -1,6 +1,7 @@
-package ua.kpi.fict.multinewscw.services;
+package ua.kpi.fict.multinewscw.services.implementation;
 
 import org.springframework.stereotype.Service;
+import ua.kpi.fict.multinewscw.services.Connector;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

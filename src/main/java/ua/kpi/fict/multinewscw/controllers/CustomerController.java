@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.kpi.fict.multinewscw.entities.Customer;
-import ua.kpi.fict.multinewscw.services.CustomerServiceImpl;
+import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import javax.naming.NameAlreadyBoundException;
 import java.security.Principal;

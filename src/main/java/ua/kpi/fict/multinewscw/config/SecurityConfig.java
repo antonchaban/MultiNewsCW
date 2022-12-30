@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ua.kpi.fict.multinewscw.services.CustomerDetailServiceImpl;
+import ua.kpi.fict.multinewscw.services.implementation.CustomerDetailServiceImpl;
 
 @EnableWebSecurity
 @RequiredArgsConstructor

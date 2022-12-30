@@ -1,4 +1,4 @@
-package ua.kpi.fict.multinewscw.services;
+package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.io.FeedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
+import ua.kpi.fict.multinewscw.services.ArticleService;
 
 import java.io.IOException;
 import java.security.Principal;

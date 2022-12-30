@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
-import ua.kpi.fict.multinewscw.services.ArticleServiceImpl;
-import ua.kpi.fict.multinewscw.services.CustomerServiceImpl;
+import ua.kpi.fict.multinewscw.services.implementation.ArticleServiceImpl;
+import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import java.security.Principal;
 

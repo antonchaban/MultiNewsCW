@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.entities.enums.Role;
-import ua.kpi.fict.multinewscw.services.CustomerServiceImpl;
+import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import java.security.Principal;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package ua.kpi.fict.multinewscw.services;
+package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -8,6 +8,7 @@ import com.sun.syndication.io.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
+import ua.kpi.fict.multinewscw.services.Parser;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

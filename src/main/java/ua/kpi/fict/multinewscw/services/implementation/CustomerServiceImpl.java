@@ -1,4 +1,4 @@
-package ua.kpi.fict.multinewscw.services;
+package ua.kpi.fict.multinewscw.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

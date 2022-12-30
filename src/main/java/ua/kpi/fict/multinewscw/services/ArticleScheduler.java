@@ -4,6 +4,7 @@ import com.sun.syndication.io.FeedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Scheduled;
+import ua.kpi.fict.multinewscw.services.implementation.ArticleServiceImpl;
 
 import java.io.IOException;
 

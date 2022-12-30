@@ -1,10 +1,11 @@
-package ua.kpi.fict.multinewscw.services;
+package ua.kpi.fict.multinewscw.services.implementation;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.kpi.fict.multinewscw.services.Parser;
 
 import java.io.IOException;
 import java.io.OutputStream;
