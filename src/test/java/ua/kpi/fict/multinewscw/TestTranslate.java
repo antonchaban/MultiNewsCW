@@ -39,17 +39,13 @@ public class TestTranslate {
 
             StringBuilder inline = new StringBuilder();
             Scanner scanner = new Scanner(conn.getInputStream());
-//
             while (scanner.hasNext()) {
                 inline.append(scanner.nextLine());
             }
-//
             scanner.close();
             System.out.println(inline.toString());
-//
             JSONParser parse = new JSONParser();
             JSONObject data_obj = (JSONObject) parse.parse(inline.toString());
-//
             String translatedText = (String) data_obj.get("translatedText");
             System.out.println(translatedText);
 //

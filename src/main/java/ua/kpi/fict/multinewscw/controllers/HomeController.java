@@ -1,12 +1,15 @@
 package ua.kpi.fict.multinewscw.controllers;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import ua.kpi.fict.multinewscw.services.ArticleRssParser;
+import ua.kpi.fict.multinewscw.services.TranslateAPIParser;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class HomeController {

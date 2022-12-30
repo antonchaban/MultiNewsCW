@@ -1,9 +1,12 @@
 package ua.kpi.fict.multinewscw.services;
 
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Service
 public class APIConnector implements Connector{
 
     @Override
