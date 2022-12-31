@@ -14,10 +14,13 @@ import java.io.Serializable;
 @Embeddable
 public class InfoLanguageID implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "article_info_id")
-    private ArticleInfo articleInfo;
 
-    @ManyToOne @JoinColumn(name = "language_id")
-    private Language language;
+
+    @ManyToOne
+    @JoinColumn(name = "info_id")
+    private ArticleInfo articleId;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language languageId;
 }

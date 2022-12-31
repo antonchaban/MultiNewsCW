@@ -2,6 +2,7 @@ package ua.kpi.fict.multinewscw.entities;
 
 import lombok.*;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,12 +11,13 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Entity
-public class ArticleMain {
+public class ArticleMain implements Serializable {
+
     @EmbeddedId
-    private InfoLanguageID infoLanguageID = new InfoLanguageID();
+    private InfoLanguageID id = new InfoLanguageID();
 
-    private String articleTitle;
+    private String title;
 
-    private String articleDescription;
+    private String description;
 
 }

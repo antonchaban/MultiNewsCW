@@ -15,5 +15,5 @@ public class Language {
     private Long languageId;
 
     @Column(length = 5)
-    private String languageName;
+    private String languageCode;
 }

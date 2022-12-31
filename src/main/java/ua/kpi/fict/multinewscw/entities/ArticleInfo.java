@@ -13,18 +13,18 @@ import java.util.Date;
 @Entity
 public class ArticleInfo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long articleInfoId;
+    private Long infoId;
 
     @Column(length = 1000)
-    private String articleLink;
+    private String link;
 
     @Column(length = 1000)
-    private String articleSource;
+    private String source;
 
-    private Date articleDate;
+    private Date date;
 
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 }
