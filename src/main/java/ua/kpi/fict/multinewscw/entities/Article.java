@@ -28,6 +28,10 @@ public class Article {
 
     private String articleSource;
 
+    private String articleTitleEn;
+
+    private String articleDescriptionEn;
+
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn
