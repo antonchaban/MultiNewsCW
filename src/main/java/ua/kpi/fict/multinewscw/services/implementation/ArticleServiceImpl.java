@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.io.FeedException;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
@@ -28,6 +29,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     ArticleRssParser articleRssParser;
+
+    @Autowired
+    TranslateAPIParser translateAPIParser;
 
     private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
     private final String CNN_LINK = "http://rss.cnn.com/rss/cnn_topstories.rss";
@@ -86,15 +90,16 @@ public class ArticleServiceImpl implements ArticleService {
         return searchedArticles;
     }
 
-    public void createArticle(Article article, Principal principal) {
+    public void createArticle(Article article, Principal principal) throws IOException, ParseException {
         if (principal == null) {
             article.setCustomer(new Customer());
         } else {
             article.setCustomer(customerRepo.findCustomerByUsername(principal.getName()));
         }
         article.setArticleDate(Date.from(Instant.now()));
+        addTranslation(article);
         articleRepo.save(article);
-        if (article.getArticleLink() == null){
+        if (article.getArticleLink().isEmpty()){
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
             articleRepo.save(article);
         }
@@ -154,7 +159,18 @@ public class ArticleServiceImpl implements ArticleService {
             }
 
         }
+    }
 
+    public void addTranslation(Article article) throws IOException, ParseException {
+        if (article.getArticleTitleEn() == null) {
+            String translatedTitle = translateAPIParser.doParse(article.getArticleTitle());
+            article.setArticleTitleEn(translatedTitle);
+        }
+        if (article.getArticleDescriptionEn() == null) {
+            String translatedDescription = translateAPIParser.doParse(article.getArticleDescription());
+            article.setArticleDescriptionEn(translatedDescription);
+        }
+        articleRepo.save(article);
     }
 }
 

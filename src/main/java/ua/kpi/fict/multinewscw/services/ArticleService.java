@@ -1,8 +1,10 @@
 package ua.kpi.fict.multinewscw.services;
 
+import org.json.simple.parser.ParseException;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public interface ArticleService {
 
     List<Article> searchArticles(String title, String source);
 
-    void createArticle(Article article, Principal principal);
+    void createArticle(Article article, Principal principal) throws IOException, ParseException;
 
     List<Article> viewAllArticles();
 

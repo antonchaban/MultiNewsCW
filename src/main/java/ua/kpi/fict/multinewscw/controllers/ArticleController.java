@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.controllers;
 
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.services.implementation.ArticleServiceImpl;
 import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -33,7 +35,7 @@ public class ArticleController {
     }
 
     @PostMapping("/articles/create")
-    public String createArticle(Article article, Principal principal) {
+    public String createArticle(Article article, Principal principal) throws IOException, ParseException {
         articleServiceImpl.createArticle(article, principal);
         return "redirect:/";
     }

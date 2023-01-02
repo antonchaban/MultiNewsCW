@@ -22,6 +22,7 @@ public class Article {
 
     private String articleLink;
 
+    @Column(length = 2048)
     private String articleDescription;
 
     private Date articleDate;
@@ -30,6 +31,7 @@ public class Article {
 
     private String articleTitleEn;
 
+    @Column(length = 2048)
     private String articleDescriptionEn;
 
     @ToString.Exclude
