@@ -27,22 +27,39 @@ public class TranslateAPIParser implements Parser<String> {
                     + ", \"source\": \"uk\"," +
                     " \"target\": \"en\", " +
                     "\"format\": \"text\"}";
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-            StringBuilder inline = new StringBuilder();
-            Scanner scanner = new Scanner(conn.getInputStream());
-            while (scanner.hasNext()) {
-                inline.append(scanner.nextLine());
-            }
-            scanner.close();
-            JSONParser parser = new JSONParser();
-            JSONObject data_obj = (JSONObject) parser.parse(inline.toString());
-            return (String) data_obj.get("translatedText");
+            return getString(conn, jsonInputString);
         } finally {
             apiConnector.endConnection(conn);
         }
+    }
+
+    public String doParse(String textToTranslate, String source, String target) throws IOException, ParseException {
+        HttpURLConnection conn = apiConnector.setTranslateAPIConnection();
+        try {
+            String jsonInputString = "{\"q\":" + "\"" + textToTranslate + "\""
+                    + ", \"source\": \"" + source + "\"," +
+                    " \"target\": \"" + target + "\", " +
+                    "\"format\": \"text\"}";
+            return getString(conn, jsonInputString);
+        } finally {
+            apiConnector.endConnection(conn);
+        }
+    }
+
+    private String getString(HttpURLConnection conn, String jsonInputString) throws IOException, ParseException {
+        try (OutputStream os = conn.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        StringBuilder inline = new StringBuilder();
+        Scanner scanner = new Scanner(conn.getInputStream());
+        while (scanner.hasNext()) {
+            inline.append(scanner.nextLine());
+        }
+        scanner.close();
+        JSONParser parser = new JSONParser();
+        JSONObject data_obj = (JSONObject) parser.parse(inline.toString());
+        return (String) data_obj.get("translatedText");
     }
 }
 
