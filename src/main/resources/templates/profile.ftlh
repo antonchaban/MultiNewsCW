@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Your Profile</h1>
         <hr>
         <br>
@@ -31,7 +31,7 @@
         </div>
     </#if>
 
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Ваш профіль</h1>
         <hr>
         <br>

@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Editing Article: ${article.articleTitle}</h1>
         <form action="/edit/articles/${article.articleId?long?c}" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -29,7 +29,7 @@
         </form>
     </#if>
 
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Редагування статті: ${article.articleTitle}</h1>
         <form action="/edit/articles/${article.articleId?long?c}" method="post" enctype="multipart/form-data">
             <div class="form-group">

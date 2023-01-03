@@ -1,18 +1,18 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
 <#--    ENG    -->
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Breaking News</h1>
         <hr>
     </#if>
 <#--    -->
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Останні Новини</h1>
         <hr>
     </#if>
 
 <#--    ENG    -->
-    <#if language == "eng">
+    <#if language == "en">
         <form method="get" action="/articles">
             <div class="form-row">
                 <div class="form-group col-md-2">
@@ -55,7 +55,7 @@
     </#if>
 
 <#--    UKR   -->
-    <#if language == "ukr">
+    <#if language == "uk">
         <form method="get" action="/articles">
             <div class="form-row">
                 <div class="form-group col-md-2">

@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Admin Panel</h1><hr>
         <table class="table table-hover table-dark">
             <tr>
@@ -28,7 +28,7 @@
             </#list>
         </table>
     </#if>
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Панель Адміністартора</h1><hr>
         <table class="table table-hover table-dark">
             <tr>

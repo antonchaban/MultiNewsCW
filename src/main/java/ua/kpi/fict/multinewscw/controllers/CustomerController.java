@@ -20,7 +20,7 @@ public class CustomerController {
 
     @GetMapping("/login")
     public String login(Principal principal, Model model,
-                        @CookieValue(name = "language", defaultValue = "eng") String language) {
+                        @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
         return "login";
@@ -34,7 +34,7 @@ public class CustomerController {
 
     @GetMapping("/signup")
     public String signUp(Principal principal, Model model,
-                         @CookieValue(name = "language", defaultValue = "eng") String language) {
+                         @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
         return "signup";
@@ -48,7 +48,7 @@ public class CustomerController {
 
     @GetMapping("/customer/{customer}")
     public String customerInfo(@PathVariable("customer") Customer customer, Model model, Principal principal,
-                               @CookieValue(name = "language", defaultValue = "eng") String language) {
+                               @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customer);
         model.addAttribute("mycustomer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("articles", customer.getArticles());
@@ -58,7 +58,7 @@ public class CustomerController {
 
     @GetMapping("/profile")
     public String profile(Principal principal, Model model,
-                          @CookieValue(name = "language", defaultValue = "eng") String language) {
+                          @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
         model.addAttribute("language", language);

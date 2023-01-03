@@ -20,7 +20,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model, Principal principal,
-                        @CookieValue(name = "language", defaultValue = "eng") String language) {
+                        @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customers", customerServiceImpl.findAll());
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("language", language);
@@ -35,7 +35,7 @@ public class AdminController {
 
     @GetMapping("/admin/customer/edit/{customer}")
     public String editCustomer(@PathVariable("customer") Customer customer, Model model, Principal principal,
-                               @CookieValue(name = "language", defaultValue = "eng") String language){
+                               @CookieValue(name = "language", defaultValue = "en") String language){
         model.addAttribute("customer", customer);
         model.addAttribute("mycustomer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("roles", Role.values());

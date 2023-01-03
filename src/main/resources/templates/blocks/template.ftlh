@@ -32,13 +32,13 @@
                     </a>
                 </div>
             <#else>
-                <#if language == "eng">
+                <#if language == "en">
                     <button class="btn btn-light my-2 my-sm-0" type="button"
                             onclick="window.location.href = '/login'">
                         Login
                     </button>
                 </#if>
-                <#if language == "ukr">
+                <#if language == "uk">
                     <button class="btn btn-light my-2 my-sm-0" type="button"
                             onclick="window.location.href = '/login'">
                         Увійти

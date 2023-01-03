@@ -26,7 +26,7 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
-                                  @CookieValue(name = "language", defaultValue = "eng") String language) {
+                                  @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("articles", articleServiceImpl.listArticles(searchWord));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("searchWord", searchWord);
@@ -42,7 +42,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}")
     public String articleInfo(@PathVariable Long id, Model model, Principal principal,
-                              @CookieValue(name = "language", defaultValue = "eng") String language) {
+                              @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleServiceImpl.findById(id));
         model.addAttribute("language", language);
@@ -51,7 +51,7 @@ public class ArticleController {
 
     @GetMapping("/my/articles")
     public String userProducts(Principal principal, Model model,
-                               @CookieValue(name = "language", defaultValue = "eng") String language) {
+                               @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
         model.addAttribute("articles", customer.getArticles());
@@ -67,7 +67,7 @@ public class ArticleController {
 
     @GetMapping("/edit/articles/{id}")
     public String editArticle(@PathVariable Long id, Model model, Principal principal,
-                              @CookieValue(name = "language", defaultValue = "eng") String language) {
+                              @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         Article article = articleServiceImpl.findById(id);
         model.addAttribute("language", language);

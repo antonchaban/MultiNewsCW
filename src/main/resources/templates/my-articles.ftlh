@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">My Articles</h1>
         <hr>
         <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
@@ -74,7 +74,7 @@
         </div>
     </#if>
 
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Мої статті</h1>
         <hr>
         <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"

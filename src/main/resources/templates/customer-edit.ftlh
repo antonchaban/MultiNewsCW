@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template mycustomer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Editing ${customer.username}</h1><hr>
         <form action="/admin/customer/edit" method="post">
             <#list roles as role>
@@ -13,7 +13,7 @@
             <button type="submit" class="btn btn-dark">Save</button>
         </form>
     </#if>
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Редагування користувача ${customer.username}</h1><hr>
         <form action="/admin/customer/edit" method="post">
             <#list roles as role>

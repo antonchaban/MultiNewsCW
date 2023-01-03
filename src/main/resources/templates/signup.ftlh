@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <h1 style="text-align: center">Sign Up Form</h1>
         <hr>
         <form action="/signup" method="post">
@@ -17,7 +17,7 @@
         </form>
     </#if>
 
-    <#if language == "ukr">
+    <#if language == "uk">
         <h1 style="text-align: center">Форма реєстрації</h1>
         <hr>
         <form action="/signup" method="post">

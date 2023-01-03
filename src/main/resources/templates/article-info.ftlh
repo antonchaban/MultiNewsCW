@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
-    <#if language == "eng">
+    <#if language == "en">
         <p><h1
             style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleTitle}</h1></p>
         <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%"><a
@@ -36,7 +36,7 @@
         </p>
     </#if>
 
-    <#if language == "ukr">
+    <#if language == "uk">
         <p><h1
             style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleTitle}</h1></p>
         <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleDescription}</p>

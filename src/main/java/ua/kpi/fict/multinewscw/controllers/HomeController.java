@@ -22,7 +22,7 @@ public class HomeController {
 
     @GetMapping(value = "/setEng")
     public String setEng(HttpServletResponse response) {
-        Cookie cookie = new Cookie("language", "eng");
+        Cookie cookie = new Cookie("language", "en");
         cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
         response.addCookie(cookie);
         return "redirect:/articles";
@@ -30,7 +30,7 @@ public class HomeController {
 
     @GetMapping(value = "/setUkr")
     public String setUkr(HttpServletResponse response) {
-        Cookie cookie = new Cookie("language", "ukr");
+        Cookie cookie = new Cookie("language", "uk");
         cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
         response.addCookie(cookie);
         return "redirect:/articles";
