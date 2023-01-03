@@ -172,5 +172,17 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleRepo.save(article);
     }
+    public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
+        if (Objects.equals(sourceLang, "uk")){
+            article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));
+            article.setArticleDescriptionEn(translateAPIParser.doParse(article.getArticleDescription(), sourceLang, targetLang));
+        }
+        if (Objects.equals(sourceLang, "en")){
+            article.setArticleTitle(translateAPIParser.doParse(article.getArticleTitleEn(), sourceLang, targetLang));
+            article.setArticleDescription(translateAPIParser.doParse(article.getArticleDescriptionEn(), sourceLang, targetLang));
+        }
+
+        articleRepo.save(article);
+    }
 }
 
