@@ -99,7 +99,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleDate(Date.from(Instant.now()));
         addTranslation(article);
         articleRepo.save(article);
-        if (article.getArticleLink().isEmpty()){
+        if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
             articleRepo.save(article);
         }
@@ -151,21 +151,23 @@ public class ArticleServiceImpl implements ArticleService {
         ArrayList<Article> listFromRss = articleRssParser.doParse(link);
         for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
-                if (Objects.equals(link, PRAVDA_LINK)) {
-                    articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
-                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("Українська правда");
-                }
-                if (Objects.equals(link, CNN_LINK)) {
-                    articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
-                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("CNN");
-                }
-                if (Objects.equals(link, FOX_LINK)) {
-                    articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
-                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("FOX NEWS");
-                }
-                if (Objects.equals(link, UNIAN_LINK)) {
-                    articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
-                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
+                switch (link) {
+                    case PRAVDA_LINK:
+                        articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
+                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("Українська правда");
+                        break;
+                    case CNN_LINK:
+                        articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
+                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("CNN");
+                        break;
+                    case FOX_LINK:
+                        articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
+                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("FOX NEWS");
+                        break;
+                    case UNIAN_LINK:
+                        articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
+                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
+                        break;
                 }
                 articleRepo.save(articleRss);
             }
@@ -184,12 +186,13 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleRepo.save(article);
     }
+
     public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
-        if (Objects.equals(sourceLang, "uk")){
+        if (Objects.equals(sourceLang, "uk")) {
             article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));
             article.setArticleDescriptionEn(translateAPIParser.doParse(article.getArticleDescription(), sourceLang, targetLang));
         }
-        if (Objects.equals(sourceLang, "en")){
+        if (Objects.equals(sourceLang, "en")) {
             article.setArticleTitle(translateAPIParser.doParse(article.getArticleTitleEn(), sourceLang, targetLang));
             article.setArticleDescription(translateAPIParser.doParse(article.getArticleDescriptionEn(), sourceLang, targetLang));
         }
