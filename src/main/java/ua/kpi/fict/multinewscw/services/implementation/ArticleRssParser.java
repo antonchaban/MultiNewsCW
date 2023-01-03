@@ -51,10 +51,7 @@ public class ArticleRssParser implements Parser<ArrayList<Article>> {
                         break;
                 }
                 list.add(article);
-
-
             }
-
         } finally {
             urlConnector.endConnection(connection);
         }

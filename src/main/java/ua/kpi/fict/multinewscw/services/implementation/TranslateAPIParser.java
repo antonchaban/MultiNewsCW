@@ -60,25 +60,10 @@ public class TranslateAPIParser implements Parser<String> {
         }
         scanner.close();
         JSONParser parser = new JSONParser();
-        JSONObject data_obj = (JSONObject) parser.parse(inline.toString());
-        return (String) data_obj.get(objToSearch);
-    }
-
-    public String detectLanguage(String text) throws IOException, ParseException {
-        HttpURLConnection conn = apiConnector.setTranslateAPIConnection("detect");
-        try {
-            String jsonInputString = "{\"q\":" + "\"" + text.replace("\"", "\\\"") + "\"}";
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-            StringBuilder inline = new StringBuilder();
-            Scanner scanner = new Scanner(conn.getInputStream());
-            while (scanner.hasNext()) {
-                inline.append(scanner.nextLine());
-            }
-            scanner.close();
-            JSONParser parser = new JSONParser();
+        if (parser.parse(inline.toString()).getClass() == JSONObject.class){
+            JSONObject data_obj = (JSONObject) parser.parse(inline.toString());
+            return (String) data_obj.get(objToSearch);
+        } else {
             JSONArray jsonArray = (JSONArray) parser.parse(inline.toString());
             String lang = "";
             for (Object o : jsonArray) {
@@ -86,6 +71,15 @@ public class TranslateAPIParser implements Parser<String> {
                 lang = (String) jsonObject.get("language");
             }
             return lang;
+        }
+
+    }
+
+    public String detectLanguage(String text) throws IOException, ParseException {
+        HttpURLConnection conn = apiConnector.setTranslateAPIConnection("detect");
+        try {
+            String jsonInputString = "{\"q\":" + "\"" + text.replace("\"", "\\\"") + "\"}";
+            return getString(conn, jsonInputString, "language");
         } finally {
             apiConnector.endConnection(conn);
         }
