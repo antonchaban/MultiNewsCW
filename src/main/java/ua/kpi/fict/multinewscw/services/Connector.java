@@ -9,7 +9,7 @@ public interface Connector {
     };
     void endConnection(HttpURLConnection httpURLConnection);
 
-    default HttpURLConnection setTranslateAPIConnection() throws IOException{
+    default HttpURLConnection setTranslateAPIConnection(String page) throws IOException{
         throw new UnsupportedOperationException("Must be implemented if used");
     }
 }

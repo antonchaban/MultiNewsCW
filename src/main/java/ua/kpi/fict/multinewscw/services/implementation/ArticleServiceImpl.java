@@ -147,7 +147,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    public void parseArticle(String link) throws FeedException, IOException {
+    public void parseArticle(String link) throws FeedException, IOException, ParseException {
         ArrayList<Article> listFromRss = articleRssParser.doParse(link);
         for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {

@@ -11,8 +11,8 @@ import java.net.URL;
 public class APIConnector implements Connector {
 
     @Override
-    public HttpURLConnection setTranslateAPIConnection() throws IOException {
-        URL url = new URL("http://localhost:5000/translate");
+    public HttpURLConnection setTranslateAPIConnection(String page) throws IOException {
+        URL url = new URL("http://localhost:5000/" + page);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
