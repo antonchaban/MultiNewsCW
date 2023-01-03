@@ -151,10 +151,22 @@ public class ArticleServiceImpl implements ArticleService {
         ArrayList<Article> listFromRss = articleRssParser.doParse(link);
         for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
-                if (Objects.equals(link, PRAVDA_LINK)) articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
-                if (Objects.equals(link, CNN_LINK)) articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
-                if (Objects.equals(link, FOX_LINK)) articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
-                if (Objects.equals(link, UNIAN_LINK)) articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
+                if (Objects.equals(link, PRAVDA_LINK)) {
+                    articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
+                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("Українська правда");
+                }
+                if (Objects.equals(link, CNN_LINK)) {
+                    articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
+                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("CNN");
+                }
+                if (Objects.equals(link, FOX_LINK)) {
+                    articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
+                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("FOX NEWS");
+                }
+                if (Objects.equals(link, UNIAN_LINK)) {
+                    articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
+                    if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
+                }
                 articleRepo.save(articleRss);
             }
 
