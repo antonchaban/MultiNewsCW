@@ -83,9 +83,11 @@ public class ArticleController {
         }
     }
 
-    @PostMapping("/edit/articles/{id}") // TODO for eng
-    public String confirmEditArticle(Model model, Principal principal, Article updArticle, @PathVariable Long id) {
-        articleServiceImpl.editArticle(updArticle, id);
+    @PostMapping("/edit/articles/{id}")
+    public String confirmEditArticle(Model model, Principal principal, Article updArticle, @PathVariable Long id,
+                                     @CookieValue(name = "language", defaultValue = "en") String language)
+            throws IOException, ParseException {
+        articleServiceImpl.editArticle(updArticle, id, language);
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleServiceImpl.findById(id));
         return "redirect:/articles/" + id;

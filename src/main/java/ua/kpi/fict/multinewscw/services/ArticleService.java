@@ -33,5 +33,5 @@ public interface ArticleService {
 
     void deleteArticle(Customer customer, Long id);
 
-    void editArticle(Article updatedArticle, Long id);
+    void editArticle(Article updatedArticle, Long id, String lang) throws IOException, ParseException;
 }

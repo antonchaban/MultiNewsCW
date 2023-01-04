@@ -140,12 +140,22 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    public void editArticle(Article updatedArticle, Long id) { //TODO for eng
+    public void editArticle(Article updatedArticle, Long id, String language) throws IOException, ParseException {
         Article article = articleRepo.findById(id).orElse(null);
         if (article != null) {
-            article.setArticleTitle(updatedArticle.getArticleTitle());
+            switch (language) {
+                case "en":
+                    article.setArticleTitleEn(updatedArticle.getArticleTitleEn());
+                    article.setArticleDescriptionEn(updatedArticle.getArticleDescriptionEn());
+                    addTranslation(article, "en", "uk");
+                    break;
+                case "uk":
+                    article.setArticleTitle(updatedArticle.getArticleTitle());
+                    article.setArticleDescription(updatedArticle.getArticleDescription());
+                    addTranslation(article, "uk", "en");
+                    break;
+            }
             article.setArticleLink(updatedArticle.getArticleLink());
-            article.setArticleDescription(updatedArticle.getArticleDescription());
             article.setArticleSource(updatedArticle.getArticleSource());
             article.setArticleDate(Date.from(Instant.now()));
             articleRepo.save(article);
