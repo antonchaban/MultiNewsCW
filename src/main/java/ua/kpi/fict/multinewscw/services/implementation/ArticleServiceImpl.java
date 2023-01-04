@@ -90,14 +90,21 @@ public class ArticleServiceImpl implements ArticleService {
         return searchedArticles;
     }
 
-    public void createArticle(Article article, Principal principal) throws IOException, ParseException {
+    public void createArticle(Article article, Principal principal, String language) throws IOException, ParseException {
         if (principal == null) {
             article.setCustomer(new Customer());
         } else {
             article.setCustomer(customerRepo.findCustomerByUsername(principal.getName()));
         }
+        switch (language) {
+            case "en":
+                addTranslation(article, "en", "uk");
+                break;
+            case "uk":
+                addTranslation(article, "uk", "en");
+                break;
+        }
         article.setArticleDate(Date.from(Instant.now()));
-        addTranslation(article);
         articleRepo.save(article);
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
@@ -187,18 +194,6 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (NullPointerException e) {
             System.err.println("Error in parseAssist");
         }
-    }
-
-    public void addTranslation(Article article) throws IOException, ParseException {
-        if (article.getArticleTitleEn() == null) {
-            String translatedTitle = translateAPIParser.doParse(article.getArticleTitle());
-            article.setArticleTitleEn(translatedTitle);
-        }
-        if (article.getArticleDescriptionEn() == null) {
-            String translatedDescription = translateAPIParser.doParse(article.getArticleDescription());
-            article.setArticleDescriptionEn(translatedDescription);
-        }
-        articleRepo.save(article);
     }
 
     public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {

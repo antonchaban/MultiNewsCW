@@ -34,9 +34,10 @@ public class ArticleController {
         return "newshome";
     }
 
-    @PostMapping("/articles/create") // TODO for english
-    public String createArticle(Article article, Principal principal) throws IOException, ParseException {
-        articleServiceImpl.createArticle(article, principal);
+    @PostMapping("/articles/create")
+    public String createArticle(Article article, Principal principal,
+                                @CookieValue(name = "language", defaultValue = "en") String language) throws IOException, ParseException {
+        articleServiceImpl.createArticle(article, principal, language);
         return "redirect:/";
     }
 

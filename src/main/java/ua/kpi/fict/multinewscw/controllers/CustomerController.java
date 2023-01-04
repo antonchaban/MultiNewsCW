@@ -41,7 +41,7 @@ public class CustomerController {
     }
 
     @PostMapping("/signup")
-    public String signUp(Customer customer) throws NameAlreadyBoundException { // TODO exception
+    public String signUp(Customer customer) throws NameAlreadyBoundException {
         customerServiceImpl.createCustomer(customer);
         return "redirect:/login";
     }
