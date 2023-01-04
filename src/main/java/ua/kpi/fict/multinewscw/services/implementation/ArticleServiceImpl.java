@@ -153,23 +153,51 @@ public class ArticleServiceImpl implements ArticleService {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
                 switch (link) {
                     case PRAVDA_LINK:
-                        articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
-                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("Українська правда");
+                        try {
+                            articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
+                            if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("PRAVDA");
+                            try {
+                                if (articleRss.getArticleTitleEn().isEmpty()){
+                                    addTranslation(articleRss, "uk", "en");
+                                } else addTranslation(articleRss, "en", "uk");
+                            } catch (NullPointerException e){
+                                addTranslation(articleRss, "uk", "en");
+                            }
+                        } catch (NullPointerException e) {
+                            break;
+                        }
                         break;
                     case CNN_LINK:
                         articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
                         if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("CNN");
+                        if (articleRss.getArticleTitleEn().isEmpty()) addTranslation(articleRss, "uk", "en");
+                        else addTranslation(articleRss, "en", "uk");
                         break;
                     case FOX_LINK:
                         articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
                         if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("FOX NEWS");
+                        if (articleRss.getArticleTitleEn().isEmpty()) addTranslation(articleRss, "uk", "en");
+                        else addTranslation(articleRss, "en", "uk");
                         break;
                     case UNIAN_LINK:
-                        articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
-                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
+                        try {
+                            articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
+                            if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
+                            try {
+                                if (articleRss.getArticleTitleEn().isEmpty()){
+                                    addTranslation(articleRss, "uk", "en");
+                                } else addTranslation(articleRss, "en", "uk");
+                            } catch (NullPointerException e){
+                                addTranslation(articleRss, "uk", "en");
+                            }
+                        } catch (NullPointerException e) {
+                            break;
+                        }
                         break;
                 }
-                articleRepo.save(articleRss);
+                if (articleRss.getArticleDate() != null) {
+                    articleRepo.save(articleRss);
+                }
             }
 
         }

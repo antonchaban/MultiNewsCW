@@ -38,9 +38,10 @@ public class TranslateAPIParser implements Parser<String> {
     public String doParse(String textToTranslate, String source, String target) throws IOException, ParseException {
         HttpURLConnection conn = apiConnector.setTranslateAPIConnection("translate");
         try {
-            String jsonInputString = "{\"q\":" + "\"" + textToTranslate.replace("\"", "\\\"") + "\""
-                    + ", \"source\": \"" + source + "\"," +
-                    " \"target\": \"" + target + "\", " +
+            String jsonInputString = "{\"q\":" + "\"" + textToTranslate.replace("\"", "\\\"")
+                    .replace("\n", ",")+ "\""
+                    + ", \"source\": \"" + source.replace("\"", "\\\"") + "\"," +
+                    " \"target\": \"" + target.replace("\"", "\\\"") + "\", " +
                     "\"format\": \"text\"}";
             return getString(conn, jsonInputString, "translatedText");
         } finally {
@@ -60,7 +61,7 @@ public class TranslateAPIParser implements Parser<String> {
         }
         scanner.close();
         JSONParser parser = new JSONParser();
-        if (parser.parse(inline.toString()).getClass() == JSONObject.class){
+        if (parser.parse(inline.toString()).getClass() == JSONObject.class) {
             JSONObject data_obj = (JSONObject) parser.parse(inline.toString());
             return (String) data_obj.get(objToSearch);
         } else {
