@@ -16,7 +16,7 @@ public class ArticleScheduler {
             "http://rss.cnn.com/rss/cnn_topstories.rss",
             "https://moxie.foxnews.com/google-publisher/world.xml",
             "https://rss.unian.net/site/news_ukr.rss"};
-    // TODO https://nv.ua/ukr/rss/all.xml - alternative
+    // https://nv.ua/ukr/rss/all.xml - alternative
     @Autowired
     private ArticleServiceImpl articleService;
 
