@@ -34,7 +34,7 @@ public class ArticleController {
         return "newshome";
     }
 
-    @PostMapping("/articles/create")
+    @PostMapping("/articles/create") // TODO for english
     public String createArticle(Article article, Principal principal) throws IOException, ParseException {
         articleServiceImpl.createArticle(article, principal);
         return "redirect:/";
@@ -82,7 +82,7 @@ public class ArticleController {
         }
     }
 
-    @PostMapping("/edit/articles/{id}")
+    @PostMapping("/edit/articles/{id}") // TODO for eng
     public String confirmEditArticle(Model model, Principal principal, Article updArticle, @PathVariable Long id) {
         articleServiceImpl.editArticle(updArticle, id);
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));

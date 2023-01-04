@@ -2,10 +2,10 @@
 <@t.template customer language>
     <#if language == "en">
         <p><h1
-            style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleTitle}</h1></p>
+            style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleTitleEn}</h1></p>
         <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%"><a
                     href="${article.articleLink}">Original Link</a></p>
-        <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleDescription}</p>
+        <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">${article.articleDescriptionEn}</p>
         <p style="text-align: center; display:inline-block; word-wrap:break-word; width:100%">Article Source:
             <b>${article.articleSource}</b></p>
         <small class="text-muted">${article.articleDate}</small>

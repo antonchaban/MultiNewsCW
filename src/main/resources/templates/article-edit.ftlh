@@ -1,12 +1,12 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template customer language>
     <#if language == "en">
-        <h1 style="text-align: center">Editing Article: ${article.articleTitle}</h1>
+        <h1 style="text-align: center">Editing Article: ${article.articleTitleEn}</h1>
         <form action="/edit/articles/${article.articleId?long?c}" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="articleTitle">Article Title</label>
+                <label for="articleTitleEn">Article Title</label>
                 <input type="text" required class="form-control"
-                       id="articleTitle" name="articleTitle" value="${article.articleTitle}">
+                       id="articleTitleEn" name="articleTitleEn" value="${article.articleTitleEn}">
             </div>
             <div class="form-group">
                 <label for="articleLink">Article Link</label>
@@ -15,8 +15,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="articleDescription">Article Description</label>
-                <textarea required class="form-control" id="articleDescription" name="articleDescription">${article.articleDescription}</textarea>
+                <label for="articleDescriptionEn">Article Description</label>
+                <textarea required class="form-control" id="articleDescriptionEn" name="articleDescriptionEn">${article.articleDescriptionEn}</textarea>
             </div>
             <div class="form-group">
                 <label for="articleSource">Article Source</label>

@@ -39,8 +39,8 @@
                 <a href="/articles/${article.articleId?long?c}" class="article-link">
                     <div class="card text-white bg-dark my-3 article">
                         <div class="card-body">
-                            <h5 class="card-title">${article.articleTitle}</h5>
-                            <p class="card-text">${article.articleDescription}</p>
+                            <h5 class="card-title">${article.articleTitleEn}</h5>
+                            <p class="card-text">${article.articleDescriptionEn}</p>
                             <p class="card-text">Source: ${article.articleSource}</p>
                         </div>
                         <div class="card-footer">

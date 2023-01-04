@@ -11,9 +11,9 @@
         <div class="collapse mb-3" id="collapseExample" style="">
             <form action="/articles/create" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="articleTitle">Article Title</label>
+                    <label for="articleTitleEn">Article Title</label>
                     <input type="text" required class="form-control"
-                           id="articleTitle" name="articleTitle">
+                           id="articleTitleEn" name="articleTitleEn">
                 </div>
                 <div class="form-group">
                     <label for="articleLink">Article Link</label>
@@ -22,9 +22,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="articleDescription">Article Description</label>
-                    <textarea required class="form-control" id="articleDescription"
-                              name="articleDescription"></textarea>
+                    <label for="articleDescriptionEn">Article Description</label>
+                    <textarea required class="form-control" id="articleDescriptionEn"
+                              name="articleDescriptionEn"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="articleSource">Article Source</label>
