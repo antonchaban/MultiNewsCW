@@ -153,46 +153,16 @@ public class ArticleServiceImpl implements ArticleService {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
                 switch (link) {
                     case PRAVDA_LINK:
-                        try {
-                            articleRss.setCustomer(customerRepo.findById(PRAVDA_ID).get());
-                            if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("PRAVDA");
-                            try {
-                                if (articleRss.getArticleTitleEn().isEmpty()){
-                                    addTranslation(articleRss, "uk", "en");
-                                } else addTranslation(articleRss, "en", "uk");
-                            } catch (NullPointerException e){
-                                addTranslation(articleRss, "uk", "en");
-                            }
-                        } catch (NullPointerException e) {
-                            break;
-                        }
+                        parseAssist(articleRss, PRAVDA_ID, "PRAVDA");
                         break;
                     case CNN_LINK:
-                        articleRss.setCustomer(customerRepo.findById(CNN_ID).get());
-                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("CNN");
-                        if (articleRss.getArticleTitleEn().isEmpty()) addTranslation(articleRss, "uk", "en");
-                        else addTranslation(articleRss, "en", "uk");
+                        parseAssist(articleRss, CNN_ID, "CNN");
                         break;
                     case FOX_LINK:
-                        articleRss.setCustomer(customerRepo.findById(FOX_ID).get());
-                        if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("FOX NEWS");
-                        if (articleRss.getArticleTitleEn().isEmpty()) addTranslation(articleRss, "uk", "en");
-                        else addTranslation(articleRss, "en", "uk");
+                        parseAssist(articleRss, FOX_ID, "FOX NEWS");
                         break;
                     case UNIAN_LINK:
-                        try {
-                            articleRss.setCustomer(customerRepo.findById(UNIAN_ID).get());
-                            if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource("УНІАН");
-                            try {
-                                if (articleRss.getArticleTitleEn().isEmpty()){
-                                    addTranslation(articleRss, "uk", "en");
-                                } else addTranslation(articleRss, "en", "uk");
-                            } catch (NullPointerException e){
-                                addTranslation(articleRss, "uk", "en");
-                            }
-                        } catch (NullPointerException e) {
-                            break;
-                        }
+                        parseAssist(articleRss, UNIAN_ID, "УНІАН");
                         break;
                 }
                 if (articleRss.getArticleDate() != null) {
@@ -200,6 +170,22 @@ public class ArticleServiceImpl implements ArticleService {
                 }
             }
 
+        }
+    }
+
+    private void parseAssist(Article articleRss, Long ID, String source) throws IOException, ParseException {
+        try {
+            articleRss.setCustomer(customerRepo.findById(ID).get());
+            if (articleRss.getArticleSource().isEmpty()) articleRss.setArticleSource(source);
+            try {
+                if (articleRss.getArticleTitleEn().isEmpty()) {
+                    addTranslation(articleRss, "uk", "en");
+                } else addTranslation(articleRss, "en", "uk");
+            } catch (NullPointerException e) {
+                addTranslation(articleRss, "uk", "en");
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Error in parseAssist");
         }
     }
 
@@ -216,16 +202,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
-        if (Objects.equals(sourceLang, "uk")) {
-            article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));
-            article.setArticleDescriptionEn(translateAPIParser.doParse(article.getArticleDescription(), sourceLang, targetLang));
+        switch (sourceLang) {
+            case "uk":
+                article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));
+                article.setArticleDescriptionEn(translateAPIParser.doParse(article.getArticleDescription(), sourceLang, targetLang));
+                break;
+            case "en":
+                article.setArticleTitle(translateAPIParser.doParse(article.getArticleTitleEn(), sourceLang, targetLang));
+                article.setArticleDescription(translateAPIParser.doParse(article.getArticleDescriptionEn(), sourceLang, targetLang));
+                break;
         }
-        if (Objects.equals(sourceLang, "en")) {
-            article.setArticleTitle(translateAPIParser.doParse(article.getArticleTitleEn(), sourceLang, targetLang));
-            article.setArticleDescription(translateAPIParser.doParse(article.getArticleDescriptionEn(), sourceLang, targetLang));
-        }
-
         articleRepo.save(article);
     }
 }
-

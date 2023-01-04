@@ -65,24 +65,17 @@ public class ArticleRssParser implements Parser<ArrayList<Article>> {
             article.setArticleTitleEn("Помилка заголовку");
         }
         article.setArticleLink(entry.getLink());
-        if (entry.getAuthor() != null) {
-            article.setArticleSource(entry.getAuthor());
-        }
+        if (entry.getAuthor() != null) article.setArticleSource(entry.getAuthor());
         try {
-            article.setArticleDescription(entry.getDescription().getValue());
+            if (!entry.getDescription().getValue().isEmpty())
+                article.setArticleDescription(entry.getDescription().getValue());
+            else
+                article.setArticleDescription("Немає опису, перегляньте оригінальну статтю для отримання додаткової інформації");
         } catch (NullPointerException e) {
             article.setArticleDescription("Немає опису, перегляньте оригінальну статтю для отримання додаткової інформації");
         }
-/*        if (!entry.getDescription().getValue().isEmpty()) {
-            article.setArticleDescription(entry.getDescription().getValue());
-        } else {
-            article.setArticleDescription("Немає опису, перегляньте оригінальну статтю для отримання додаткової інформації");
-        }*/
-        if (entry.getPublishedDate() != null) {
-            article.setArticleDate(entry.getPublishedDate());
-        } else {
-            article.setArticleDate(Date.from(Instant.now()));
-        }
+        if (entry.getPublishedDate() != null) article.setArticleDate(entry.getPublishedDate());
+        else article.setArticleDate(Date.from(Instant.now()));
     }
 
     private void setEnArticle(Article article, SyndEntry entry) {
@@ -95,19 +88,16 @@ public class ArticleRssParser implements Parser<ArrayList<Article>> {
         if (entry.getAuthor() != null) {
             article.setArticleSource(entry.getAuthor());
         }
-        /*if (!entry.getDescription().getValue().isEmpty()) {*/
             try {
-                article.setArticleDescriptionEn(entry.getDescription().getValue());
+                if (!entry.getDescription().getValue().isEmpty()) {
+                    article.setArticleDescriptionEn(entry.getDescription().getValue());
+                } else {
+                    article.setArticleDescriptionEn("No description, view original article for additional information");
+                }
             } catch (NullPointerException e) {
                 article.setArticleDescriptionEn("No description, view original article for additional information");
             }
-        /*} else {
-            article.setArticleDescriptionEn("No description, view original article for additional information");
-        }*/
-        if (entry.getPublishedDate() != null) {
-            article.setArticleDate(entry.getPublishedDate());
-        } else {
-            article.setArticleDate(Date.from(Instant.now()));
-        }
+        if (entry.getPublishedDate() != null) article.setArticleDate(entry.getPublishedDate());
+        else article.setArticleDate(Date.from(Instant.now()));
     }
 }
