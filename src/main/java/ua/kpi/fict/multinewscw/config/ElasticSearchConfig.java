@@ -9,9 +9,11 @@ import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "ua.kpi.fict.multinewscw.repositories")
+@EnableJpaRepositories(basePackages = "ua.kpi.fict.multinewscw.repositories")
+@EnableElasticsearchRepositories(basePackages = "ua.kpi.fict.multinewscw.elasticrepo")
 public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
 
     @Value("${elasticsearch.url}")

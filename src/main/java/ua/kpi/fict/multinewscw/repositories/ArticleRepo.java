@@ -6,7 +6,6 @@ import ua.kpi.fict.multinewscw.entities.Article;
 
 import java.util.*;
 
-@Repository
 public interface ArticleRepo extends JpaRepository<Article, Long> {
     List<Article> findArticleByCustomerUsername(String username);
     Article findArticleByArticleLink(String link);
