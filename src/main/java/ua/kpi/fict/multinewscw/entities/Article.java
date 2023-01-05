@@ -2,6 +2,7 @@ package ua.kpi.fict.multinewscw.entities;
 
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
 @ToString
 public class Article {
     @Id
+    @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
 
