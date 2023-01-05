@@ -88,15 +88,15 @@ public class ArticleRssParser implements Parser<ArrayList<Article>> {
         if (entry.getAuthor() != null) {
             article.setArticleSource(entry.getAuthor());
         }
-            try {
-                if (!entry.getDescription().getValue().isEmpty()) {
-                    article.setArticleDescriptionEn(entry.getDescription().getValue());
-                } else {
-                    article.setArticleDescriptionEn("No description, view original article for additional information");
-                }
-            } catch (NullPointerException e) {
+        try {
+            if (!entry.getDescription().getValue().isEmpty()) {
+                article.setArticleDescriptionEn(entry.getDescription().getValue());
+            } else {
                 article.setArticleDescriptionEn("No description, view original article for additional information");
             }
+        } catch (NullPointerException e) {
+            article.setArticleDescriptionEn("No description, view original article for additional information");
+        }
         if (entry.getPublishedDate() != null) article.setArticleDate(entry.getPublishedDate());
         else article.setArticleDate(Date.from(Instant.now()));
     }

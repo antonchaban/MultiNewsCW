@@ -28,14 +28,14 @@ public class AdminController {
     }
 
     @PostMapping("/admin/customer/delete/{id}")
-    public String deleteCustomer(@PathVariable Long id){
+    public String deleteCustomer(@PathVariable Long id) {
         customerServiceImpl.deleteCustomer(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/admin/customer/edit/{customer}")
     public String editCustomer(@PathVariable("customer") Customer customer, Model model, Principal principal,
-                               @CookieValue(name = "language", defaultValue = "en") String language){
+                               @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customer);
         model.addAttribute("mycustomer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("roles", Role.values());
@@ -44,7 +44,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/customer/edit")
-    public String editCustomer(@RequestParam("customerId") Customer customer, @RequestParam Map<String, String> form){
+    public String editCustomer(@RequestParam("customerId") Customer customer, @RequestParam Map<String, String> form) {
         customerServiceImpl.changeRoles(customer, form);
         return "redirect:/admin";
     }

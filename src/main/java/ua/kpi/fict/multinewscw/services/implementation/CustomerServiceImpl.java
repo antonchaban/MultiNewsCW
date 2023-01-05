@@ -54,9 +54,9 @@ public class CustomerServiceImpl {
         customerRepo.save(customer);
     }
 
-    public void deleteCustomer(Long id){
+    public void deleteCustomer(Long id) {
         Customer customer = customerRepo.findById(id).orElse(null);
-        if (customer != null){
+        if (customer != null) {
             customerRepo.delete(customer);
         }
 
@@ -67,8 +67,8 @@ public class CustomerServiceImpl {
                 .map(Role::name)
                 .collect(Collectors.toSet());
         customer.getRoles().clear();
-        for (String value : form.values()){
-            if (roles.contains(value)){
+        for (String value : form.values()) {
+            if (roles.contains(value)) {
                 customer.getRoles().add(Role.valueOf(value));
             }
         }

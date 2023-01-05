@@ -1,6 +1,5 @@
 package ua.kpi.fict.multinewscw.config;
 
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

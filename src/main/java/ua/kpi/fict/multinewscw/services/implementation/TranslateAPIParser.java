@@ -39,7 +39,7 @@ public class TranslateAPIParser implements Parser<String> {
         HttpURLConnection conn = apiConnector.setTranslateAPIConnection("translate");
         try {
             String jsonInputString = "{\"q\":" + "\"" + textToTranslate.replace("\"", "\\\"")
-                    .replace("\n", ",")+ "\""
+                    .replace("\n", ",") + "\""
                     + ", \"source\": \"" + source.replace("\"", "\\\"") + "\"," +
                     " \"target\": \"" + target.replace("\"", "\\\"") + "\", " +
                     "\"format\": \"text\"}";
