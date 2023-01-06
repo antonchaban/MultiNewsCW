@@ -11,7 +11,6 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "ua.kpi.fict.multinewscw.repositories")
 @EnableElasticsearchRepositories(basePackages = "ua.kpi.fict.multinewscw.elasticrepo")
 public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
 
