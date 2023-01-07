@@ -3,8 +3,14 @@ package ua.kpi.fict.multinewscw.entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
+import ua.kpi.fict.multinewscw.entities.helper.Indices;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -14,26 +20,33 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Document(indexName = Indices.ARTICLE_INDEX)
+//@Setting(settingPath = "static/es-settings.json")
 public class Article {
     @Id
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field(type = FieldType.Keyword)
     private Long articleId;
 
+    @Field(type = FieldType.Text)
     private String articleTitle;
 
     private String articleLink;
 
     @Column(length = 2048)
+    @Field(type = FieldType.Text)
     private String articleDescription;
 
     private Date articleDate;
 
     private String articleSource;
 
+    @Field(type = FieldType.Text)
     private String articleTitleEn;
 
     @Column(length = 2048)
+    @Field(type = FieldType.Text)
     private String articleDescriptionEn;
 
     @ToString.Exclude

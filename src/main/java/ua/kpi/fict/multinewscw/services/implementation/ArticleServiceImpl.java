@@ -4,6 +4,7 @@ import com.sun.syndication.io.FeedException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.kpi.fict.multinewscw.elasticrepo.ESArticleRepo;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
@@ -32,6 +33,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     TranslateAPIParser translateAPIParser;
+
+    @Autowired
+    private ESArticleRepo elasticArticleRepo;
 
     private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
     private final String CNN_LINK = "http://rss.cnn.com/rss/cnn_topstories.rss";
@@ -218,5 +222,9 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
         }
         articleRepo.save(article);
+    }
+
+    public Article findById(final Long id){
+        return elasticArticleRepo.findById(id).orElse(null);
     }
 }

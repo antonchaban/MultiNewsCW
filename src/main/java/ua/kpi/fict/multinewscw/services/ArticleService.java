@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.services;
 
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
 

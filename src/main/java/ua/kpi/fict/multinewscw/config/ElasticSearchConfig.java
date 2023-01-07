@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.config;
 
+
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "ua.kpi.fict.multinewscw.elasticrepo")
+@EnableJpaRepositories("ua.kpi.fict.multinewscw.repositories")
 public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
 
     @Value("${elasticsearch.url}")
