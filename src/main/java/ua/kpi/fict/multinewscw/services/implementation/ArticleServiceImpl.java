@@ -224,7 +224,32 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepo.save(article);
     }
 
-    public Article findById(final Long id){
+    public void esSave() {
+        List<Article> articles = articleRepo.findAll();
+        for (Article article : articles) {
+            Article esArticle = new Article();
+            esArticle.setArticleId(article.getArticleId());
+            esArticle.setArticleTitle(article.getArticleTitle());
+            esArticle.setArticleDescription(article.getArticleDescription());
+            esArticle.setArticleTitleEn(article.getArticleTitleEn());
+            esArticle.setArticleDescriptionEn(article.getArticleDescriptionEn());
+            esArticle.setArticleDate(article.getArticleDate());
+            esArticle.setArticleLink(article.getArticleLink());
+            esArticle.setArticleSource(article.getArticleSource());
+            esArticle.setCustomerId(article.getCustomer().getCustomerId());
+            elasticArticleRepo.save(esArticle);
+        }
+    }
+
+    public Article esFindById(final Long id) {
         return elasticArticleRepo.findById(id).orElse(null);
+    }
+
+    public List<Article> esFindByTitle(final String title) {
+        return elasticArticleRepo.findByArticleTitle(title);
+    }
+
+    public List<Article> esFindAll() {
+        return (List<Article>) elasticArticleRepo.findAll();
     }
 }

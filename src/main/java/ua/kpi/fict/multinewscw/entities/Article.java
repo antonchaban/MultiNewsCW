@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Document(indexName = Indices.ARTICLE_INDEX)
+@Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
 //@Setting(settingPath = "static/es-settings.json")
 public class Article {
     @Id
@@ -50,8 +51,11 @@ public class Article {
     private String articleDescriptionEn;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn
+    @ManyToOne(cascade = CascadeType.REFRESH) @JoinColumn
     private Customer customer;
+
+
+    @Transient @ToString.Exclude
+    private Long customerId;
 
 }
