@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -125,7 +126,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public List<Article> listArticles(String searchWord) {
-        if (searchWord != null) {
+        if (searchWord != null && !searchWord.equals("")) {
             List<Article> articles = esFindByTittleAndDescAllLang(searchWord);
             articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
             return articles;
