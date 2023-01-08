@@ -26,6 +26,8 @@ public class ArticleScheduler {
             articleService.parseArticle(resource);
             System.out.println("Update articles from: " + resource);
         }
+        articleService.esSaveAll();
+        System.out.println("Articles added to ElasticSearch");
     }
 
 

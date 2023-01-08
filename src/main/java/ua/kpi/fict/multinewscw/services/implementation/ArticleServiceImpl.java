@@ -17,7 +17,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -126,7 +125,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public List<Article> listArticles(String searchWord) {
-        if (searchWord != null) return getByTitle(searchWord);
+        if (searchWord != null) {
+            List<Article> articles = esFindByTittleAndDescAllLang(searchWord);
+            articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
+            return articles;
+        }
         return viewAllArticles();
     }
 
@@ -224,7 +227,9 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepo.save(article);
     }
 
-    public void esSave() {
+    // For ElasticSearch
+
+    public void esSaveAll() {
         List<Article> articles = articleRepo.findAll();
         for (Article article : articles) {
             Article esArticle = new Article();
@@ -245,8 +250,18 @@ public class ArticleServiceImpl implements ArticleService {
         return elasticArticleRepo.findById(id).orElse(null);
     }
 
-    public List<Article> esFindByTitle(final String title) {
-        return elasticArticleRepo.findByArticleTitle(title);
+    private List<Article> esFindByTittleAndDescAllLang(String title) {
+        List<Article> articles = esFindByTitle(title);
+        articles.addAll(esFindByDesc(title));
+        return articles;
+    }
+
+    private List<Article> esFindByTitle(final String title) {
+        return elasticArticleRepo.findByArticleTitleOrArticleTitleEn(title, title);
+    }
+
+    private List<Article> esFindByDesc(final String title) {
+        return elasticArticleRepo.findByArticleDescriptionOrArticleDescriptionEn(title, title);
     }
 
     public List<Article> esFindAll() {

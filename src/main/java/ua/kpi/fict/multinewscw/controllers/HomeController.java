@@ -13,17 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private ArticleServiceImpl articleService;
 
     @GetMapping(value = "/")
     public String redirectToArticles() {
-//        articleService.esSave();
-//        for (Article article : articleService.esFindAll()) {
-//            System.out.println(article.toString());
-//        }
-
-//        System.out.println(articleService.esFindByTitle("війна"));
         return "redirect:/articles";
     }
 

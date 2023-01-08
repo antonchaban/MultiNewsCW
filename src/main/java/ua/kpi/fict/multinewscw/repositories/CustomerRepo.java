@@ -8,4 +8,6 @@ import ua.kpi.fict.multinewscw.entities.Customer;
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
 
     Customer findCustomerByUsername(String cusName);
+
+    Customer findCustomerByCustomerId(Long id);
 }

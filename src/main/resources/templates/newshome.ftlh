@@ -44,7 +44,7 @@
                             <p class="card-text">Source: ${article.articleSource}</p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-muted">${article.articleDate}</small>
+                            <small class="text-muted">${article.articleDate?datetime}</small>
                         </div>
                     </div>
                 </a>
@@ -87,7 +87,7 @@
                             <p class="card-text">Джерело: ${article.articleSource}</p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-muted">${article.articleDate}</small>
+                            <small class="text-muted">${article.articleDate?datetime}</small>
                         </div>
                     </div>
                 </a>
