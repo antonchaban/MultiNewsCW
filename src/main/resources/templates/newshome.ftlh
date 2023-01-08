@@ -23,6 +23,14 @@
                         <option value="Sport">Sport</option>
                         <option value="Economy">Economy</option>
                     </select>
+                    <label for="searchSource">Source</label>
+                    <select id="searchSource" class="form-control" name="searchSource">
+                        <option value="">All Sources</option>
+                        <option value="UP">Українська правда</option>
+                        <option value="UNIAN">УНІАН</option>
+                        <option value="CNN">CNN</option>
+                        <option value="FOX">FOX NEWS</option>
+                    </select>
                 </div>
                 <div class="form-group col-md-10">
                     <label for="searchWord">What are you looking for?</label>
@@ -65,6 +73,13 @@
                         <option value="War">Війна</option>
                         <option value="Sport">Спорт</option>
                         <option value="Economy">Економіка</option>
+                    </select>
+                    <select id="searchSource" class="form-control">
+                        <option value="">Всі Джерела</option>
+                        <option value="UP">Українська правда</option>
+                        <option value="UNIAN">УНІАН</option>
+                        <option value="CNN">CNN</option>
+                        <option value="FOX">FOX NEWS</option>
                     </select>
                 </div>
                 <div class="form-group col-md-10">
