@@ -11,4 +11,6 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
     List<Article> findByArticleTitleOrArticleTitleEn(String articleTitle, String articleTitleEn);
 
     List<Article> findByArticleDescriptionOrArticleDescriptionEn(String articleDescription, String articleDescriptionEn);
+
+    List<Article> findArticleByArticleSource(String source);
 }

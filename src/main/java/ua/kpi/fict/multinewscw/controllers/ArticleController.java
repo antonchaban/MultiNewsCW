@@ -28,7 +28,7 @@ public class ArticleController {
     public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
                                   @CookieValue(name = "language", defaultValue = "en") String language,
                                   @RequestParam(name = "searchSource", required = false) String searchSource) {
-        model.addAttribute("articles", articleServiceImpl.listArticles(searchWord));
+        model.addAttribute("articles", articleServiceImpl.listArticles(searchWord, searchSource));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("language", language);

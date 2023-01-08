@@ -30,7 +30,7 @@ public interface ArticleService {
 
     List<Article> getByAuthor(String authorUserName);
 
-    List<Article> listArticles(String searchWord);
+    List<Article> listArticles(String searchWord, String searchSource);
 
     void deleteArticle(Customer customer, Long id);
 

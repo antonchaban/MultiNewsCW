@@ -125,13 +125,25 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
-    public List<Article> listArticles(String searchWord) {
+    public List<Article> listArticles(String searchWord, String searchSource) { // todo implement combined search
+        List<Article> articles = new ArrayList<>();
+        if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
+            articles = viewAllArticles();
         if (searchWord != null && !searchWord.equals("")) {
-            List<Article> articles = esFindByTittleAndDescAllLang(searchWord);
+            articles = esFindByTittleAndDescAllLang(searchWord);
             articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
-            return articles;
+//            return articles;
         }
-        return viewAllArticles();
+        if ("UP".equals(searchSource)) {
+            return articles = elasticArticleRepo.findArticleByArticleSource("Українська правда");
+        } else if ("UNIAN".equals(searchSource)) {
+            return articles = elasticArticleRepo.findArticleByArticleSource("УНІАН");
+        } else if ("CNN".equals(searchSource)) {
+            return articles = elasticArticleRepo.findArticleByArticleSource("CNN");
+        } else if ("FOX".equals(searchSource)) {
+            return articles = elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
+        }
+        return articles;
     }
 
     public void deleteArticle(Customer customer, Long id) {
