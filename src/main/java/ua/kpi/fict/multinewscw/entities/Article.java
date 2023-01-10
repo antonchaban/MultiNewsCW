@@ -22,7 +22,6 @@ import java.util.Date;
 @EqualsAndHashCode
 @ToString
 @Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
-//@Setting(settingPath = "static/es-settings.json")
 public class Article { // TODO add enum for categories
     @Id
     @javax.persistence.Id
