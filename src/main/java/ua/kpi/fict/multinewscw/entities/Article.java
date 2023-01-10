@@ -23,7 +23,7 @@ import java.util.Date;
 @ToString
 @Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
 //@Setting(settingPath = "static/es-settings.json")
-public class Article {
+public class Article { // TODO add enum for categories
     @Id
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
