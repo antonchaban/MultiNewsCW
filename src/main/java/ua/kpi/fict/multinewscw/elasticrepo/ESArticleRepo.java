@@ -3,6 +3,7 @@ package ua.kpi.fict.multinewscw.elasticrepo;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import ua.kpi.fict.multinewscw.entities.Article;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
@@ -13,4 +14,6 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
     List<Article> findByArticleDescriptionOrArticleDescriptionEn(String articleDescription, String articleDescriptionEn);
 
     List<Article> findArticleByArticleSource(String source);
+
+    List<Article> findArticleByArticleDate(Date date);
 }
