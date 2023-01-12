@@ -130,9 +130,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
             articles = viewAllArticles();
         if (searchWord != null && !searchWord.equals("")) {
-            articles = esFindByTittleAndDescAllLang(searchWord);
-            articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
-//            return articles;
+            articles = findBySearchWord(searchWord);
         }
         if ("UP".equals(searchSource)) {
             return articles = elasticArticleRepo.findArticleByArticleSource("Українська правда");
@@ -143,6 +141,13 @@ public class ArticleServiceImpl implements ArticleService {
         } else if ("FOX".equals(searchSource)) {
             return articles = elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
         }
+        return articles;
+    }
+
+    private List<Article> findBySearchWord(String searchWord) {
+        List<Article> articles = new ArrayList<>();
+        articles = esFindByTittleAndDescAllLang(searchWord);
+        articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
         return articles;
     }
 
