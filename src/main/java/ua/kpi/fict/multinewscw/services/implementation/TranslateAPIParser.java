@@ -11,7 +11,6 @@ import ua.kpi.fict.multinewscw.services.Parser;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 

@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.services.Connector;
 
@@ -10,9 +11,12 @@ import java.net.URL;
 @Service
 public class APIConnector implements Connector {
 
+    @Value("${translate.url}")
+    public URL translateUrl;
+
     @Override
     public HttpURLConnection setTranslateAPIConnection(String page) throws IOException {
-        URL url = new URL("http://localhost:5000/" + page);
+        URL url = new URL(translateUrl + page);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
