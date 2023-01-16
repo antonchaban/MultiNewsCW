@@ -8,11 +8,15 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
+import ua.kpi.fict.multinewscw.entities.enums.Category;
+import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.entities.helper.Indices;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -48,6 +52,13 @@ public class Article { // TODO add enum for categories
     @Column(length = 2048)
     @Field(type = FieldType.Text)
     private String articleDescriptionEn;
+
+    @ToString.Exclude
+    @ElementCollection(targetClass = Category.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "article_category"
+            , joinColumns = @JoinColumn(name = "article_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Category> categories = new HashSet<>(); // todo fix exception
 
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.REFRESH) @JoinColumn
