@@ -26,7 +26,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
-public class Article { // TODO add enum for categories
+public class Article {
     @Id
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class Article { // TODO add enum for categories
     @CollectionTable(name = "article_category"
             , joinColumns = @JoinColumn(name = "article_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Category> categories = new HashSet<>(); // todo fix exception
+    private Set<Category> categories = new HashSet<>();
 
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.REFRESH) @JoinColumn
