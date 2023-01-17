@@ -22,6 +22,9 @@
                         <option value="War">War</option>
                         <option value="Sport">Sport</option>
                         <option value="Economy">Economy</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Science">Science</option>
+                        <option value="Other">Other</option>
                     </select>
                     <label for="searchSource">Source</label>
                     <select id="searchSource" class="form-control" name="searchSource">
@@ -73,6 +76,9 @@
                         <option value="War">Війна</option>
                         <option value="Sport">Спорт</option>
                         <option value="Economy">Економіка</option>
+                        <option value="Entertainment">Розваги</option>
+                        <option value="Science">Наука</option>
+                        <option value="Other">Інші</option>
                     </select>
                     <select id="searchSource" class="form-control">
                         <option value="">Всі Джерела</option>
