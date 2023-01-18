@@ -23,6 +23,15 @@
                 <textarea required class="form-control" id="articleSource" name="articleSource">${article.articleSource}</textarea>
             </div>
 
+            <div class="form-group">
+            <#list categories as category>
+                <div>
+                    <label>
+                        <input type="radio" name="category" value="${category}" ${article.categories?seq_contains(category)?string("checked", "")}>${category}
+                    </label>
+                </div>
+            </#list>
+            </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
             <button type="submit" style="width: 100%" class="btn btn-success">Update</button>
@@ -50,6 +59,16 @@
             <div class="form-group">
                 <label for="articleSource">Джерело статті</label>
                 <textarea required class="form-control" id="articleSource" name="articleSource">${article.articleSource}</textarea>
+            </div>
+
+            <div class="form-group">
+                <#list categories as category>
+                    <div>
+                        <label>
+                            <input type="radio" name="category" value="${category}" ${article.categories?seq_contains(category)?string("checked", "")}>${category}
+                        </label>
+                    </div>
+                </#list>
             </div>
 
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>

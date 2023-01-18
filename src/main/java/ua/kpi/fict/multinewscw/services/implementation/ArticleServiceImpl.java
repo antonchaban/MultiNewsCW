@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.elasticrepo.ESArticleRepo;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
+import ua.kpi.fict.multinewscw.entities.enums.Category;
 import ua.kpi.fict.multinewscw.repositories.ArticleRepo;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 import ua.kpi.fict.multinewscw.services.ArticleService;
@@ -165,7 +166,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    public void editArticle(Article updatedArticle, Long id, String language) throws IOException, ParseException {
+    public void editArticle(Article updatedArticle, Long id, String language, String category) throws IOException, ParseException {
         Article article = articleRepo.findById(id).orElse(null);
         if (article != null) {
             switch (language) {
@@ -183,6 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
             article.setArticleLink(updatedArticle.getArticleLink());
             article.setArticleSource(updatedArticle.getArticleSource());
             article.setArticleDate(Date.from(Instant.now()));
+            article.getCategories().add(Category.valueOf(category));
             articleRepo.save(article);
         } else {
             System.err.println("Article with id" + id + "is not found");

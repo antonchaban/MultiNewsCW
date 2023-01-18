@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
+import ua.kpi.fict.multinewscw.entities.enums.Category;
+import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.services.implementation.ArticleServiceImpl;
 import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 public class ArticleController {
@@ -74,6 +77,7 @@ public class ArticleController {
         Article article = articleServiceImpl.findById(id);
         model.addAttribute("language", language);
         if (customer.isAdmin() || customer == article.getCustomer()) {
+            model.addAttribute("categories", Category.values());
             model.addAttribute("customer", customer);
             model.addAttribute("article", article);
             return "article-edit";
@@ -86,9 +90,10 @@ public class ArticleController {
 
     @PostMapping("/edit/articles/{id}")
     public String confirmEditArticle(Model model, Principal principal, Article updArticle, @PathVariable Long id,
-                                     @CookieValue(name = "language", defaultValue = "en") String language)
+                                     @CookieValue(name = "language", defaultValue = "en") String language,
+                                     @RequestParam Map<String, String> form)
             throws IOException, ParseException {
-        articleServiceImpl.editArticle(updArticle, id, language);
+        articleServiceImpl.editArticle(updArticle, id, language, form.get("category"));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleServiceImpl.findById(id));
         return "redirect:/articles/" + id;
