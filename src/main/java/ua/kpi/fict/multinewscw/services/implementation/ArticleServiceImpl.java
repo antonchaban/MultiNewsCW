@@ -110,7 +110,12 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
         }
         article.setArticleDate(Date.from(Instant.now()));
-        article.getCategories().add(Category.valueOf(category));
+        try {
+            article.getCategories().add(Category.valueOf(category));
+        } catch (NullPointerException e) {
+            System.out.println("Category is null, setting other value");
+            article.getCategories().add(Category.CATEGORY_OTHER);
+        }
         articleRepo.save(article);
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
@@ -183,9 +188,14 @@ public class ArticleServiceImpl implements ArticleService {
                     break;
             }
             article.setArticleLink(updatedArticle.getArticleLink());
-            article.setArticleSource(updatedArticle.getArticleSource());
             article.setArticleDate(Date.from(Instant.now()));
-            article.getCategories().add(Category.valueOf(category));
+            article.setArticleSource(updatedArticle.getArticleSource());
+            try {
+                article.getCategories().add(Category.valueOf(category));
+            } catch (NullPointerException e) {
+                System.out.println("Category is null, setting other value");
+                article.getCategories().add(Category.CATEGORY_OTHER);
+            }
             articleRepo.save(article);
         } else {
             System.err.println("Article with id" + id + "is not found");
