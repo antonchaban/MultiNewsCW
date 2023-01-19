@@ -55,10 +55,7 @@ public class CustomerServiceImpl {
     }
 
     public void deleteCustomer(Long id) {
-        Customer customer = customerRepo.findById(id).orElse(null);
-        if (customer != null) {
-            customerRepo.delete(customer);
-        }
+        customerRepo.findById(id).ifPresent(customer -> customerRepo.delete(customer));
 
     }
 
@@ -67,11 +64,7 @@ public class CustomerServiceImpl {
                 .map(Role::name)
                 .collect(Collectors.toSet());
         customer.getRoles().clear();
-        for (String value : form.values()) {
-            if (roles.contains(value)) {
-                customer.getRoles().add(Role.valueOf(value));
-            }
-        }
+        form.values().stream().filter(roles::contains).forEach(value -> customer.getRoles().add(Role.valueOf(value)));
         customerRepo.save(customer);
     }
 }

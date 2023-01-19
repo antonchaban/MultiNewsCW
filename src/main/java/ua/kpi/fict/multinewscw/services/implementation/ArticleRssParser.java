@@ -42,12 +42,8 @@ public class ArticleRssParser implements Parser<ArrayList<Article>> {
                 Article article = new Article();
                 String language = translateAPIParser.detectLanguage(entry.getTitle());
                 switch (language) {
-                    case "uk":
-                        setUkArticle(article, entry);
-                        break;
-                    case "en":
-                        setEnArticle(article, entry);
-                        break;
+                    case "uk" -> setUkArticle(article, entry);
+                    case "en" -> setEnArticle(article, entry);
                 }
                 list.add(article);
             }

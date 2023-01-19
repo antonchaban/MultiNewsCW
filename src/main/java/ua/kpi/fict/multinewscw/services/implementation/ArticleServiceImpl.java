@@ -102,12 +102,8 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCustomer(customerRepo.findCustomerByUsername(principal.getName()));
         }
         switch (language) {
-            case "en":
-                addTranslation(article, "en", "uk");
-                break;
-            case "uk":
-                addTranslation(article, "uk", "en");
-                break;
+            case "en" -> addTranslation(article, "en", "uk");
+            case "uk" -> addTranslation(article, "uk", "en");
         }
         article.setArticleDate(Date.from(Instant.now()));
         try {
@@ -164,28 +160,24 @@ public class ArticleServiceImpl implements ArticleService {
         if (article != null) {
             if (article.getCustomer().getCustomerId().equals(customer.getCustomerId()) || customer.isAdmin()) {
                 articleRepo.delete(article);
-            } else {
-                System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);
-            }
-        } else {
-            System.err.println("Article with id" + id + "is not found");
-        }
+            } else System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);
+        } else System.err.println("Article with id" + id + "is not found");
     }
 
     public void editArticle(Article updatedArticle, Long id, String language, String category) throws IOException, ParseException {
         Article article = articleRepo.findById(id).orElse(null);
         if (article != null) {
             switch (language) {
-                case "en":
+                case "en" -> {
                     article.setArticleTitleEn(updatedArticle.getArticleTitleEn());
                     article.setArticleDescriptionEn(updatedArticle.getArticleDescriptionEn());
                     addTranslation(article, "en", "uk");
-                    break;
-                case "uk":
+                }
+                case "uk" -> {
                     article.setArticleTitle(updatedArticle.getArticleTitle());
                     article.setArticleDescription(updatedArticle.getArticleDescription());
                     addTranslation(article, "uk", "en");
-                    break;
+                }
             }
             article.setArticleLink(updatedArticle.getArticleLink());
             article.setArticleDate(Date.from(Instant.now()));
@@ -207,18 +199,10 @@ public class ArticleServiceImpl implements ArticleService {
         for (Article articleRss : listFromRss) {
             if (articleRepo.findArticleByArticleLink(articleRss.getArticleLink()) == null) {
                 switch (link) {
-                    case PRAVDA_LINK:
-                        parseAssist(articleRss, PRAVDA_ID, "PRAVDA");
-                        break;
-                    case CNN_LINK:
-                        parseAssist(articleRss, CNN_ID, "CNN");
-                        break;
-                    case FOX_LINK:
-                        parseAssist(articleRss, FOX_ID, "FOX NEWS");
-                        break;
-                    case UNIAN_LINK:
-                        parseAssist(articleRss, UNIAN_ID, "УНІАН");
-                        break;
+                    case PRAVDA_LINK -> parseAssist(articleRss, PRAVDA_ID, "PRAVDA");
+                    case CNN_LINK -> parseAssist(articleRss, CNN_ID, "CNN");
+                    case FOX_LINK -> parseAssist(articleRss, FOX_ID, "FOX NEWS");
+                    case UNIAN_LINK -> parseAssist(articleRss, UNIAN_ID, "УНІАН");
                 }
                 if (articleRss.getArticleDate() != null) {
                     articleRepo.save(articleRss);
@@ -246,14 +230,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
         switch (sourceLang) {
-            case "uk":
+            case "uk" -> {
                 article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));
                 article.setArticleDescriptionEn(translateAPIParser.doParse(article.getArticleDescription(), sourceLang, targetLang));
-                break;
-            case "en":
+            }
+            case "en" -> {
                 article.setArticleTitle(translateAPIParser.doParse(article.getArticleTitleEn(), sourceLang, targetLang));
                 article.setArticleDescription(translateAPIParser.doParse(article.getArticleDescriptionEn(), sourceLang, targetLang));
-                break;
+            }
         }
         articleRepo.save(article);
     }
@@ -262,7 +246,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     public void esSaveAll() {
         List<Article> articles = articleRepo.findAll();
-        for (Article article : articles) {
+        articles.forEach(article -> {
             Article esArticle = new Article();
             esArticle.setArticleId(article.getArticleId());
             esArticle.setArticleTitle(article.getArticleTitle());
@@ -274,7 +258,7 @@ public class ArticleServiceImpl implements ArticleService {
             esArticle.setArticleSource(article.getArticleSource());
             esArticle.setCustomerId(article.getCustomer().getCustomerId());
             elasticArticleRepo.save(esArticle);
-        }
+        });
     }
 
     public Article esFindById(final Long id) {
