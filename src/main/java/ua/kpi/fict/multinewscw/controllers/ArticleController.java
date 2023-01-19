@@ -40,8 +40,9 @@ public class ArticleController {
 
     @PostMapping("/articles/create")
     public String createArticle(Article article, Principal principal,
-                                @CookieValue(name = "language", defaultValue = "en") String language) throws IOException, ParseException {
-        articleServiceImpl.createArticle(article, principal, language);
+                                @CookieValue(name = "language", defaultValue = "en") String language,
+                                @RequestParam Map<String, String> form) throws IOException, ParseException {
+        articleServiceImpl.createArticle(article, principal, language, form.get("category"));
         return "redirect:/";
     }
 
@@ -59,6 +60,7 @@ public class ArticleController {
                                @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);
+        model.addAttribute("categories", Category.values());
         model.addAttribute("articles", customer.getArticles());
         model.addAttribute("language", language);
         return "my-articles";

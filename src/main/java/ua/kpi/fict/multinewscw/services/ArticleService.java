@@ -24,7 +24,7 @@ public interface ArticleService {
 
     List<Article> searchArticles(String title, String source);
 
-    void createArticle(Article article, Principal principal, String lang) throws IOException, ParseException;
+    void createArticle(Article article, Principal principal, String lang, String category) throws IOException, ParseException;
 
     List<Article> viewAllArticles();
 

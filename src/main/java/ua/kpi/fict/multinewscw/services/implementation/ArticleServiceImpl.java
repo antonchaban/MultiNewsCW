@@ -95,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
         return searchedArticles;
     }
 
-    public void createArticle(Article article, Principal principal, String language) throws IOException, ParseException {
+    public void createArticle(Article article, Principal principal, String language, String category) throws IOException, ParseException {
         if (principal == null) {
             article.setCustomer(new Customer());
         } else {
@@ -110,6 +110,7 @@ public class ArticleServiceImpl implements ArticleService {
                 break;
         }
         article.setArticleDate(Date.from(Instant.now()));
+        article.getCategories().add(Category.valueOf(category));
         articleRepo.save(article);
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());

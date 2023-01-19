@@ -31,6 +31,16 @@
                     <textarea required class="form-control" id="articleSource" name="articleSource"></textarea>
                 </div>
 
+                <div class="form-group">
+                    <#list categories as category>
+                        <div>
+                            <label>
+                                <input type="radio" name="category" value="${category}">${category}
+                            </label>
+                        </div>
+                    </#list>
+                </div>
+
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
                 <button type="submit" style="width: 100%" class="btn btn-dark">Create</button>
@@ -103,6 +113,16 @@
                 <div class="form-group">
                     <label for="articleSource">Джерело</label>
                     <textarea required class="form-control" id="articleSource" name="articleSource"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <#list categories as category>
+                        <div>
+                            <label>
+                                <input type="radio" name="category" value="${category}">${category}
+                            </label>
+                        </div>
+                    </#list>
                 </div>
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
