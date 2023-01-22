@@ -61,11 +61,13 @@ public class Article {
     private Set<Category> categories = new HashSet<>();
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.REFRESH) @JoinColumn
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn
     private Customer customer;
 
 
-    @Transient @ToString.Exclude
+    @Transient
+    @ToString.Exclude
     private Long customerId;
 
 }
