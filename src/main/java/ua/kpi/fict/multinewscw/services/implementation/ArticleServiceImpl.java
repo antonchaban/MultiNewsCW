@@ -43,10 +43,10 @@ public class ArticleServiceImpl implements ArticleService {
     private final String FOX_LINK = "https://moxie.foxnews.com/google-publisher/world.xml";
     private final String UNIAN_LINK = "https://rss.unian.net/site/news_ukr.rss";
 
-    private final Long PRAVDA_ID = 17L;
-    private final Long CNN_ID = 18L;
-    private final Long FOX_ID = 19L;
-    private final Long UNIAN_ID = 20L;
+    private final Long PRAVDA_ID = 5L;
+    private final Long CNN_ID = 4L;
+    private final Long FOX_ID = 3L;
+    private final Long UNIAN_ID = 2L;
 
     public void save(Article article) {
         articleRepo.save(article);

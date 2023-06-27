@@ -1,7 +1,6 @@
 create table customers
 (
-    customer_id bigint not null
-        primary key,
+    customer_id serial primary key,
     password    varchar(1000),
     username    varchar(255)
 );
@@ -11,8 +10,7 @@ alter table customers
 
 create table article
 (
-    article_id             bigserial
-        primary key,
+    article_id             serial primary key,
     article_date           timestamp,
     article_description    varchar(2048),
     article_description_en varchar(2048),
@@ -51,3 +49,17 @@ alter table customer_role
     owner to postgres;
 
 -- TODO add users and roles
+
+insert into customers (password, username)
+values ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'antoha'),
+       ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'UNIAN'),
+       ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'FOX'),
+       ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'CNN'),
+       ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'PRAVDA');
+
+insert into customer_role (customer_id, roles)
+values (1, 'ROLE_ADMIN'),
+       (2, 'ROLE_EDITOR'),
+       (3, 'ROLE_EDITOR'),
+       (4, 'ROLE_EDITOR'),
+       (5, 'ROLE_EDITOR');
