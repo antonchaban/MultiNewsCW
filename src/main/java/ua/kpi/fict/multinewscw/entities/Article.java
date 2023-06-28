@@ -25,7 +25,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @ToString
-//@Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
+@Document(indexName = Indices.ARTICLE_INDEX, shards = 2)
 public class Article {
     @Id
     @javax.persistence.Id

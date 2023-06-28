@@ -48,8 +48,6 @@ create table customer_role
 alter table customer_role
     owner to postgres;
 
--- TODO add users and roles
-
 insert into customers (password, username)
 values ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'antoha'),
        ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'UNIAN'),
