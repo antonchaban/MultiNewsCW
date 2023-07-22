@@ -265,9 +265,9 @@ public class ArticleServiceImpl implements ArticleService {
         return elasticArticleRepo.findById(id).orElse(null);
     }
 
-    private List<Article> esFindByTittleAndDescAllLang(String title) {
-        List<Article> articles = esFindByTitle(title);
-        articles.addAll(esFindByDesc(title));
+    private List<Article> esFindByTittleAndDescAllLang(String title) { // todo after adding new article to db, it doesn't appear in search
+        List<Article> articles = esFindByTitle(title); // todo add to set
+        articles.addAll(esFindByDesc(title)); // todo fix double articles https://prnt.sc/fGC98RNW0RKq
         return articles;
     }
 
