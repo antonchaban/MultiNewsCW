@@ -5,13 +5,14 @@ import ua.kpi.fict.multinewscw.entities.Article;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
     List<Article> findByArticleTitleOrArticleDescription(String articleTitle, String articleDescription);
 
-    List<Article> findByArticleTitleOrArticleTitleEn(String articleTitle, String articleTitleEn);
+    Set<Article> findByArticleTitleOrArticleTitleEn(String articleTitle, String articleTitleEn);
 
-    List<Article> findByArticleDescriptionOrArticleDescriptionEn(String articleDescription, String articleDescriptionEn);
+    Set<Article> findByArticleDescriptionOrArticleDescriptionEn(String articleDescription, String articleDescriptionEn);
 
     List<Article> findArticleByArticleSource(String source);
 

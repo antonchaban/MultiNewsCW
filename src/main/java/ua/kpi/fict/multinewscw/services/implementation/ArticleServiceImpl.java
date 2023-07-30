@@ -18,7 +18,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -113,8 +113,10 @@ public class ArticleServiceImpl implements ArticleService {
             article.getCategories().add(Category.CATEGORY_OTHER);
         }
         articleRepo.save(article);
+        esSaveArticle(article);
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
+            esSaveArticle(article);
             articleRepo.save(article);
         }
     }
@@ -148,13 +150,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private List<Article> findBySearchWord(String searchWord) {
-        List<Article> articles = new ArrayList<>();
+        List<Article> articles;
         articles = esFindByTittleAndDescAllLang(searchWord);
         articles.forEach(article -> article.setCustomer(customerRepo.findCustomerByCustomerId(article.getCustomerId())));
         return articles;
     }
 
-    public void deleteArticle(Customer customer, Long id) {
+    public void deleteArticle(Customer customer, Long id) { // todo remove from elastic after delete
         Article article = articleRepo.findById(id)
                 .orElse(null);
         if (article != null) {
@@ -165,7 +167,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public void editArticle(Article updatedArticle, Long id, String language, String category) throws IOException, ParseException {
-        Article article = articleRepo.findById(id).orElse(null);
+        Article article = articleRepo.findById(id).orElse(null); // todo update elastic after edit
         if (article != null) {
             switch (language) {
                 case "en" -> {
@@ -244,38 +246,45 @@ public class ArticleServiceImpl implements ArticleService {
 
     // For ElasticSearch
 
+    private void esSaveArticle(Article article){ // todo extract duplication of code
+        esCopyArticleData(article);
+    }
+
+    private void esCopyArticleData(Article article) {
+        Article esArticle = new Article();
+        esArticle.setArticleId(article.getArticleId());
+        esArticle.setArticleTitle(article.getArticleTitle());
+        esArticle.setArticleDescription(article.getArticleDescription());
+        esArticle.setArticleTitleEn(article.getArticleTitleEn());
+        esArticle.setArticleDescriptionEn(article.getArticleDescriptionEn());
+        esArticle.setArticleDate(article.getArticleDate());
+        esArticle.setArticleLink(article.getArticleLink());
+        esArticle.setArticleSource(article.getArticleSource());
+        esArticle.setCustomerId(article.getCustomer().getCustomerId());
+        elasticArticleRepo.save(esArticle);
+    }
+
     public void esSaveAll() {
         List<Article> articles = articleRepo.findAll();
-        articles.forEach(article -> {
-            Article esArticle = new Article();
-            esArticle.setArticleId(article.getArticleId());
-            esArticle.setArticleTitle(article.getArticleTitle());
-            esArticle.setArticleDescription(article.getArticleDescription());
-            esArticle.setArticleTitleEn(article.getArticleTitleEn());
-            esArticle.setArticleDescriptionEn(article.getArticleDescriptionEn());
-            esArticle.setArticleDate(article.getArticleDate());
-            esArticle.setArticleLink(article.getArticleLink());
-            esArticle.setArticleSource(article.getArticleSource());
-            esArticle.setCustomerId(article.getCustomer().getCustomerId());
-            elasticArticleRepo.save(esArticle);
-        });
+        articles.forEach(this::esCopyArticleData);
     }
 
     public Article esFindById(final Long id) {
         return elasticArticleRepo.findById(id).orElse(null);
     }
 
-    private List<Article> esFindByTittleAndDescAllLang(String title) { // todo after adding new article to db, it doesn't appear in search
-        List<Article> articles = esFindByTitle(title); // todo add to set
-        articles.addAll(esFindByDesc(title)); // todo fix double articles https://prnt.sc/fGC98RNW0RKq
-        return articles;
+    private List<Article> esFindByTittleAndDescAllLang(String title) {
+        List<Article> result = new ArrayList<>();
+        Set<Article> articles = esFindByTitle(title);
+        articles.addAll(esFindByDesc(title));
+        return result.addAll(articles) ? result : null;
     }
 
-    private List<Article> esFindByTitle(final String title) {
+    private Set<Article> esFindByTitle(final String title) {
         return elasticArticleRepo.findByArticleTitleOrArticleTitleEn(title, title);
     }
 
-    private List<Article> esFindByDesc(final String title) {
+    private Set<Article> esFindByDesc(final String title) {
         return elasticArticleRepo.findByArticleDescriptionOrArticleDescriptionEn(title, title);
     }
 
