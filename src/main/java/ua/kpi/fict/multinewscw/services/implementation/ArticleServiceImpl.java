@@ -156,18 +156,19 @@ public class ArticleServiceImpl implements ArticleService {
         return articles;
     }
 
-    public void deleteArticle(Customer customer, Long id) { // todo remove from elastic after delete
+    public void deleteArticle(Customer customer, Long id) {
         Article article = articleRepo.findById(id)
                 .orElse(null);
         if (article != null) {
             if (article.getCustomer().getCustomerId().equals(customer.getCustomerId()) || customer.isAdmin()) {
                 articleRepo.delete(article);
+                elasticArticleRepo.deleteById(id);
             } else System.err.println("Customer: " + customer.getUsername() + " haven't this article with id" + id);
         } else System.err.println("Article with id" + id + "is not found");
     }
 
     public void editArticle(Article updatedArticle, Long id, String language, String category) throws IOException, ParseException {
-        Article article = articleRepo.findById(id).orElse(null); // todo update elastic after edit
+        Article article = articleRepo.findById(id).orElse(null);
         if (article != null) {
             switch (language) {
                 case "en" -> {
@@ -191,6 +192,7 @@ public class ArticleServiceImpl implements ArticleService {
                 article.getCategories().add(Category.CATEGORY_OTHER);
             }
             articleRepo.save(article);
+            esSaveArticle(article);
         } else {
             System.err.println("Article with id" + id + "is not found");
         }
@@ -246,7 +248,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     // For ElasticSearch
 
-    private void esSaveArticle(Article article){ // todo extract duplication of code
+    private void esSaveArticle(Article article) {
         esCopyArticleData(article);
     }
 
@@ -266,7 +268,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     public void esSaveAll() {
         List<Article> articles = articleRepo.findAll();
-        articles.forEach(this::esCopyArticleData);
+        for (Article article : articles) {
+            esCopyArticleData(article);
+        }
     }
 
     public Article esFindById(final Long id) {
@@ -277,7 +281,8 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> result = new ArrayList<>();
         Set<Article> articles = esFindByTitle(title);
         articles.addAll(esFindByDesc(title));
-        return result.addAll(articles) ? result : null;
+        result.addAll(articles);
+        return result;
     }
 
     private Set<Article> esFindByTitle(final String title) {

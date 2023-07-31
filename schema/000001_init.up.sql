@@ -16,8 +16,8 @@ create table article
     article_description_en varchar(2048),
     article_link           varchar(255),
     article_source         varchar(255),
-    article_title          varchar(255),
-    article_title_en       varchar(255),
+    article_title          varchar(500),
+    article_title_en       varchar(500),
     customer_customer_id   bigint
         constraint fk8qj8c8w32ufmvytrlmlkglep5
             references customers
