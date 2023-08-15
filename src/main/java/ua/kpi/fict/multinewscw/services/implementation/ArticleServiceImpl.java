@@ -138,13 +138,13 @@ public class ArticleServiceImpl implements ArticleService {
             articles = findBySearchWord(searchWord);
         }
         if ("UP".equals(searchSource)) {
-            return articles = elasticArticleRepo.findArticleByArticleSource("Українська правда");
+            return elasticArticleRepo.findArticleByArticleSource("Українська правда");
         } else if ("UNIAN".equals(searchSource)) {
-            return articles = elasticArticleRepo.findArticleByArticleSource("УНІАН");
+            return elasticArticleRepo.findArticleByArticleSource("УНІАН");
         } else if ("CNN".equals(searchSource)) {
-            return articles = elasticArticleRepo.findArticleByArticleSource("CNN");
+            return elasticArticleRepo.findArticleByArticleSource("CNN");
         } else if ("FOX".equals(searchSource)) {
-            return articles = elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
+            return elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
         }
         return articles;
     }
@@ -210,6 +210,8 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 if (articleRss.getArticleDate() != null) {
                     articleRepo.save(articleRss);
+                    esSaveArticle(articleRss);
+                    System.out.println("Articles added to ElasticSearch");
                 }
             }
 
