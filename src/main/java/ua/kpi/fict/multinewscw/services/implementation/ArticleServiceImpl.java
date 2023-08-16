@@ -246,6 +246,7 @@ public class ArticleServiceImpl implements ArticleService {
                     case UNIAN_LINK -> parseAssist(articleRss, UNIAN_ID, "УНІАН");
                 }
                 if (articleRss.getArticleDate() != null) {
+                    articleRss.getCategories().add(Category.CATEGORY_OTHER); // todo set category by keywords
                     articleRepo.save(articleRss);
                     esSaveArticle(articleRss);
                     System.out.println("Articles added to ElasticSearch");
