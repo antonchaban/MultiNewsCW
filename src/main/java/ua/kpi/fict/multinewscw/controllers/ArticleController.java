@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import ua.kpi.fict.multinewscw.entities.Article;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.entities.enums.Category;
-import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.services.implementation.ArticleServiceImpl;
 import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
@@ -57,7 +56,7 @@ public class ArticleController {
     }
 
     @GetMapping("/my/articles")
-    public String userProducts(Principal principal, Model model,
+    public String userArticles(Principal principal, Model model,
                                @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         model.addAttribute("customer", customer);

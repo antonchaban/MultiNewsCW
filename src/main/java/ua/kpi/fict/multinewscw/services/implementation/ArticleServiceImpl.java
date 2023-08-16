@@ -221,9 +221,11 @@ public class ArticleServiceImpl implements ArticleService {
             article.setArticleDate(Date.from(Instant.now()));
             article.setArticleSource(updatedArticle.getArticleSource());
             try {
+                article.getCategories().clear();
                 article.getCategories().add(Category.valueOf(category));
             } catch (NullPointerException e) {
                 System.out.println("Category is null, setting other value");
+                article.getCategories().clear();
                 article.getCategories().add(Category.CATEGORY_OTHER);
             }
             articleRepo.save(article);
