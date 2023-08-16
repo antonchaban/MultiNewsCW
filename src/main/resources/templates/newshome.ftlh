@@ -15,7 +15,12 @@
     <#if language == "en">
         <form method="get" action="/articles">
             <div class="form-row">
-                <div class="form-group col-md-2">
+                <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+                   data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="true" aria-controls="collapseExample">
+                    Search Parameters
+                </a>
+                <div class="collapse mb-3" id="collapseExample" style="">
                     <label for="searchTopic">Topic</label>
                     <select id="searchTopic" class="form-control">
                         <option value="">All Topics</option>
@@ -34,6 +39,14 @@
                         <option value="CNN">CNN</option>
                         <option value="FOX">FOX NEWS</option>
                     </select>
+                    <div>
+                        <label for="sdate">Start date:</label>
+                        <input type="date" id="sdate" name="sdate" />
+                    </div>
+                    <div>
+                        <label for="enddate">End date:</label>
+                        <input type="date" id="enddate" name="enddate" />
+                    </div>
                 </div>
                 <div class="form-group col-md-10">
                     <label for="searchWord">What are you looking for?</label>
@@ -69,7 +82,12 @@
     <#if language == "uk">
         <form method="get" action="/articles">
             <div class="form-row">
-                <div class="form-group col-md-2">
+                <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
+                   data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="true" aria-controls="collapseExample">
+                    Параметри Пошуку
+                </a>
+                <div class="collapse mb-3" id="collapseExample" style="">
                     <label for="searchTopic">Тема</label>
                     <select id="searchTopic" class="form-control">
                         <option value="">Всі теми</option>
@@ -82,12 +100,20 @@
                     </select>
                     <label for="searchSource">Source</label>
                     <select id="searchSource" class="form-control" name="searchSource">
-                        <option value="">All Sources</option>
+                        <option value="">Всі ресурси</option>
                         <option value="UP">Українська правда</option>
                         <option value="UNIAN">УНІАН</option>
                         <option value="CNN">CNN</option>
                         <option value="FOX">FOX NEWS</option>
                     </select>
+                    <div>
+                        <label for="sdate">Початок:</label>
+                        <input type="date" id="sdate" name="sdate" />
+                    </div>
+                    <div>
+                        <label for="enddate">Кінець:</label>
+                        <input type="date" id="enddate" name="enddate" />
+                    </div>
                 </div>
                 <div class="form-group col-md-10">
                     <label for="searchWord">Що ви шукаєте?</label>
