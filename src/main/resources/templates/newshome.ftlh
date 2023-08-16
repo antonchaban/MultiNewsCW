@@ -40,12 +40,8 @@
                         <option value="FOX">FOX NEWS</option>
                     </select>
                     <div>
-                        <label for="sdate">Start date:</label>
-                        <input type="date" id="sdate" name="sdate" />
-                    </div>
-                    <div>
-                        <label for="enddate">End date:</label>
-                        <input type="date" id="enddate" name="enddate" />
+                        <label for="newsDate">Date:</label>
+                        <input type="date" id="newsDate" name="newsDate" />
                     </div>
                 </div>
                 <div class="form-group col-md-10">
@@ -107,12 +103,8 @@
                         <option value="FOX">FOX NEWS</option>
                     </select>
                     <div>
-                        <label for="sdate">Початок:</label>
-                        <input type="date" id="sdate" name="sdate" />
-                    </div>
-                    <div>
-                        <label for="enddate">Кінець:</label>
-                        <input type="date" id="enddate" name="enddate" />
+                        <label for="newsDate">Дата:</label>
+                        <input type="date" id="newsDate" name="newsDate" />
                     </div>
                 </div>
                 <div class="form-group col-md-10">

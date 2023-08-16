@@ -16,12 +16,11 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
 
     List<Article> findArticleByArticleSource(String source);
 
+    List<Article> findArticleByArticleDate(Date date);
+
     List<Article> findArticleByArticleSourceAndArticleDescription(String source, String articleTitle);
 
     List<Article> findArticleByArticleSourceAndArticleDescriptionOrArticleTitle(String articleSource, String articleDescription, String articleTitle);
 
     List<Article> findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn(String articleSource, String articleDescription, String articleTitle);
-
-
-    List<Article> findArticleByArticleDate(Date date);
 }

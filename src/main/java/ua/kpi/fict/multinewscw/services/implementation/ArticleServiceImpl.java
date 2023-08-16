@@ -15,6 +15,7 @@ import ua.kpi.fict.multinewscw.services.ArticleService;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -130,7 +131,8 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
-    public List<Article> listArticles(String searchWord, String searchSource, String language) {
+    public List<Article> listArticles(String searchWord, String searchSource, String language, String newsDate) {
+        // todo date search
         List<Article> articles = new ArrayList<>();
         if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
             articles = viewAllArticles();
@@ -138,50 +140,60 @@ public class ArticleServiceImpl implements ArticleService {
             articles = findBySearchWord(searchWord);
         }
         if (searchWord == null || searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
-            switch (searchSource) {
-                case "UP" -> {
-                    return elasticArticleRepo.findArticleByArticleSource("Українська правда");
-                }
-                case "UNIAN" -> {
-                    return elasticArticleRepo.findArticleByArticleSource("УНІАН");
-                }
-                case "CNN" -> {
-                    return elasticArticleRepo.findArticleByArticleSource("CNN");
-                }
-                case "FOX" -> {
-                    return elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
-                }
-            }
+            articles = findBySource(searchSource);
         }
         if (searchWord != null && !searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
-            switch (searchSource) {
-                case "UP" -> {
-                    if (language.equals("en"))
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("Українська правда", searchWord, searchWord);
-                    else
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("Українська правда", searchWord, searchWord);
-                }
-                case "UNIAN" -> {
-                    if (language.equals("en"))
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("УНІАН", searchWord, searchWord);
-                    else
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("УНІАН", searchWord, searchWord);
-                }
-                case "CNN" -> {
-                    if (language.equals("en"))
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("CNN", searchWord, searchWord);
-                    else
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("CNN", searchWord, searchWord);
-                }
-                case "FOX" -> {
-                    if (language.equals("en"))
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("FOX NEWS", searchWord, searchWord);
-                    else
-                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("FOX NEWS", searchWord, searchWord);
-                }
-            }
+            articles = findByWordAndSource(searchWord, searchSource, language);
         }
         return articles;
+    }
+
+    private List<Article> findByWordAndSource(String searchWord, String searchSource, String language) {
+        switch (searchSource) {
+            case "UP" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("Українська правда", searchWord, searchWord);
+                else
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("Українська правда", searchWord, searchWord);
+            }
+            case "UNIAN" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("УНІАН", searchWord, searchWord);
+                else
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("УНІАН", searchWord, searchWord);
+            }
+            case "CNN" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("CNN", searchWord, searchWord);
+                else
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("CNN", searchWord, searchWord);
+            }
+            case "FOX" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("FOX NEWS", searchWord, searchWord);
+                else
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("FOX NEWS", searchWord, searchWord);
+            }
+        }
+        return viewAllArticles();
+    }
+
+    private List<Article> findBySource(String source) {
+        switch (source) {
+            case "UP" -> {
+                return elasticArticleRepo.findArticleByArticleSource("Українська правда");
+            }
+            case "UNIAN" -> {
+                return elasticArticleRepo.findArticleByArticleSource("УНІАН");
+            }
+            case "CNN" -> {
+                return elasticArticleRepo.findArticleByArticleSource("CNN");
+            }
+            case "FOX" -> {
+                return elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
+            }
+        }
+        return viewAllArticles();
     }
 
     private List<Article> findBySearchWord(String searchWord) {

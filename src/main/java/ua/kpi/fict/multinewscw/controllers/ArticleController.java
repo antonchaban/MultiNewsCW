@@ -16,6 +16,7 @@ import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -29,11 +30,13 @@ public class ArticleController {
     @GetMapping("/articles")
     public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
                                   @CookieValue(name = "language", defaultValue = "en") String language,
-                                  @RequestParam(name = "searchSource", defaultValue = "") String searchSource) { // TODO search by date
-        model.addAttribute("articles", articleServiceImpl.listArticles(searchWord, searchSource, language));
+                                  @RequestParam(name = "searchSource", defaultValue = "") String searchSource,
+                                  @RequestParam(name = "newsDate", required = false) String newsDate) { // TODO search by date
+        model.addAttribute("articles", articleServiceImpl.listArticles(searchWord, searchSource, language, newsDate));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("searchSource", searchSource);
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("newsDate", newsDate);
         model.addAttribute("language", language);
         return "newshome";
     }
