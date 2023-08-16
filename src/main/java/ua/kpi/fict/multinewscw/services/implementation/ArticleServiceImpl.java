@@ -130,21 +130,56 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
-    public List<Article> listArticles(String searchWord, String searchSource) { // todo implement combined search
+    public List<Article> listArticles(String searchWord, String searchSource, String language) {
         List<Article> articles = new ArrayList<>();
         if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
             articles = viewAllArticles();
-        if (searchWord != null && !searchWord.equals("")) {
+        if (searchWord != null && !searchWord.equals("") && searchSource.equals("")) {
             articles = findBySearchWord(searchWord);
         }
-        if ("UP".equals(searchSource)) {
-            return elasticArticleRepo.findArticleByArticleSource("Українська правда");
-        } else if ("UNIAN".equals(searchSource)) {
-            return elasticArticleRepo.findArticleByArticleSource("УНІАН");
-        } else if ("CNN".equals(searchSource)) {
-            return elasticArticleRepo.findArticleByArticleSource("CNN");
-        } else if ("FOX".equals(searchSource)) {
-            return elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
+        if (searchWord == null || searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
+            switch (searchSource) {
+                case "UP" -> {
+                    return elasticArticleRepo.findArticleByArticleSource("Українська правда");
+                }
+                case "UNIAN" -> {
+                    return elasticArticleRepo.findArticleByArticleSource("УНІАН");
+                }
+                case "CNN" -> {
+                    return elasticArticleRepo.findArticleByArticleSource("CNN");
+                }
+                case "FOX" -> {
+                    return elasticArticleRepo.findArticleByArticleSource("FOX NEWS");
+                }
+            }
+        }
+        if (searchWord != null && !searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
+            switch (searchSource) {
+                case "UP" -> {
+                    if (language.equals("en"))
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("Українська правда", searchWord, searchWord);
+                    else
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("Українська правда", searchWord, searchWord);
+                }
+                case "UNIAN" -> {
+                    if (language.equals("en"))
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("УНІАН", searchWord, searchWord);
+                    else
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("УНІАН", searchWord, searchWord);
+                }
+                case "CNN" -> {
+                    if (language.equals("en"))
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("CNN", searchWord, searchWord);
+                    else
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("CNN", searchWord, searchWord);
+                }
+                case "FOX" -> {
+                    if (language.equals("en"))
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("FOX NEWS", searchWord, searchWord);
+                    else
+                        return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("FOX NEWS", searchWord, searchWord);
+                }
+            }
         }
         return articles;
     }
@@ -234,7 +269,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    public void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
+    private void addTranslation(Article article, String sourceLang, String targetLang) throws IOException, ParseException {
         switch (sourceLang) {
             case "uk" -> {
                 article.setArticleTitleEn(translateAPIParser.doParse(article.getArticleTitle(), sourceLang, targetLang));

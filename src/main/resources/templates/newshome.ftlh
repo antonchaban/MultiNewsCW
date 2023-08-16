@@ -80,8 +80,9 @@
                         <option value="Science">Наука</option>
                         <option value="Other">Інші</option>
                     </select>
-                    <select id="searchSource" class="form-control">
-                        <option value="">Всі Джерела</option>
+                    <label for="searchSource">Source</label>
+                    <select id="searchSource" class="form-control" name="searchSource">
+                        <option value="">All Sources</option>
                         <option value="UP">Українська правда</option>
                         <option value="UNIAN">УНІАН</option>
                         <option value="CNN">CNN</option>
