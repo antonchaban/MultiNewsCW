@@ -42,6 +42,7 @@ public class Article {
     @Field(type = FieldType.Text)
     private String articleDescription;
 
+    @Field(type = FieldType.Date)
     private Date articleDate;
 
     private String articleSource;

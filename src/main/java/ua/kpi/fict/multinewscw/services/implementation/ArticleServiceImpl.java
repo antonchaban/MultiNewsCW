@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,7 +133,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public List<Article> listArticles(String searchWord, String searchSource, String language, String newsDate) {
-        // todo date search
+        // todo make search combined with date
+        if (newsDate != null && !newsDate.equals("")) {
+            LocalDate locDate = LocalDate.parse(newsDate);
+            Date date = java.sql.Date.valueOf(locDate);
+            return elasticArticleRepo.findArticleByArticleDateMatches(date);
+        }
         List<Article> articles = new ArrayList<>();
         if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
             articles = viewAllArticles();
