@@ -28,15 +28,15 @@ public class ArticleController {
     private CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/articles")
-    public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", required = false) String searchWord,
+    public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
                                   @CookieValue(name = "language", defaultValue = "en") String language,
                                   @RequestParam(name = "searchSource", defaultValue = "") String searchSource,
-                                  @RequestParam(name = "newsDate", required = false) String newsDate) {
+                                  @RequestParam(name = "newsDate", defaultValue = "") String newsDate) {
         model.addAttribute("articles", articleServiceImpl.listArticles(searchWord, searchSource, language, newsDate));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
-        model.addAttribute("searchSource", searchSource);
-        model.addAttribute("searchWord", searchWord);
-        model.addAttribute("newsDate", newsDate);
+//        model.addAttribute("searchSource", searchSource);
+//        model.addAttribute("searchWord", searchWord);
+//        model.addAttribute("newsDate", newsDate);
         model.addAttribute("language", language);
         return "newshome";
     }

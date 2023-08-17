@@ -133,25 +133,52 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public List<Article> listArticles(String searchWord, String searchSource, String language, String newsDate) {
-        // todo make search combined with date
-        if (newsDate != null && !newsDate.equals("")) {
-            LocalDate locDate = LocalDate.parse(newsDate);
-            Date date = java.sql.Date.valueOf(locDate);
-            return elasticArticleRepo.findArticleByArticleDateMatches(date);
-        }
         List<Article> articles = new ArrayList<>();
-        if (searchWord == null || searchWord.equals("") || searchSource == null || searchSource.equals(""))
+        // All articles
+        if (searchWord.equals("") && searchSource.equals("") && newsDate.equals(""))
             articles = viewAllArticles();
-        if (searchWord != null && !searchWord.equals("") && searchSource.equals("")) {
+
+        // Search by word
+        if (!searchWord.equals("") && searchSource.equals("") && newsDate.equals("")) {
             articles = findBySearchWord(searchWord);
         }
-        if (searchWord == null || searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
+
+        // todo Search by word and date
+        if (!searchWord.equals("") && searchSource.equals("") && !newsDate.equals("")) {
+            //articles = findBySource(searchSource);
+        }
+
+        // todo Search by word source and date
+        if (!searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("")) {
+            //articles = findBySource(searchSource);
+        }
+
+        // Search by source
+        if (searchWord.equals("") && !searchSource.equals("")) {
             articles = findBySource(searchSource);
         }
-        if (searchWord != null && !searchWord.equals("") && searchSource != null && !searchSource.equals("")) {
+
+        // todo Search by source and date
+        if (searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("")) {
+            //articles = findBySource(searchSource);
+        }
+
+        // Search by source and word
+        if (!searchWord.equals("") && !searchSource.equals("")) {
             articles = findByWordAndSource(searchWord, searchSource, language);
         }
+
+        // Search by date
+        if (!newsDate.equals("")) {
+            articles = elasticArticleRepo.findArticleByArticleDateMatches(convertStrToDate(newsDate));
+        }
+
         return articles;
+    }
+
+    private Date convertStrToDate(String date) {
+        LocalDate locDate = LocalDate.parse(date);
+        return java.sql.Date.valueOf(locDate);
     }
 
     private List<Article> findByWordAndSource(String searchWord, String searchSource, String language) {
