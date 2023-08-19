@@ -10,8 +10,6 @@ import java.util.Set;
 
 @EnableElasticsearchRepositories
 public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
-    List<Article> findByArticleTitleOrArticleDescription(String articleTitle, String articleDescription);
-
     Set<Article> findByArticleTitleOrArticleTitleEn(String articleTitle, String articleTitleEn);
 
     Set<Article> findByArticleDescriptionOrArticleDescriptionEn(String articleDescription, String articleDescriptionEn);
@@ -20,9 +18,24 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
 
     List<Article> findArticleByArticleDateMatches(Date date);
 
-    List<Article> findArticleByArticleSourceAndArticleDescription(String source, String articleTitle);
+    List<Article> findArticleByArticleSourceAndArticleDescriptionOrArticleTitle
+            (String articleSource, String articleDescription, String articleTitle);
 
-    List<Article> findArticleByArticleSourceAndArticleDescriptionOrArticleTitle(String articleSource, String articleDescription, String articleTitle);
+    List<Article> findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn
+            (String articleSource, String articleDescription, String articleTitle);
 
-    List<Article> findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn(String articleSource, String articleDescription, String articleTitle);
+    List<Article> findArticleByArticleSourceAndArticleDateMatches
+            (String articleSource, Date articleDate);
+
+    List<Article> findArticleByArticleDateMatchesAndArticleDescriptionOrArticleTitle
+            (Date articleDate, String articleDescription, String articleTitle);
+
+    List<Article> findArticleByArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+            (Date articleDate, String articleDescriptionEn, String articleTitleEn);
+
+    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+            (String articleSource, Date articleDate, String articleDescription, String articleTitle);
+
+    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+            (String articleSource, Date articleDate, String articleDescriptionEn, String articleTitleEn);
 }

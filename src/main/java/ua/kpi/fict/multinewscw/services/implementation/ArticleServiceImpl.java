@@ -143,24 +143,29 @@ public class ArticleServiceImpl implements ArticleService {
             articles = findBySearchWord(searchWord);
         }
 
-        // todo Search by word and date
+        // Search by word and date
         if (!searchWord.equals("") && searchSource.equals("") && !newsDate.equals("")) {
-            //articles = findBySource(searchSource);
+            if (language.equals("en"))
+                articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                        (java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+            else
+                articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                        (java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
         }
 
-        // todo Search by word source and date
+        // Search by word source and date
         if (!searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("")) {
-            //articles = findBySource(searchSource);
+            articles = findByWordSourceAndDate(searchWord, searchSource, newsDate, language);
         }
 
         // Search by source
-        if (searchWord.equals("") && !searchSource.equals("")) {
+        if (searchWord.equals("") && !searchSource.equals("") && newsDate.equals("")) {
             articles = findBySource(searchSource);
         }
 
-        // todo Search by source and date
+        // Search by source and date
         if (searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("")) {
-            //articles = findBySource(searchSource);
+            articles = findBySourceAndDate(searchSource, newsDate);
         }
 
         // Search by source and word
@@ -169,16 +174,84 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         // Search by date
-        if (!newsDate.equals("")) {
-            articles = elasticArticleRepo.findArticleByArticleDateMatches(convertStrToDate(newsDate));
+        if (!newsDate.equals("") && searchWord.equals("") && searchSource.equals("")) {
+            articles = elasticArticleRepo
+                    .findArticleByArticleDateMatches(java.sql.Date.valueOf(LocalDate.parse(newsDate)));
         }
 
         return articles;
     }
 
-    private Date convertStrToDate(String date) {
-        LocalDate locDate = LocalDate.parse(date);
-        return java.sql.Date.valueOf(locDate);
+    private List<Article> findByWordSourceAndDate(String searchWord, String searchSource, String newsDate, String language) {
+        switch (searchSource) {
+            case "UP" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                                    ("Українська правда", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                else
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                                    ("Українська правда", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+            }
+            case "UNIAN" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                                    ("УНІАН", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                else
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                                    ("УНІАН", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+            }
+            case "CNN" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                                    ("CNN", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                else
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                                    ("CNN", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+            }
+            case "FOX" -> {
+                if (language.equals("en"))
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                                    ("FOX NEWS", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                else
+                    return elasticArticleRepo
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                                    ("FOX NEWS", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+            }
+        }
+        return viewAllArticles();
+    }
+
+    private List<Article> findBySourceAndDate(String searchSource, String newsDate) {
+        switch (searchSource) {
+            case "UP" -> {
+                return elasticArticleRepo
+                        .findArticleByArticleSourceAndArticleDateMatches
+                                ("Українська правда", java.sql.Date.valueOf(LocalDate.parse(newsDate)));
+            }
+            case "UNIAN" -> {
+                return elasticArticleRepo
+                        .findArticleByArticleSourceAndArticleDateMatches
+                                ("УНІАН", java.sql.Date.valueOf(LocalDate.parse(newsDate)));
+            }
+            case "CNN" -> {
+                return elasticArticleRepo
+                        .findArticleByArticleSourceAndArticleDateMatches
+                                ("CNN", java.sql.Date.valueOf(LocalDate.parse(newsDate)));
+            }
+            case "FOX" -> {
+                return elasticArticleRepo
+                        .findArticleByArticleSourceAndArticleDateMatches
+                                ("FOX NEWS", java.sql.Date.valueOf(LocalDate.parse(newsDate)));
+            }
+        }
+        return viewAllArticles();
     }
 
     private List<Article> findByWordAndSource(String searchWord, String searchSource, String language) {
