@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.elasticrepo;
 
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import ua.kpi.fict.multinewscw.entities.Article;
@@ -38,4 +39,8 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
 
     List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
             (String articleSource, Date articleDate, String articleDescriptionEn, String articleTitleEn);
+
+    @Query("{\"bool\": {\"must\": [{\"match\": {\"articleTitle\": \"?0\"}}]}}")
+    List<Article> findByArticleTitleContainingAndArticleDescriptionContaining(String articleTitle, String articleDescription);
+
 }

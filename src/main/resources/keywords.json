@@ -1,0 +1,61 @@
+{
+  "CATEGORY_WAR": [
+    "Conflict",
+    "Military",
+    "Warfare",
+    "Battle",
+    "Troops",
+    "Armament",
+    "Diplomacy",
+    "Geopolitics",
+    "Defense",
+    "Strategy"
+  ],
+  "CATEGORY_SPORT": [
+    "Athletics",
+    "Competition",
+    "Team",
+    "Game",
+    "Athlete",
+    "Championship",
+    "Victory",
+    "Score",
+    "Tournament",
+    "Sportsmanship"
+  ],
+  "CATEGORY_ECONOMY": [
+    "Finance",
+    "Market",
+    "Business",
+    "Investment",
+    "Trade",
+    "GDP",
+    "Inflation",
+    "Stock market",
+    "Economic growth",
+    "Consumer spending"
+  ],
+  "CATEGORY_ENTERTAINMENT": [
+    "Movies",
+    "Music",
+    "Television",
+    "Celebrity",
+    "Performances",
+    "Art",
+    "Pop culture",
+    "Streaming",
+    "Awards"
+  ],
+  "CATEGORY_SCIENCE": [
+    "Research",
+    "Discovery",
+    "Experiment",
+    "Innovation",
+    "Technology",
+    "Biology",
+    "Physics",
+    "Chemistry",
+    "Space exploration",
+    "Scientific breakthrough"
+  ]
+}
