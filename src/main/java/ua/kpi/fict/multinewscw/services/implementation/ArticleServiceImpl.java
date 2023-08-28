@@ -38,6 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
     TranslateAPIParser translateAPIParser;
 
     @Autowired
+    private CategoryParser categoryParser;
+
+    @Autowired
     private ESArticleRepo elasticArticleRepo;
 
     private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
@@ -364,7 +367,9 @@ public class ArticleServiceImpl implements ArticleService {
                     case UNIAN_LINK -> parseAssist(articleRss, UNIAN_ID, "УНІАН");
                 }
                 if (articleRss.getArticleDate() != null) {
-                    articleRss.getCategories().add(Category.CATEGORY_OTHER); // todo set category by keywords
+                    articleRss.getCategories()
+                            .add(categoryParser
+                                    .doParse(articleRss.getArticleTitleEn() + articleRss.getArticleDescriptionEn())); // todo make it better (maybe)
                     articleRepo.save(articleRss);
                     esSaveArticle(articleRss);
                     System.out.println("Articles added to ElasticSearch");

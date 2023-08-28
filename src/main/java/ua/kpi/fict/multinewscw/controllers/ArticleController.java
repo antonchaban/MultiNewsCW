@@ -31,7 +31,7 @@ public class ArticleController {
     public String viewAllArticles(Model model, Principal principal, @RequestParam(name = "searchWord", defaultValue = "") String searchWord,
                                   @CookieValue(name = "language", defaultValue = "en") String language,
                                   @RequestParam(name = "searchSource", defaultValue = "") String searchSource,
-                                  @RequestParam(name = "newsDate", defaultValue = "") String newsDate) {
+                                  @RequestParam(name = "newsDate", defaultValue = "") String newsDate) { // todo add search by category
         model.addAttribute("articles", articleServiceImpl.listArticles(searchWord, searchSource, language, newsDate));
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
 //        model.addAttribute("searchSource", searchSource);
