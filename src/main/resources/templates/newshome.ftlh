@@ -21,15 +21,15 @@
                     Search Parameters
                 </a>
                 <div class="collapse mb-3" id="collapseExample" style="">
-                    <label for="searchTopic">Topic</label>
-                    <select id="searchTopic" class="form-control">
+                    <label for="searchCategory">Category</label>
+                    <select id="searchCategory" class="form-control" name="searchCategory">
                         <option value="">All Topics</option>
-                        <option value="War">War</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Economy">Economy</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Science">Science</option>
-                        <option value="Other">Other</option>
+                        <option value="CATEGORY_WAR">War</option>
+                        <option value="CATEGORY_SPORT">Sport</option>
+                        <option value="CATEGORY_ECONOMY">Economy</option>
+                        <option value="CATEGORY_ENTERTAINMENT">Entertainment</option>
+                        <option value="CATEGORY_SCIENCE">Science</option>
+                        <option value="CATEGORY_OTHER">Other</option>
                     </select>
                     <label for="searchSource">Source</label>
                     <select id="searchSource" class="form-control" name="searchSource">
@@ -84,15 +84,15 @@
                     Параметри Пошуку
                 </a>
                 <div class="collapse mb-3" id="collapseExample" style="">
-                    <label for="searchTopic">Тема</label>
-                    <select id="searchTopic" class="form-control">
+                    <label for="searchCategory">Категорія</label>
+                    <select id="searchCategory" class="form-control" name="searchCategory">
                         <option value="">Всі теми</option>
-                        <option value="War">Війна</option>
-                        <option value="Sport">Спорт</option>
-                        <option value="Economy">Економіка</option>
-                        <option value="Entertainment">Розваги</option>
-                        <option value="Science">Наука</option>
-                        <option value="Other">Інші</option>
+                        <option value="CATEGORY_WAR">Війна</option>
+                        <option value="CATEGORY_SPORT">Спорт</option>
+                        <option value="CATEGORY_ECONOMY">Економіка</option>
+                        <option value="CATEGORY_ENTERTAINMENT">Розваги</option>
+                        <option value="CATEGORY_SCIENCE">Наука</option>
+                        <option value="CATEGORY_OTHER">Інші</option>
                     </select>
                     <label for="searchSource">Source</label>
                     <select id="searchSource" class="form-control" name="searchSource">

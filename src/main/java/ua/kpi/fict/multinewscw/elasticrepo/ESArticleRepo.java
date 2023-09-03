@@ -4,6 +4,7 @@ import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import ua.kpi.fict.multinewscw.entities.Article;
+import ua.kpi.fict.multinewscw.entities.enums.Category;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,8 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
     List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
             (String articleSource, Date articleDate, String articleDescriptionEn, String articleTitleEn);
 
-    @Query("{\"bool\": {\"must\": [{\"match\": {\"articleTitle\": \"?0\"}}]}}")
-    List<Article> findByArticleTitleContainingAndArticleDescriptionContaining(String articleTitle, String articleDescription);
+    List<Article> findArticleByCategoriesIsLikeIgnoreCase(Set<Category> categories);
 
+    List<Article> findArticleByArticleDateMatchesAndCategoriesIsLikeIgnoreCase
+            (Date articleDate, Set<Category> categories);
 }
