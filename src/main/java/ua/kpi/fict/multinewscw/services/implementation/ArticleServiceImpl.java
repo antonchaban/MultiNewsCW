@@ -135,119 +135,83 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
-    public List<Article> listArticles // todo reduce amount of code
-    (String searchWord, String searchSource, String language, String newsDate, String searchCategory) {
+    public List<Article> listArticles(String searchWord, String searchSource, String language, String newsDate, String searchCategory) {
         List<Article> articles = new ArrayList<>();
-        // All articles
-        if (searchWord.equals("") && searchSource.equals("") && newsDate.equals("") && searchCategory.equals(""))
-            articles = viewAllArticles();
 
-        // Search by word
-        if (!searchWord.equals("") && searchSource.equals("") && newsDate.equals("") && searchCategory.equals("")) {
-            articles = findBySearchWord(searchWord);
-        }
-
-        // Search by word and date
-        if (!searchWord.equals("") && searchSource.equals("") && !newsDate.equals("") && searchCategory.equals("")) {
-            if (language.equals("en"))
-                articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
-                        (java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
-            else
-                articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionOrArticleTitle
-                        (java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
-        }
-
-        // Search by word source and date
-        if (!searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("") && searchCategory.equals("")) {
-            articles = findByWordSourceAndDate(searchWord, searchSource, newsDate, language);
-        }
-
-        // Search by source
-        if (searchWord.equals("") && !searchSource.equals("") && newsDate.equals("") && searchCategory.equals("")) {
-            articles = findBySource(searchSource);
-        }
-
-        // Search by source and date
-        if (searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("") && searchCategory.equals("")) {
-            articles = findBySourceAndDate(searchSource, newsDate);
-        }
-
-        // Search by source and word
-        if (!searchWord.equals("") && !searchSource.equals("") && newsDate.equals("") && searchCategory.equals("")) {
-            articles = findByWordAndSource(searchWord, searchSource, language);
-        }
-
-        // Search by date
-        if (!newsDate.equals("") && searchWord.equals("") && searchSource.equals("") && searchCategory.equals("")) {
-            articles = elasticArticleRepo
-                    .findArticleByArticleDateMatches(java.sql.Date.valueOf(LocalDate.parse(newsDate)));
-        }
-
-        // Search by searchCategory
-        if (searchWord.equals("") && searchSource.equals("") && newsDate.equals("") && !searchCategory.equals("")) {
-            articles = elasticArticleRepo
-                    .findArticleByCategoriesIsLikeIgnoreCase(Set.of(Category.valueOf(searchCategory)));
-        }
-
-        // Search by searchCategory and date
-        if (searchWord.equals("") && searchSource.equals("") && !newsDate.equals("") && !searchCategory.equals("")) {
-            articles = elasticArticleRepo
-                    .findArticleByArticleDateMatchesAndCategoriesIsLikeIgnoreCase(
+        switch (searchCriteria(searchWord, searchSource, newsDate, searchCategory)) {
+            case ALL_ARTICLES -> articles = viewAllArticles();
+            case SEARCH_BY_WORD -> articles = findBySearchWord(searchWord);
+            case SEARCH_BY_WORD_AND_DATE -> {
+                if (language.equals("en")) {
+                    articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase(
+                            java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                } else {
+                    articles = elasticArticleRepo.findArticleByArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase(
+                            java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
+                }
+            }
+            case SEARCH_BY_WORD_SOURCE_AND_DATE ->
+                    articles = findByWordSourceAndDate(searchWord, searchSource, newsDate, language);
+            case SEARCH_BY_SOURCE -> articles = findBySource(searchSource);
+            case SEARCH_BY_SOURCE_AND_DATE -> articles = findBySourceAndDate(searchSource, newsDate);
+            case SEARCH_BY_WORD_AND_SOURCE -> articles = findByWordAndSource(searchWord, searchSource, language);
+            case SEARCH_BY_DATE ->
+                    articles = elasticArticleRepo.findArticleByArticleDateMatches(java.sql.Date.valueOf(LocalDate.parse(newsDate)));
+            case SEARCH_BY_CATEGORY ->
+                    articles = elasticArticleRepo.findArticleByCategoriesIsLikeIgnoreCase(Set.of(Category.valueOf(searchCategory)));
+            case SEARCH_BY_CATEGORY_AND_DATE ->
+                    articles = elasticArticleRepo.findArticleByArticleDateMatchesAndCategoriesIsLikeIgnoreCase(
                             java.sql.Date.valueOf(LocalDate.parse(newsDate)), Set.of(Category.valueOf(searchCategory)));
         }
 
-        // Search by searchCategory and source
-        if (searchWord.equals("") && !searchSource.equals("") && newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findBySource(searchSource);
+        // Filter by category and date if necessary
+        if (!searchCategory.equals("")) {
             articles = articles.stream()
                     .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
                     .toList();
         }
-
-        // Search by searchCategory and source and date
-        if (searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findBySource(searchSource);
-            articles = articles.stream()
-                    .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
-                    .filter(article -> article.getArticleDate().after(Date.from(LocalDate.parse(newsDate).atStartOfDay().toInstant(ZoneOffset.UTC))))
-                    .toList();
-        }
-
-        // Search by searchCategory and word
-        if (!searchWord.equals("") && searchSource.equals("") && newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findBySearchWord(searchWord);
-            articles = articles.stream()
-                    .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
-                    .toList();
-        }
-
-        // Search by searchCategory and word and date
-        if (!searchWord.equals("") && searchSource.equals("") && !newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findBySearchWord(searchWord);
-            articles = articles.stream()
-                    .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
-                    .filter(article -> article.getArticleDate().after(Date.from(LocalDate.parse(newsDate).atStartOfDay().toInstant(ZoneOffset.UTC))))
-                    .toList();
-        }
-
-        // Search by searchCategory and source and word
-        if (!searchWord.equals("") && !searchSource.equals("") && newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findByWordAndSource(searchWord, searchSource, language);
-            articles = articles.stream()
-                    .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
-                    .toList();
-        }
-
-        // Search by searchCategory and source and word and date
-        if (!searchWord.equals("") && !searchSource.equals("") && !newsDate.equals("") && !searchCategory.equals("")) {
-            articles = findByWordSourceAndDate(searchWord, searchSource, newsDate, language);
-            articles = articles.stream()
-                    .filter(article -> article.getCategories().contains(Category.valueOf(searchCategory)))
-                    .toList();
-        }
-
 
         return articles;
+    }
+
+    private SearchCriteria searchCriteria(String searchWord, String searchSource, String newsDate, String searchCategory) {
+        if (searchWord.equals("") && searchSource.equals("") && newsDate.equals("") && searchCategory.equals("")) {
+            return SearchCriteria.ALL_ARTICLES;
+        } else if (!searchWord.isEmpty() && searchSource.isEmpty() && newsDate.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_WORD;
+        } else if (!searchWord.isEmpty() && searchSource.isEmpty() && !newsDate.equals("")) {
+            return SearchCriteria.SEARCH_BY_WORD_AND_DATE;
+        } else if (!searchWord.isEmpty() && !searchSource.isEmpty() && !newsDate.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_WORD_SOURCE_AND_DATE;
+        } else if (searchWord.isEmpty() && !searchSource.isEmpty() && newsDate.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_SOURCE;
+        } else if (searchWord.isEmpty() && !searchSource.isEmpty() && !newsDate.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_SOURCE_AND_DATE;
+        } else if (!searchWord.isEmpty() && !searchSource.isEmpty() && newsDate.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_WORD_AND_SOURCE;
+        } else if (!newsDate.isEmpty() && searchWord.isEmpty() && searchSource.isEmpty() && searchCategory.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_DATE;
+        } else if (searchWord.isEmpty() && searchSource.isEmpty() && newsDate.isEmpty() && !searchCategory.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_CATEGORY;
+        } else if (searchWord.isEmpty() && searchSource.isEmpty() && !newsDate.isEmpty() && !searchCategory.isEmpty()) {
+            return SearchCriteria.SEARCH_BY_CATEGORY_AND_DATE;
+        } else {
+            return SearchCriteria.UNKNOWN;
+        }
+    }
+
+    private enum SearchCriteria {
+        ALL_ARTICLES,
+        SEARCH_BY_WORD,
+        SEARCH_BY_WORD_AND_DATE,
+        SEARCH_BY_WORD_SOURCE_AND_DATE,
+        SEARCH_BY_SOURCE,
+        SEARCH_BY_SOURCE_AND_DATE,
+        SEARCH_BY_WORD_AND_SOURCE,
+        SEARCH_BY_DATE,
+        SEARCH_BY_CATEGORY,
+        SEARCH_BY_CATEGORY_AND_DATE,
+        UNKNOWN
     }
 
     private List<Article> findByWordSourceAndDate(String searchWord, String searchSource, String newsDate, String language) {
@@ -255,41 +219,41 @@ public class ArticleServiceImpl implements ArticleService {
             case "UP" -> {
                 if (language.equals("en"))
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
                                     ("Українська правда", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
                 else
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
                                     ("Українська правда", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
             }
             case "UNIAN" -> {
                 if (language.equals("en"))
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
                                     ("УНІАН", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
                 else
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
                                     ("УНІАН", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
             }
             case "CNN" -> {
                 if (language.equals("en"))
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
                                     ("CNN", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
                 else
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
                                     ("CNN", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
             }
             case "FOX" -> {
                 if (language.equals("en"))
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnOrArticleTitleEn
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
                                     ("FOX NEWS", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
                 else
                     return elasticArticleRepo
-                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionOrArticleTitle
+                            .findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
                                     ("FOX NEWS", java.sql.Date.valueOf(LocalDate.parse(newsDate)), searchWord, searchWord);
             }
         }
@@ -326,27 +290,27 @@ public class ArticleServiceImpl implements ArticleService {
         switch (searchSource) {
             case "UP" -> {
                 if (language.equals("en"))
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("Українська правда", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase("Українська правда", searchWord, searchWord);
                 else
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("Українська правда", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase("Українська правда", searchWord, searchWord);
             }
             case "UNIAN" -> {
                 if (language.equals("en"))
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("УНІАН", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase("УНІАН", searchWord, searchWord);
                 else
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("УНІАН", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase("УНІАН", searchWord, searchWord);
             }
             case "CNN" -> {
                 if (language.equals("en"))
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("CNN", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase("CNN", searchWord, searchWord);
                 else
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("CNN", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase("CNN", searchWord, searchWord);
             }
             case "FOX" -> {
                 if (language.equals("en"))
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnOrArticleTitleEn("FOX NEWS", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase("FOX NEWS", searchWord, searchWord);
                 else
-                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionOrArticleTitle("FOX NEWS", searchWord, searchWord);
+                    return elasticArticleRepo.findArticleByArticleSourceAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase("FOX NEWS", searchWord, searchWord);
             }
         }
         return viewAllArticles();
@@ -515,14 +479,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private Set<Article> esFindByTitle(final String title) {
-        return elasticArticleRepo.findByArticleTitleOrArticleTitleEn(title, title);
+        return elasticArticleRepo.findByArticleTitleLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase(title, title);
     }
 
     private Set<Article> esFindByDesc(final String title) {
-        return elasticArticleRepo.findByArticleDescriptionOrArticleDescriptionEn(title, title);
-    }
-
-    public List<Article> esFindAll() {
-        return (List<Article>) elasticArticleRepo.findAll();
+        return elasticArticleRepo.findByArticleDescriptionLikeIgnoreCaseOrArticleDescriptionEnLikeIgnoreCase(title, title);
     }
 }
