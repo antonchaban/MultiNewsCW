@@ -23,7 +23,7 @@ import java.util.Set;
 @Table(name = "customers")
 public class Customer implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
     private String username;

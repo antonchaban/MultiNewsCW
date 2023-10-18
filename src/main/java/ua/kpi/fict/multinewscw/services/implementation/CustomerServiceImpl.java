@@ -23,19 +23,6 @@ public class CustomerServiceImpl {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void save(Customer customer) {
-        customerRepo.save(customer);
-    }
-
-    public void saveById(Long customerId) {
-        Customer customer = customerRepo.findById(customerId).get();
-        customerRepo.save(customer);
-    }
-
-    public Customer findById(long id) {
-        return customerRepo.findById(id).get();
-    }
-
     public List<Customer> findAll() {
         return customerRepo.findAll();
     }
