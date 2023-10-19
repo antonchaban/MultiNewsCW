@@ -4,6 +4,9 @@
 
 #### How to run 
 
+Using [LibreTranslate API](https://github.com/LibreTranslate/LibreTranslate)
+
+
 `cd .\LibreTranslate\`
 
 `docker run --name translate-api -d -it -p 5000:5000 libretranslate`
