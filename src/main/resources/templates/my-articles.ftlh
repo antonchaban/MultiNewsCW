@@ -68,9 +68,9 @@
 
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">${article.articleTitle}</h5>
+                            <h5 class="card-title">${article.articleTitleEn}</h5>
 
-                            <p class="card-text">${article.articleDescription}</p>
+                            <p class="card-text">${article.articleDescriptionEn}</p>
                         </div>
                         <div class="card-footer">
                             <p class="card-text"><a href="${article.articleLink}">Original Link</a></p>
