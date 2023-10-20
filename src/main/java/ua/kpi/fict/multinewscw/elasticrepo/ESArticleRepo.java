@@ -1,6 +1,5 @@
 package ua.kpi.fict.multinewscw.elasticrepo;
 
-import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import ua.kpi.fict.multinewscw.entities.Article;
@@ -20,25 +19,25 @@ public interface ESArticleRepo extends ElasticsearchRepository<Article, Long> {
 
     List<Article> findArticleByArticleDateMatches(Date date);
 
-    List<Article> findArticleByArticleSourceAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
+    List<Article> findArticleByArticleSourceAndArticleTitleLikeIgnoreCaseOrArticleDescriptionLikeIgnoreCase
             (String articleSource, String articleDescription, String articleTitle);
 
-    List<Article> findArticleByArticleSourceAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
+    List<Article> findArticleByArticleSourceAndArticleTitleEnLikeIgnoreCaseOrArticleDescriptionEnLikeIgnoreCase
             (String articleSource, String articleDescription, String articleTitle);
 
     List<Article> findArticleByArticleSourceAndArticleDateMatches
             (String articleSource, Date articleDate);
 
-    List<Article> findArticleByArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
+    List<Article> findArticleByArticleDateMatchesAndArticleTitleLikeIgnoreCaseOrArticleDescriptionLikeIgnoreCase
             (Date articleDate, String articleDescription, String articleTitle);
 
-    List<Article> findArticleByArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
+    List<Article> findArticleByArticleDateMatchesAndArticleTitleEnLikeIgnoreCaseOrArticleDescriptionEnLikeIgnoreCase
             (Date articleDate, String articleDescriptionEn, String articleTitleEn);
 
-    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionLikeIgnoreCaseOrArticleTitleLikeIgnoreCase
+    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleTitleLikeIgnoreCaseOrArticleDescriptionLikeIgnoreCase
             (String articleSource, Date articleDate, String articleDescription, String articleTitle);
 
-    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleDescriptionEnLikeIgnoreCaseOrArticleTitleEnLikeIgnoreCase
+    List<Article> findArticleByArticleSourceAndArticleDateMatchesAndArticleTitleEnLikeIgnoreCaseOrArticleDescriptionEnLikeIgnoreCase
             (String articleSource, Date articleDate, String articleDescriptionEn, String articleTitleEn);
 
     List<Article> findArticleByCategoriesIsLikeIgnoreCase(Set<Category> categories);
