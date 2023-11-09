@@ -28,10 +28,6 @@ public class CategoryParser implements Parser<Category> {
     @Autowired
     ESArticleRepo esArticleRepo;
 
-//    public static void main(String[] args) throws FeedException, IOException, ParseException {
-//        CategoryParser categoryParser = new CategoryParser();
-//        categoryParser.doParse("Russia attacks Ukraine with missile");
-//    }
 
 
     @Override
