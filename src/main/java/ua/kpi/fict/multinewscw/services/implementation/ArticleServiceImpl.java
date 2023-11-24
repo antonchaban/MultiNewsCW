@@ -122,8 +122,6 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleRepo.save(article);
         esSaveArticle(article);
-        System.out.println(article.getArticleLink().isEmpty());
-        System.out.println(article.getArticleLink());
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
             esSaveArticle(article);
@@ -145,7 +143,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private boolean isValidUrl(String url) {
-        String regex = "^(http|https)://www.[a-zA-Z0-9]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?$";
+        String regex = "^(http|https)://[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?/?.*$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
         return matcher.matches();
