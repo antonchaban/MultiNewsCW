@@ -52,7 +52,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}")
     public String articleInfo(@PathVariable Long id, Model model, Principal principal,
-                              @CookieValue(name = "language", defaultValue = "en") String language) { // todo fix link to article
+                              @CookieValue(name = "language", defaultValue = "en") String language) {
         model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
         model.addAttribute("article", articleServiceImpl.findById(id));
         model.addAttribute("language", language);

@@ -13,6 +13,8 @@ import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 import ua.kpi.fict.multinewscw.services.ArticleService;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -118,11 +122,33 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleRepo.save(article);
         esSaveArticle(article);
+        System.out.println(article.getArticleLink().isEmpty());
+        System.out.println(article.getArticleLink());
         if (article.getArticleLink().isEmpty()) {
             article.setArticleLink("http://localhost:8080/articles/" + article.getArticleId());
             esSaveArticle(article);
             articleRepo.save(article);
+        } else {
+            article.setArticleLink(fixUrl(article.getArticleLink()));
+            esSaveArticle(article);
+            articleRepo.save(article);
         }
+    }
+
+
+    private String fixUrl(String url) {
+        if (isValidUrl(url)) {
+            return url;
+        } else {
+            return "http://www." + url;
+        }
+    }
+
+    private boolean isValidUrl(String url) {
+        String regex = "^(http|https)://www.[a-zA-Z0-9]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(url);
+        return matcher.matches();
     }
 
 
