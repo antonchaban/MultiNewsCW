@@ -10,7 +10,7 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" required name="password">
+                <input type="password" class="form-control" id="password" required name="password" minlength="3">
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}">
             <button type="submit" style="width: 100%" class="btn btn-dark">Sign Up</button>
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
-                <input type="password" class="form-control" id="password" required name="password">
+                <input type="password" class="form-control" id="password" required name="password" minlength="3">
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}">
             <button type="submit" style="width: 100%" class="btn btn-dark">Зареєструватися</button>
