@@ -427,7 +427,7 @@ public class ArticleServiceImpl implements ArticleService {
                 if (articleRss.getArticleDate() != null) {
                     articleRss.getCategories()
                             .add(categoryParser
-                                    .doParse(articleRss.getArticleTitleEn() + articleRss.getArticleDescriptionEn())); // todo make it better (maybe)
+                                    .doParse(articleRss.getArticleTitleEn() + articleRss.getArticleDescriptionEn()));
                     articleRepo.save(articleRss);
                     esSaveArticle(articleRss);
                     System.out.println("Articles added to ElasticSearch");

@@ -29,7 +29,6 @@ public class CategoryParser implements Parser<Category> {
     ESArticleRepo esArticleRepo;
 
 
-
     @Override
     public Category doParse(String content) throws IOException, ParseException {
         Map<String, List<String>> categoryMap = new HashMap<>();
