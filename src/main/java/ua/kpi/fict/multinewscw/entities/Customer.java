@@ -20,7 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

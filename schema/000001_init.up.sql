@@ -1,11 +1,11 @@
-create table customers
+create table customer
 (
     customer_id serial primary key,
     password    varchar(1000),
     username    varchar(255)
 );
 
-alter table customers
+alter table customer
     owner to postgres;
 
 create table article
@@ -20,7 +20,7 @@ create table article
     article_title_en       varchar(500),
     customer_customer_id   bigint
         constraint fk8qj8c8w32ufmvytrlmlkglep5
-            references customers
+            references customer
 );
 
 alter table article
@@ -41,14 +41,14 @@ create table customer_role
 (
     customer_id bigint not null
         constraint fkrk3268jfmu796ejtnxt5pa4kt
-            references customers,
+            references customer,
     roles       varchar(255)
 );
 
 alter table customer_role
     owner to postgres;
 
-insert into customers (password, username)
+insert into customer (password, username)
 values ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'antoha'),
        ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'UNIAN'),
        ('$2a$06$Vb6T.hosjM1TTw.iUONIbeFRuSpQK1BpwOz.xmsNRYZTeYdhtBNX2', 'FOX'),

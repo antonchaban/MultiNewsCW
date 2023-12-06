@@ -1,19 +1,15 @@
 package ua.kpi.fict.multinewscw.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
 import ua.kpi.fict.multinewscw.entities.enums.Category;
-import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.entities.helper.Indices;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
