@@ -1,7 +1,6 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.io.FeedException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 import ua.kpi.fict.multinewscw.services.ArticleService;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.Principal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -53,47 +50,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final Long FOX_ID = 3L;
     private final Long UNIAN_ID = 2L;
 
-    public void save(Article article) {
-        articleRepo.save(article);
-    }
-
-    public List<Article> findAll() {
-        return articleRepo.findAll();
-    }
-
     public Article findById(long artId) {
         return articleRepo.findById(artId).orElse(null);
-    }
-
-    public List<Article> getByTitle(String title) {
-        List<Article> articles = new ArrayList<>();
-        for (Article article : articleRepo.findAll()) {
-            if (article.getArticleTitle().toLowerCase().contains(title.toLowerCase())) {
-                articles.add(article);
-            }
-        }
-        return articles;
-    }
-
-    public List<Article> getBySource(String source) {
-        List<Article> articles = new ArrayList<>();
-        for (Article article : articleRepo.findAll()) {
-            if (article.getArticleSource().toLowerCase().contains(source.toLowerCase())) {
-                articles.add(article);
-            }
-        }
-        return articles;
-    }
-
-    public List<Article> searchArticles(String title, String source) {
-        List<Article> searchedArticles = new ArrayList<>();
-        if (title != null && source == null) {
-            searchedArticles = getByTitle(title);
-
-        } else if (title == null && source != null) {
-            searchedArticles = getBySource(source);
-        }
-        return searchedArticles;
     }
 
     public void createArticle(Article article, Principal principal, String language, String category) throws IOException, ParseException {
@@ -145,10 +103,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     public List<Article> viewAllArticles() {
         return articleRepo.findAll();
-    }
-
-    public List<Article> getByAuthor(String authorUserName) {
-        return articleRepo.findArticleByCustomerUsername(authorUserName);
     }
 
     private String formatString(String input) {

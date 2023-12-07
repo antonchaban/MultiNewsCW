@@ -17,7 +17,6 @@ import ua.kpi.fict.multinewscw.services.implementation.CustomerServiceImpl;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 import java.util.Map;
 
 @Controller

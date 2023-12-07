@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.entities.Customer;
 import ua.kpi.fict.multinewscw.entities.enums.Role;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
+import ua.kpi.fict.multinewscw.services.CustomerService;
 
 import javax.naming.NameAlreadyBoundException;
 import java.security.Principal;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class CustomerServiceImpl {
+public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepo customerRepo;
 
     private final PasswordEncoder passwordEncoder;
@@ -46,6 +47,7 @@ public class CustomerServiceImpl {
 
     }
 
+    @Override
     public void changeRoles(Long customerId, Map<String, String> form) {
         Customer customer = customerRepo.findById(customerId).orElseThrow(IllegalArgumentException::new);
         Set<String> roles = Arrays.stream(Role.values())
