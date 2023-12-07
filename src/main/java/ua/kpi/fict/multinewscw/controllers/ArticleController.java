@@ -27,6 +27,12 @@ public class ArticleController {
 
     private final CustomerServiceImpl customerServiceImpl;
 
+    private final String customerAtr = "customer";
+    private final String languageAtr = "language";
+    private final String articlesAtr = "articles";
+    private final String articleAtr = "article";
+
+
     @GetMapping("/articles")
     public String viewAllArticles(Model model, Principal principal,
                                   @RequestParam(name = "searchCategory", defaultValue = "") String searchCategory,
@@ -35,10 +41,10 @@ public class ArticleController {
                                   @RequestParam(name = "searchSource", defaultValue = "") String searchSource,
                                   @RequestParam(name = "newsDate", defaultValue = "") String newsDate) {
         model
-                .addAttribute("articles", articleServiceImpl
+                .addAttribute(articlesAtr, articleServiceImpl
                         .listArticles(searchWord, searchSource, language, newsDate, searchCategory));
-        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
-        model.addAttribute("language", language);
+        model.addAttribute(customerAtr, customerServiceImpl.getCustomerByPrincipal(principal));
+        model.addAttribute(languageAtr, language);
         return "newshome";
     }
 
@@ -53,9 +59,9 @@ public class ArticleController {
     @GetMapping("/articles/{id}")
     public String articleInfo(@PathVariable Long id, Model model, Principal principal,
                               @CookieValue(name = "language", defaultValue = "en") String language) {
-        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
-        model.addAttribute("article", articleServiceImpl.findById(id));
-        model.addAttribute("language", language);
+        model.addAttribute(customerAtr, customerServiceImpl.getCustomerByPrincipal(principal));
+        model.addAttribute(articleAtr, articleServiceImpl.findById(id));
+        model.addAttribute(languageAtr, language);
         return "article-info";
     }
 
@@ -63,10 +69,10 @@ public class ArticleController {
     public String userArticles(Principal principal, Model model,
                                @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
-        model.addAttribute("customer", customer);
+        model.addAttribute(customerAtr, customer);
         model.addAttribute("categories", Category.values());
-        model.addAttribute("articles", customer.getArticles());
-        model.addAttribute("language", language);
+        model.addAttribute(articlesAtr, customer.getArticles());
+        model.addAttribute(languageAtr, language);
         return "my-articles";
     }
 
@@ -81,11 +87,11 @@ public class ArticleController {
                               @CookieValue(name = "language", defaultValue = "en") String language) {
         Customer customer = customerServiceImpl.getCustomerByPrincipal(principal);
         Article article = articleServiceImpl.findById(id);
-        model.addAttribute("language", language);
+        model.addAttribute(languageAtr, language);
         if (customer.isAdmin() || customer == article.getCustomer()) {
             model.addAttribute("categories", Category.values());
-            model.addAttribute("customer", customer);
-            model.addAttribute("article", article);
+            model.addAttribute(customerAtr, customer);
+            model.addAttribute(articleAtr, article);
             return "article-edit";
         } else {
             throw new ResponseStatusException(
@@ -100,8 +106,8 @@ public class ArticleController {
                                      @RequestParam Map<String, String> form)
             throws IOException, ParseException {
         articleServiceImpl.editArticle(updArticle, id, language, form.get("category"));
-        model.addAttribute("customer", customerServiceImpl.getCustomerByPrincipal(principal));
-        model.addAttribute("article", articleServiceImpl.findById(id));
+        model.addAttribute(customerAtr, customerServiceImpl.getCustomerByPrincipal(principal));
+        model.addAttribute(articleAtr, articleServiceImpl.findById(id));
         return "redirect:/articles/" + id;
     }
 }
