@@ -60,16 +60,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepo.save(article);
     }
 
-    public void saveById(Long artId) {
-        articleRepo.save(articleRepo.findById(artId).get());
-    }
-
     public List<Article> findAll() {
         return articleRepo.findAll();
     }
 
     public Article findById(long artId) {
-        return articleRepo.findById(artId).get();
+        return articleRepo.findById(artId).orElse(null);
     }
 
     public List<Article> getByTitle(String title) {

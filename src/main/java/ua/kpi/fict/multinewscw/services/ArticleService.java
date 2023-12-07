@@ -12,8 +12,6 @@ import java.util.List;
 public interface ArticleService {
     void save(Article article);
 
-    void saveById(Long artId);
-
     List<Article> findAll();
 
     Article findById(long artId);
