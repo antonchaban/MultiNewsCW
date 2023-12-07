@@ -45,8 +45,8 @@ public class AdminController {
     }
 
     @PostMapping("/admin/customer/edit")
-    public String editCustomer(@RequestParam("customerId") Customer customer, @RequestParam Map<String, String> form) {
-        customerServiceImpl.changeRoles(customer, form);
+    public String editCustomer(@RequestParam("customerId") Long customerId, @RequestParam Map<String, String> form) {
+        customerServiceImpl.changeRoles(customerId, form);
         return "redirect:/admin";
     }
 

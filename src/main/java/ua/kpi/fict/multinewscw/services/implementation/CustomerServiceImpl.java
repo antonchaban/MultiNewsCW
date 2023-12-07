@@ -46,7 +46,8 @@ public class CustomerServiceImpl {
 
     }
 
-    public void changeRoles(Customer customer, Map<String, String> form) {
+    public void changeRoles(Long customerId, Map<String, String> form) {
+        Customer customer = customerRepo.findById(customerId).orElseThrow(IllegalArgumentException::new);
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
