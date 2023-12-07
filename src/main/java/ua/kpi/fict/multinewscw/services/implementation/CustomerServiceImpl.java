@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerServiceImpl {
-    @Autowired
-    private CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public List<Customer> findAll() {
         return customerRepo.findAll();
@@ -42,7 +42,7 @@ public class CustomerServiceImpl {
     }
 
     public void deleteCustomer(Long id) {
-        customerRepo.findById(id).ifPresent(customer -> customerRepo.delete(customer));
+        customerRepo.findById(id).ifPresent(customerRepo::delete);
 
     }
 

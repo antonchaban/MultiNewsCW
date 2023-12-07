@@ -1,6 +1,8 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.io.FeedException;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,25 +28,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleServiceImpl implements ArticleService {
 
-    @Autowired
-    private ArticleRepo articleRepo;
+    private final ArticleRepo articleRepo;
 
-    @Autowired
-    private CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
-    @Autowired
-    ArticleRssParser articleRssParser;
+    private final ArticleRssParser articleRssParser;
 
-    @Autowired
-    TranslateAPIParser translateAPIParser;
+    private final TranslateAPIParser translateAPIParser;
 
-    @Autowired
-    private CategoryParser categoryParser;
+    private final CategoryParser categoryParser;
 
-    @Autowired
-    private ESArticleRepo elasticArticleRepo;
+    private final ESArticleRepo elasticArticleRepo;
 
     private final String PRAVDA_LINK = "https://www.pravda.com.ua/rss/";
     private final String CNN_LINK = "http://rss.cnn.com/rss/cnn_topstories.rss";

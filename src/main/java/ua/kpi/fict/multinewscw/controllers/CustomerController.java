@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,9 @@ import javax.naming.NameAlreadyBoundException;
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerController {
-    @Autowired
-    private CustomerServiceImpl customerServiceImpl;
+    private final CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/login")
     public String login(Principal principal, Model model,

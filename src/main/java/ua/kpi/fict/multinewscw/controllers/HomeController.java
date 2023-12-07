@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
-
-
     @GetMapping(value = "/")
     public String redirectToArticles() {
         return "redirect:/articles";

@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,10 +9,9 @@ import org.springframework.stereotype.Service;
 import ua.kpi.fict.multinewscw.repositories.CustomerRepo;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomerDetailServiceImpl implements UserDetailsService {
-
-    @Autowired
-    private CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

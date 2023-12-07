@@ -5,6 +5,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleRssParser implements Parser<ArrayList<Article>> {
-    @Autowired
-    URLConnector urlConnector;
+    private final URLConnector urlConnector;
 
-    @Autowired
-    TranslateAPIParser translateAPIParser;
+    private final TranslateAPIParser translateAPIParser;
 
     @Override
     public ArrayList<Article> doParse(String resource) throws IOException, FeedException, ParseException {

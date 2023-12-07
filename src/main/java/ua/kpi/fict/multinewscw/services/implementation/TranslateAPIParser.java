@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,10 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TranslateAPIParser implements Parser<String> {
 
-    @Autowired
-    APIConnector apiConnector;
+    private final APIConnector apiConnector;
 
     @Override
     public String doParse(String textToTranslate) throws IOException, ParseException {

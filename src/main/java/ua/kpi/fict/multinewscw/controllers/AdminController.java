@@ -1,5 +1,6 @@
 package ua.kpi.fict.multinewscw.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,9 @@ import java.util.Map;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AdminController {
-    @Autowired
-    private CustomerServiceImpl customerServiceImpl;
+    private final CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/admin")
     public String admin(Model model, Principal principal,

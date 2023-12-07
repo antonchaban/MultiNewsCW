@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.services.implementation;
 
 import com.sun.syndication.io.FeedException;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,12 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CategoryParser implements Parser<Category> {
     @Value("${keywords.file.path}")
-    private String keywordsFilePath = "src/main/resources/keywords.json";
+    private String keywordsFilePath;
 
-    @Autowired
-    ESArticleRepo esArticleRepo;
+    private final ESArticleRepo esArticleRepo;
 
 
     @Override

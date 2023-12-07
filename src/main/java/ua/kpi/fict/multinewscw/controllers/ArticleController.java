@@ -1,6 +1,7 @@
 package ua.kpi.fict.multinewscw.controllers;
 
 
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,11 @@ import java.util.Date;
 import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ArticleController {
-    @Autowired
-    private ArticleServiceImpl articleServiceImpl;
+    private final ArticleServiceImpl articleServiceImpl;
 
-    @Autowired
-    private CustomerServiceImpl customerServiceImpl;
+    private final CustomerServiceImpl customerServiceImpl;
 
     @GetMapping("/articles")
     public String viewAllArticles(Model model, Principal principal,
