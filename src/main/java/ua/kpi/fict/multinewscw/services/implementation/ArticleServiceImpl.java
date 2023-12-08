@@ -262,7 +262,7 @@ public class ArticleServiceImpl implements ArticleService {
         return viewAllArticles();
     }
 
-    private List<Article> findByWordAndSource(String searchWord, String searchSource, String language) {
+    private List<Article> findByWordAndSource(String searchWord, String searchSource, String language) { // todo use map
         switch (searchSource) {
             case "UP" -> {
                 if (language.equals("en"))
